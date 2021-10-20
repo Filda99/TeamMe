@@ -11,18 +11,22 @@ module.exports = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  brief_description: {
-    type: DataTypes.STRING,
+  briefDescription: {
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   properties: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  max_number_of_members: {
+  maxNumberOfMembers: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  hashtags: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 }, {
   // Other model options go here
 };

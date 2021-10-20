@@ -18,11 +18,11 @@ module.exports = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  year_of_study: {
+  yearOfStudy: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  communication_channel: {
+  communicationChannel: {
     type: DataTypes.STRING,
     allowNull: false,
   },

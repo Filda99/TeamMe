@@ -1,18 +1,18 @@
-require('dotenv/config');
-
-module.exports = isAuthenticated = async (req, res, next) => {
-  if (!req.query.apiKey) {
-    return res.status(401).send({
-      message: 'Must be authenticated with an API Key to hit this endpoint',
-    });
-  } else {
-    const { apiKey } = req.query;
-    if (apiKey === '123546FGFG4567DSDF4646F') {
-      return next();
-    } else {
-      return res.status(401).send({
-        message: 'API Key does not match!',
-      });
+function checkAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+      return next()
     }
+    res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return res.redirect('/dashboard')
   }
-};
+  next()
+}
+
+module.exports = {
+  checkAuthenticated,
+  checkNotAuthenticated
+}

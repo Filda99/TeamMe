@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create team</title>
+</head>
+
+<body>
+    <h1>Create team</h1>
+    <form action="/team/createTeam" method="post">
+        Name
+        <input type="string" name="name" required placeholder="Insert your email">
+        description
+        <input type="string" name="briefDescription" required placeholder="Insert brief description">
+        Properties
+        <input type="string" name="properties" required placeholder="Insert team properties">
+        Members
+        <input type="int" name="maxNumOfMem" required placeholder="Insert number of max Members">
+       
+        <button type="submit">Create team</button>
+    </form>
+    <a href="/login">Login</a>
+</body>
+
+</html>

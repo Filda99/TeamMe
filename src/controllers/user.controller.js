@@ -1,59 +1,75 @@
 const { User } = require("../database/sequelize")
-const session = require('express-session')
-var path = require('path');
+const bcrypt = require('bcrypt')
+const { getUserById, getUserByEmail } = require('../utils/getUser')
 
+/*********************************************************************
+ *  Get user's information and send it
+ * 
+ *  @returns  User information except of password 
+ */
 module.exports.getUser = async (req, res) => {
   const { email } = req.params;
 
-  const user = await User.findOne({
-    where: {
-      email,
-    },
-  });
+  /**
+   * Find user by email
+   */
+  const user = await getUserByEmail(email)
 
+  /** 
+   * Test if user is in a database
+   */
   if (!user) {
     return res.status(400).send({
       message: `No user found with the email ${email}`,
     });
   }
 
+  /**
+   * If so, send it back
+   */
   return res.send(user);
 };
 
-module.exports.createUser = async (req, res, next) => {
-  const { email, password, name, year_of_study, communication_channel, properties } = req.body;
-  if (!email || !password || !name || !year_of_study || !communication_channel || !properties) {
+/*********************************************************************
+ *  Create new user
+ * 
+ *  @returns  Redirection to user page, if user is properly created
+ */
+module.exports.createUser = async (req, res) => {
+  /**
+   * Get inputs and check, if we have all we need
+   */
+  const { email, password, name, yearOfStudy, communicationChannel, properties } = req.body;
+  if (!email || !password || !name || !yearOfStudy || !communicationChannel || !properties) {
     return res.status(400).send({
       message: 'Please provide a username and a password to create a user!',
     });
   }
 
-  let userExists = await User.findOne({
-    where: {
-      email,
-    },
-  });
-
-  // if (userExists) {
-  //   return res.status(400).send({
-  //     message: 'An account with that username already exists!',
-  //   });
-  // }
-
   try {
-    const newUser = await User.create({
+    /**
+    * Check that user doesnt already exists
+    */
+    const user = await getUserByEmail(email)
+    if (user) {
+      return res.status(400).send({
+        message: 'An account with that username already exists!',
+      });
+    }
+
+    /**
+    * Try to create new user
+    */
+    const hashPassword = await bcrypt.hash(password, 10)
+    await User.create({
       email: email,
-      password: password,
+      password: hashPassword,
       name: name,
-      year_of_study: year_of_study,
-      communication_channel: communication_channel,
+      yearOfStudy: yearOfStudy,
+      communicationChannel: communicationChannel,
       properties: properties,
     });
-
-    req.session.userID = newUser.id
-    
-    next(res.redirect('/dashboard'))
-
+    res.status(201).redirect('/login')
   } catch (err) {
     return res.status(500).send({
       message: `Error: ${err.message}`,
@@ -61,6 +77,11 @@ module.exports.createUser = async (req, res, next) => {
   }
 }
 
+/*********************************************************************
+ *  Delete user
+ * 
+ *  @returns  Message, that user if properly deleted
+ */
 module.exports.deleteUser = async (req, res) => {
   const { email } = req.body;
   if (!email) {
@@ -69,18 +90,19 @@ module.exports.deleteUser = async (req, res) => {
     });
   }
 
-  const user = await User.findOne({
-    where: {
-      email,
-    },
-  });
-
+  /**
+   * Check that user exists
+   */
+  const user = await getUserByEmail(email)
   if (!user) {
     return res.status(400).send({
       message: `No user found with the email ${email}`,
     });
   }
 
+  /**
+   * Try to delete a user's profile
+   */
   try {
     await user.destroy();
     return res.send({
@@ -93,30 +115,58 @@ module.exports.deleteUser = async (req, res) => {
   }
 };
 
+/*********************************************************************
+ *  Update user
+ *  Not user's email and id...
+ * 
+ *  @returns  Message, that user if properly deleted
+ */
 module.exports.updateUser = async (req, res) => {
-  const { password } = req.body;
-  const { email } = req.params;
+  /**
+   * Get all params
+   */
+  const { id } = req.params;
+  const { password,
+    name,
+    yearOfStudy,
+    communicationChannel,
+    properties
+  } = req.body;
 
-  const user = await User.findOne({
-    where: {
-      email,
-    },
-  });
-
+  /**
+   * Check that user exists
+   */
+  const user = await getUserById(id)
   if (!user) {
     return res.status(400).send({
       message: `No user found with the id ${id}`,
     });
   }
 
+  /**
+   * Try to update those params, which are requested
+   */
   try {
     if (password) {
-      user.password = password;
+      const hashPassword = await bcrypt.hash(password, 10)
+      user.password = hashPassword;
+    }
+    if (name) {
+      user.name = name;
+    }
+    if (year_of_study) {
+      user.yearOfStudy = yearOfStudy;
+    }
+    if (communicationChannel) {
+      user.communicationChannel = communicationChannel;
+    }
+    if (properties) {
+      user.properties = properties;
     }
 
     user.save();
-    return res.send({
-      message: `User ${email} has been updated!`,
+    res.status(200).send({
+      message: `User ${id} has been updated!`,
     });
   } catch (err) {
     return res.status(500).send({

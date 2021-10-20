@@ -22,15 +22,20 @@ const User = sequelize.define("User", user)
 const Team = sequelize.define("Team", team)
 
 // USER
-User.belongsTo(Faculty, { foreignKey: 'Faculty Name' })
+User.belongsTo(Faculty, { foreignKey: 'FacultyName' })
 User.belongsToMany(Team, { through: 'TeamMembers' });
 // TEAM
 Team.belongsToMany(User, { through: 'TeamMembers' });
-Team.belongsTo(User, { foreignKey: 'Team Admin' })
-Team.belongsTo(Project, { foreignKey: 'Project ID' })
-// PROJECT
-Project.belongsTo(Subject, { foreignKey: 'Subject Name' })
-// SUBJECT
-Subject.belongsTo(Faculty, { foreignKey: 'Faculty Name' })
 
-module.exports = { sequelize, User }
+const User_Profile = sequelize.define('User_Profile', {}, { timestamps: true });
+User.belongsToMany(Team, { through: User_Profile });
+Team.belongsToMany(User, { through: User_Profile });
+
+Team.belongsTo(User, { foreignKey: 'TeamAdmin' })
+Team.belongsTo(Project, { foreignKey: 'ProjectID' })
+// PROJECT
+Project.belongsTo(Subject, { foreignKey: 'SubjectName' })
+// SUBJECT
+Subject.belongsTo(Faculty, { foreignKey: 'FacultyName' })
+
+module.exports = { sequelize, User, Team }
