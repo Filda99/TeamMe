@@ -28,5 +28,5 @@ router.post('/:subject/delete/:name', checkAuthenticated, team.deleteTeam);
 router.post('/:subject/update/:id', checkAuthenticated, team.updateTeam);
 
 /** Kick other member - by team admin */
-router.post('/:subject/kickMember/:email', checkAuthenticated, team.kickMember)
+router.post('/:subject/kickMember/:teamName', checkAuthenticated, team.kickMember)
 module.exports = router;

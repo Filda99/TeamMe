@@ -1,7 +1,8 @@
 const { Team, Team_Member, Subject, User } = require("../database/sequelize")
 const { getTeamByName, getTeamById } = require('../utils/getTeam')
 const { Op } = require("sequelize");
-const { checkTeam, checkMembers } = require('../utils/teamAvailability')
+const { checkTeam, checkMembers } = require('../utils/teamAvailability');
+const { getUserByEmail } = require("../utils/getUser");
 
 /*********************************************************************
  *  Show teams based on user properties, if user logged in.
@@ -140,6 +141,12 @@ module.exports.connect = async (req, res) => {
     }
 }
 
+function addHours(date, hours) {
+    const newDate = new Date(date);
+    newDate.setHours(newDate.getHours() + hours);
+    return newDate;
+}
+
 /*********************************************************************
  *  Disconnect from a team.
  * 
@@ -152,8 +159,8 @@ module.exports.disconnect = async (req, res) => {
     const userId = req.user.id
 
     /** Check team already exists */
-    const existingTeam = await getTeamByName(teamName, subject)
-    if (!existingTeam) {
+    const team = await getTeamByName(teamName, subject)
+    if (!team) {
         return res.status(400).send({
             message: `No team found with name ${teamName}`,
         });
@@ -170,24 +177,29 @@ module.exports.disconnect = async (req, res) => {
     }
 
     /** Check I am not a admin */
-    if (existingTeam.TeamAdmin == req.user.id) {
+    if (team.TeamAdmin == userId) {
         return res.status(403).send('You are admin of a team! You can only delete the team.')
     }
 
     /** Check time for disconnecting */
     const time = await Team_Member.findOne({
         attributes: ['createdAt'],
-        where:{
-            teamId: teamName,
+        where: {
+            teamId: existingTeam.id,
             userId: userId
         }
     })
-    console.log(time);
+    let timeToLeave = time.createdAt
+    let timeNow = new Date()
+    const newDate = addHours(timeNow, 24);
+    if (timeToLeave > newDate) {
+        return res.status(403).send('You cant leave this team! It has been more than 24 hours since you joined.')
+    }
 
     /** Disconnect from the team */
     await Team_Member.destroy({
         where: {
-            userId: req.user.id,
+            userId: userId,
             teamId: existingTeam.id
         }
     })
@@ -201,18 +213,18 @@ module.exports.disconnect = async (req, res) => {
  */
 module.exports.deleteTeam = async (req, res) => {
     const user = req.user.id
-    const { name, subject } = req.params;
-    if (!name) {
+    const { teamName, subject } = req.params;
+    if (!teamName) {
         return res.status(400).send({
             message: 'Please provide name for the team you are trying to delete!',
         });
     }
 
     /** Check team exists */
-    const team = await getTeamByName(name, subject)
+    const team = await getTeamByName(teamName, subject)
     if (!team) {
         return res.status(400).send({
-            message: `No team found with the name ${name}`,
+            message: `No team found with the name ${teamName}`,
         });
     }
 
@@ -231,7 +243,7 @@ module.exports.deleteTeam = async (req, res) => {
     try {
         await team.destroy();
         return res.send({
-            message: `Team ${name} has been deleted!`,
+            message: `Team ${teamName} has been deleted!`,
         });
     } catch (err) {
         return res.status(500).send({
@@ -249,11 +261,11 @@ module.exports.deleteTeam = async (req, res) => {
  */
 module.exports.kickMember = async (req, res) => {
     const { teamName, subject } = req.params
-    const { member } = req.body
+    const { memberEmail } = req.body
     const userId = req.user.id
 
     /** Check team exists */
-    const team = await getTeamByName(name, subject)
+    const team = await getTeamByName(teamName, subject)
     if (!team) {
         return res.status(400).send({
             message: `No team found with the name ${name}`,
@@ -265,8 +277,40 @@ module.exports.kickMember = async (req, res) => {
         return res.status(401).send('You are not a admin of the team!')
     }
 
-    /** Member has to be less than 24 hours connected to the team */
+    try {
+        const member = await getUserByEmail(memberEmail)
+        if (!member) {
+            return res.status(401).send('Something went wrong.')
+        }
 
+        /** Member has to be less than 24 hours connected to the team */
+        const time = await Team_Member.findOne({
+            attributes: ['createdAt'],
+            where: {
+                teamId: team.id,
+                userId: member.id
+            }
+        })
+        let timeToLeave = time.createdAt
+        let timeNow = new Date()
+        const newDate = addHours(timeNow, 24);
+        if (timeToLeave > newDate) {
+            return res.status(403).send('You cant leave this team! It has been more than 24 hours since you joined.')
+        }
+
+        /** Disconnect from the team */
+        await Team_Member.destroy({
+            where: {
+                userId: member.id,
+                teamId: team.id
+            }
+        })
+        res.status(200).send(`You kicked user ${memberEmail} from team ${teamName}`)
+    } catch (err) {
+        return res.status(500).send({
+            message: `Error: ${err.message}`,
+        });
+    }
 }
 
 /*********************************************************************
