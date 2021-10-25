@@ -1,9 +1,13 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = {
-    shortcut: {
+    short: {
         allowNull: false,
         primaryKey: true,
+        type: DataTypes.STRING
+    },
+    name: {
+        allowNull: false,
         type: DataTypes.STRING
     },
     year: {
@@ -11,7 +15,5 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
     }
-}, {
-    // Other model options go here
-};
+}
 

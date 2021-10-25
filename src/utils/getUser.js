@@ -6,7 +6,7 @@ async function getUserById(id) {
             attributes: [
                 'id',
                 'email',
-                'name',
+                'login',
                 'yearOfStudy',
                 'FacultyName'
             ],
@@ -25,7 +25,7 @@ async function getUserByEmail(email) {
             attributes: [
                 'id',
                 'email',
-                'name',
+                'login',
                 'yearOfStudy',
                 'FacultyName'
             ],

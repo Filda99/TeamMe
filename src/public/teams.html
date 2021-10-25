@@ -1,28 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create team</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/teams.css">
 </head>
-
 <body>
-    <h1>Create team</h1>
-    <form action="/team/createTeam" method="post">
-        Name
-        <input type="string" name="name" required placeholder="Insert your email">
-        description
-        <input type="string" name="briefDescription" required placeholder="Insert brief description">
-        Properties
-        <input type="string" name="properties" required placeholder="Insert team properties">
-        Members
-        <input type="int" name="maxNumOfMem" required placeholder="Insert number of max Members">
-       
-        <button type="submit">Create team</button>
-    </form>
-    <a href="/login">Login</a>
-</body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="registration.html">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="#">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
 
+    <div class="content">
+        <div class="content_container">
+            <ul class="title_container">
+                <li class="add_team_container">
+                    <a href="create_team.html" class="add_team"></a>
+                    <span class="bar ver_bar"></span>
+                    <span class="bar hor_bar"></span>
+                </li>
+                <li class="title">Vyberte tým</li>
+                <li class="find_container">
+                    <form action="javascript:;" onsubmit="Search(this)">
+                        <input type="text" class="find_bar" id="search_phrase">
+                        <input type="submit" class="find_square" value="">
+                        <span class="round_bar"></span>
+                        <span class="line_bar"></span>
+                    </form>
+                </li>
+            </ul>
+            <div class="team_list" id="team_list">
+                <ul class="team_container">
+                    <a class="team" href="team.html">
+                        <li class="team_name">Tým sedmikrásek</li>
+                        <li class="team_amount_container">
+                            <ul class="members">
+                                <li class="member_container member_full">
+                                    <span class="head"></span>
+                                    <span class="body"></span>
+                                </li>
+                                <li class="member_container member_full">
+                                    <span class="head"></span>
+                                    <span class="body"></span>
+                                </li>
+                                <li class="member_container member_empty">
+                                    <span class="plus_hor"></span>
+                                    <span class="plus_ver"></span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="team_compatibility">100%</li>
+                    </a>
+                </ul>
+                <ul class="team_container">
+                    <a class="team" href="team.html">
+                        <li class="team_name">Tým_1</li>
+                            <li class="team_amount_container">
+                                <ul class="members">
+                                    <li class="member_container member_full">
+                                        <span class="head"></span>
+                                        <span class="body"></span>
+                                    </li>
+                                    <li class="member_container member_full">
+                                        <span class="head"></span>
+                                        <span class="body"></span>
+                                    </li>
+                                    <li class="member_container member_empty">
+                                        <span class="plus_hor"></span>
+                                        <span class="plus_ver"></span>
+                                    </li>
+                                    <li class="member_container member_empty">
+                                        <span class="plus_hor"></span>
+                                        <span class="plus_ver"></span>
+                                    </li>
+                                </ul>
+                            </li>
+                        <li class="team_compatibility">65%</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </div>
+  
+    <script src="teams.js"></script>
+    
+</body>
 </html>

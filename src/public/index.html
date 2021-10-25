@@ -1,19 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Me</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
 </head>
 <body>
-    <h1>WELCOME!</h1>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-    <a href="/dashboard">Dashboard</a>
+<!--https://www.youtube.com/watch?v=8QKOaTYvYUA&t=0s-->
+    <header>
+        <!-- <a href="index.html"><img src="logo.png" alt="logo" class="logo" width="200" height="50"></a> -->
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="registration.html">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="my_profile.html">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
 
-    <form action="/logout?_method=DELETE" method="post">
-        <button type="submit">Logout</button>
-    </form>
+    <div class="content">
+        <div class="content_container">
+                <div class="wrap">
+                <h2>Co je to TeamMe?</h2>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni dignissimos natus et aperiam eveniet illo amet ratione adipisci minima sunt aspernatur quaerat vitae ad, 
+                        ullam dolor velit dolorem pariatur nemo. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+               </div> 
+               <div class="wrap">
+                <h2>Jak TeamMe používat?</h2>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni dignissimos natus et aperiam eveniet illo amet ratione adipisci minima sunt aspernatur quaerat vitae ad, 
+                        ullam dolor velit dolorem pariatur nemo. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+               </div> 
+               <div class="wrap">
+                <h2>Jakou barvu dáme jako pozadí?</h2>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni dignissimos natus et aperiam eveniet illo amet ratione adipisci minima sunt aspernatur quaerat vitae ad, 
+                        ullam dolor velit dolorem pariatur nemo. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+               </div> 
+               
+        </div>
+    </div>
+    
+    
 </body>
 </html>

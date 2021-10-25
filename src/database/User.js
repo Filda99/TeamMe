@@ -1,11 +1,11 @@
-const {DataTypes} = require('sequelize');
+const {DataTypes, Sequelize} = require('sequelize');
 
 module.exports = {
   id: {
+    type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
-    type: DataTypes.INTEGER
   },
   email: {
     allowNull: false,
@@ -14,7 +14,7 @@ module.exports = {
   password: {
     type: DataTypes.STRING
   },
-  name: {
+  login: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -26,9 +26,20 @@ module.exports = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  properties: {
+  workingHours: {
     type: DataTypes.INTEGER,
   },
+  approach: {
+    type: DataTypes.INTEGER,
+  },
+  nationality: {
+    type: DataTypes.INTEGER,
+  },
+  // verification: {
+  //   type: Sequelize.UUID,
+  //   defaultValue: Sequelize.UUIDV4,
+  //   allowNull: true,
+  // },
 }, {
   // Other model options go here
 };

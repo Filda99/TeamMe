@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="style/registration.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="#">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="#">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="hero">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="button" class="toggle-btn" onclick="login()">Přihlášení</button>
+                <button type="button" class="toggle-btn" onclick="register()">Registrace</button>
+            </div>
+
+            <form id="login" action="/login" method="post" class="input-group">
+                <input type="text" name="email" class="input-field" placeholder="Uživatelské jméno" required>
+                <input type="text" name="password" class="input-field" placeholder="Heslo" required>
+                <button type="submit"  class="submit-btn">Přihlásit se</button>
+            </form>
+
+            <form id="register" action="/user/CreateUser" method="post" class="input-group">
+                <input type="email" class="input-field" name="email" placeholder="E-mail" required>
+                <input type="text" class="input-field" placeholder="Heslo" required>
+                <input type="number" class="input-field" placeholder="Ročník" required>
+                <input type="text" class="input-field" placeholder="Kontakt" required>
+                <div class="select">
+                    <select name="doba" id="doba" required>
+                        <option value="" disabled selected hidden>Preferovaná doba práce</option>
+                        <option value="0">brzy ráno</option>
+                        <option value="1">dlouho do noci</option>
+                        <option value="2">během dne</option>
+                    </select>
+                    <select name="pristup" id="pristup" required>
+                        <option value="" disabled selected hidden>Přístup k práci</option>
+                        <option value="0">týmový</option>
+                        <option value="1">individuální</option>
+                    </select>
+                    <select name="narodnost" id="narodnost" required>
+                        <option value="" disabled selected hidden>Národnost</option>
+                        <option value="0">česká</option>
+                        <option value="1">slovenská</option>
+                        <option value="2">jiná</option>
+                    </select>
+                </div>
+                
+                <!-- <input type="checkbox" class="check-box"><span>Souhlasím s podmínkami</span> -->
+                <button type="submit" class="submit-btn">Registrovat se</button>
+            </form>
+        </div>
+        <script>
+            var x = document.getElementById("login");
+            var y = document.getElementById("register");
+            var z = document.getElementById("btn");
+
+            function register(){
+                x.style.left = "-400px";
+                y.style.left = "50px";
+                z.style.left = "110px";
+            }
+
+            function login(){
+                x.style.left = "50px";
+                y.style.left = "450px";
+                z.style.left = "0px";
+            }
+
+        </script>
+    </div>
+</div>
+    
+</body>
+</html>

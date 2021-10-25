@@ -1,10 +1,11 @@
 const { Team } = require("../database/sequelize")
 
-async function getTeamByName(name) {
+async function getTeamByName(name, subject) {
     try{
         return await Team.findOne({
             where: {
                 name: name,
+                SubjectId: subject
             }
         })
     }catch(e){

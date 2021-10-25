@@ -1,0 +1,247 @@
+.title_container{
+    display: flex;
+    width: auto;
+    justify-content: space-around;
+    align-items: center;
+    list-style-type: none;
+    height: 60px;
+    margin-top: 23px; 
+}
+
+.add_team_container{
+    display: flex;
+    width: 60px;
+    height: 60px;
+    margin: 0px 100px;
+}
+
+.add_team{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border: 2px solid #131313;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 30px;
+}
+
+.bar{
+    display: flex;
+    position: absolute;
+    height: 30px;
+    width: 4px;
+    background: #131313;
+    pointer-events: none;
+}
+
+.ver_bar{
+    transform: translateX(28px) translateY(15px) rotate(90deg);
+}
+
+.hor_bar{
+    transform: translateX(28px) translateY(15px);
+}
+
+.add_team:hover{
+    cursor: pointer;
+}
+
+.add_team:hover ~ .hor_bar{
+    animation-duration: 1s;
+    animation-name: spin_hor;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes spin_hor{
+    0% {transform: translateX(28px) translateY(15px) rotate(0deg);}
+    100% {transform: translateX(28px) translateY(15px) rotate(90deg);}
+}
+
+.add_team:hover ~ .ver_bar{
+    animation-duration: 1s;
+    animation-name: spin_ver;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes spin_ver{
+    0% {transform: translateX(28px) translateY(15px) rotate(90deg);}
+    100% {transform: translateX(28px) translateY(15px) rotate(180deg);}
+}
+
+.title{
+    display: flex;
+    font-size: 2.2rem;
+    margin: 10px 0;
+    width: 260px;
+    height: 100%;
+    align-items: center;
+}
+
+.find_container{
+    display: flex;
+    width: 260px;
+    align-items: center;
+}
+
+.find_bar{
+    width: 210px;
+    height: 40px;
+    font-size: 1.5rem;
+}
+
+.find_bar:focus{
+    outline: none;
+    border: 1px solid red;
+}
+
+.find_square{
+    position: absolute;
+    height: 40px;
+    width: 40px;
+}
+
+.round_bar{
+    display: flex;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #131313;
+    border-radius: 15px;
+    transform: translateX(213px) translateY(-35px);
+    pointer-events: none;
+}
+
+.line_bar{
+    display: flex;
+    width: 2px;
+    height: 15px;
+    background: #131313;
+    position: absolute;
+    transform: translateX(234px) translateY(-20px) rotate(-45deg);
+    pointer-events: none;
+}
+
+.team_list{
+    display: block;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.team_container{
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.team{
+    display: flex;
+    align-items: center;
+    width: 80%;
+    height: 50px;
+    text-decoration: none;
+    color: #131313;
+    border: 2px solid #131313;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.team:hover{
+    background: rgba(255, 255, 255, 1);
+}
+
+.team_name{
+    display: flex;
+    width: 50%;
+    font-size: 1.5rem;
+}
+
+.team_compatibility{
+    display: flex;
+    width: 5vw;
+    justify-content: flex-end;
+    font-size: 1.5rem;
+}
+
+.team_amount_container{
+    display: flex;
+    width: 35vw;
+    justify-content: left;
+}
+
+.members{
+    display: flex;
+    list-style-type: none;
+    width: 31vw;
+    height: 45px;
+    justify-content: left;
+    align-items: center;
+    margin-left: -40px;
+}
+
+.member_container{
+    display: flex;
+    height: 40px;
+    width: 40px;
+    background: #ffffff;
+    border: 2px solid #131313;
+    margin-right: 2px;
+}
+
+.member_full:hover{
+    transition: 0.3s;
+    background: #CCCCCC;
+}
+
+.member_empty:hover{
+    transition: 0.3s;
+    background: greenyellow;
+}
+
+.head{
+    pointer-events: none;
+    display: flex;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #131313;
+    border-radius: 10px;
+    transform: translateX(7px) translateY(8px);
+}
+
+.body{
+    pointer-events: none;
+    display: flex;
+    position: absolute;
+    width: 26px;
+    height: 10px;
+    border:2px solid #131313;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: none;
+    transform: translateX(4px) translateY(27px);
+}
+
+.plus_hor{
+    pointer-events: none;
+    position: absolute;
+    display: flex;
+    width: 4px;
+    height: 25px;
+    background: green;
+    transform: translateX(17px) translateY(7px);
+}
+
+.plus_ver{
+    pointer-events: none;
+    position: absolute;
+    display: flex;
+    width: 4px;
+    height: 25px;
+    background: green;
+    transform: translateX(17px) translateY(7px) rotate(90deg);
+}

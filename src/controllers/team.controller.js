@@ -1,10 +1,14 @@
-const { Team } = require("../database/sequelize")
+const { Team, Team_Member, Subject, User } = require("../database/sequelize")
 const { getTeamByName, getTeamById } = require('../utils/getTeam')
+const { Op } = require("sequelize");
+const { checkTeam, checkMembers } = require('../utils/teamAvailability')
 
 /*********************************************************************
  *  Show teams based on user properties, if user logged in.
  *  Otherwise just show teams.
  * 
+ * Send:
+ *  name, maxNumOfMem, percentage, joinedUsers
  *  @returns  Teams
  */
 module.exports.showTeams = async (req, res) => {
@@ -12,10 +16,28 @@ module.exports.showTeams = async (req, res) => {
 }
 
 /*********************************************************************
+ *  Show teams, where i am connected to.
+ * 
+ */
+module.exports.getMyTeams = async (req, res) => {
+    if (!req.user) {
+        res.status(403).send('You have to be logged in to see your teams.')
+    }
+    const user = await User.findByPk(req.user.id)
+
+    const teams = await user.getTeams()
+
+    console.log(teams);
+    res.status(200).send(teams)
+}
+
+/*********************************************************************
  *  Show team informations.
  *  Otherwise just show teams.
  * 
  *  If user is logged in, send flag logged:true.
+ * 
+ *  TODO: checkAdmin - if user is admin of a team
  * 
  *  @returns  Teams
  */
@@ -29,11 +51,12 @@ module.exports.getTeam = async (req, res) => {
         });
     }
 
-    let flag = false
+    let logged = false
     if (req.user) {
-        flag = true
+        logged = true
     }
-    return res.status(200).send([team, { 'flag': flag }]);
+    let admin = checkAdmin(res.user.id)
+    return res.status(200).send([team, { 'logged': logged, 'admin': admin }]);
 };
 
 /*********************************************************************
@@ -42,20 +65,30 @@ module.exports.getTeam = async (req, res) => {
  *  @returns  New team
  */
 module.exports.createTeam = async (req, res) => {
+    /** Get params and check */
     const { name, briefDescription, maxNumOfMem, hashtags, properties } = req.body;
-    if (!name || !briefDescription || !maxNumOfMem || !properties) {
-        return res.status(400).send({
-            message: 'Please provide required fields',
-        });
+    const { subject } = req.params
+    const userId = req.user.id
+    console.log(userId);
+
+    if (!name || !briefDescription || !maxNumOfMem || !properties || !subject) {
+        return res.status(400).send('Please provide required fields');
     }
 
-    const teamExists = await getTeamByName(name)
+    /** Check team name is not used already */
+    const teamExists = await getTeamByName(name, subject)
     if (teamExists) {
         return res.status(400).send({
             message: 'Team with this name already exists',
         });
     }
 
+    /** Check user is not in other team in current subject */
+    const team = await checkTeam(subject, userId)
+    if (team.length) {
+        return res.status(401).send('You are already in some other team')
+    }
+    /** Try to create new team */
     try {
         const newTeam = await Team.create({
             name: name,
@@ -63,12 +96,11 @@ module.exports.createTeam = async (req, res) => {
             properties: properties,
             maxNumberOfMembers: maxNumOfMem,
             hashtags: hashtags,
-            'TeamAdmin': req.user.id
+            TeamAdmin: userId,
+            SubjectId: subject
         });
-
-        newTeam.addUser(req.user.id)
+        newTeam.addUser(userId)
         res.status(201).send('Team created')
-
     } catch (err) {
         return res.status(500).send({
             message: `Error: ${err.message}`,
@@ -78,88 +110,204 @@ module.exports.createTeam = async (req, res) => {
 
 /*********************************************************************
  *  Connect to the existing team
- *  TODO: Is user connected to the other team in this subject?
  * 
  *  @returns  New record in User_Profile table
  */
 module.exports.connect = async (req, res) => {
-    const { teamID } = req.params
+    /** Get params */
+    const { teamName, subject } = req.params
 
-    const existingTeam = await getTeamById(teamID)
+    /** Check team already exists */
+    const existingTeam = await getTeamByName(teamName, subject)
     if (!existingTeam) {
         return res.status(400).send({
-            message: `No team found with the id ${id}`,
+            message: `No team found with name ${teamName}`,
         });
     }
 
+    /** Check user is not in other team in current subject */
+    const team = await checkTeam(subject, req.user.id)
+    if (team.length) {
+        return res.status(401).send('You are already in some other team')
+    }
+
+    /** Try to connect to a team */
     try {
         existingTeam.addUser(req.user.id)
-        res.status(201).send('Connected to team ', existingTeam.name)
-    }catch(e){
+        res.status(201).send(`Connected to team ${existingTeam.name}`)
+    } catch (e) {
         return res.status(400).send(e)
     }
 }
 
-// module.exports.deleteTeam = async (req, res) => {
-//     const { email } = req.body;
-//     if (!email) {
-//         return res.status(400).send({
-//             message: 'Please provide an email for the user you are trying to delete!',
-//         });
-//     }
+/*********************************************************************
+ *  Disconnect from a team.
+ * 
+ *  TODO: User can disconnect in first 24 hours from connecting to the team.
+ * 
+ */
+module.exports.disconnect = async (req, res) => {
+    /** Get params */
+    const { teamName, subject } = req.params
+    const userId = req.user.id
 
-//     const user = await User.findOne({
-//         where: {
-//             email,
-//         },
-//     });
+    /** Check team already exists */
+    const existingTeam = await getTeamByName(teamName, subject)
+    if (!existingTeam) {
+        return res.status(400).send({
+            message: `No team found with name ${teamName}`,
+        });
+    }
 
-//     if (!user) {
-//         return res.status(400).send({
-//             message: `No user found with the email ${email}`,
-//         });
-//     }
+    /** Check I am a part of a team */
+    const userPartOfTeam = await existingTeam.getUsers({
+        where: {
+            id: userId
+        }
+    })
+    if (!userPartOfTeam) {
+        return res.status(401).send('You are not a member of this team.')
+    }
 
-//     try {
-//         await user.destroy();
-//         return res.send({
-//             message: `User ${email} has been deleted!`,
-//         });
-//     } catch (err) {
-//         return res.status(500).send({
-//             message: `Error: ${err.message}`,
-//         });
-//     }
-// };
+    /** Check I am not a admin */
+    if (existingTeam.TeamAdmin == req.user.id) {
+        return res.status(403).send('You are admin of a team! You can only delete the team.')
+    }
 
-// module.exports.updateTeam = async (req, res) => {
-//     const { password } = req.body;
-//     const { email } = req.params;
+    /** Check time for disconnecting */
+    const time = await Team_Member.findOne({
+        attributes: ['createdAt'],
+        where:{
+            teamId: teamName,
+            userId: userId
+        }
+    })
+    console.log(time);
 
-//     const user = await User.findOne({
-//         where: {
-//             email,
-//         },
-//     });
+    /** Disconnect from the team */
+    await Team_Member.destroy({
+        where: {
+            userId: req.user.id,
+            teamId: existingTeam.id
+        }
+    })
+    res.status(200).send(`You are now not a member of team ${teamName}`)
+}
 
-//     if (!user) {
-//         return res.status(400).send({
-//             message: `No user found with the id ${id}`,
-//         });
-//     }
+/*********************************************************************
+ *  Delete existing team, if no one other than admin is in.
+ * 
+ * 
+ */
+module.exports.deleteTeam = async (req, res) => {
+    const user = req.user.id
+    const { name, subject } = req.params;
+    if (!name) {
+        return res.status(400).send({
+            message: 'Please provide name for the team you are trying to delete!',
+        });
+    }
 
-//     try {
-//         if (password) {
-//             user.password = password;
-//         }
+    /** Check team exists */
+    const team = await getTeamByName(name, subject)
+    if (!team) {
+        return res.status(400).send({
+            message: `No team found with the name ${name}`,
+        });
+    }
 
-//         user.save();
-//         return res.send({
-//             message: `User ${email} has been updated!`,
-//         });
-//     } catch (err) {
-//         return res.status(500).send({
-//             message: `Error: ${err.message}`,
-//         });
-//     }
-// };
+    /** Is user admin of the team */
+    if (user !== team.TeamAdmin) {
+        return res.status(401).send('You are not a admin of the team!')
+    }
+
+    /** Are there, in the team, some other members */
+    const members = await checkMembers(team, user)
+    console.log('Members: ', members);
+    if (members.length) {
+        return res.status(401).send('You can not delete team with users inside')
+    }
+
+    try {
+        await team.destroy();
+        return res.send({
+            message: `Team ${name} has been deleted!`,
+        });
+    } catch (err) {
+        return res.status(500).send({
+            message: `Error: ${err.message}`,
+        });
+    }
+};
+
+/*********************************************************************
+ *  Kick off member of the team.
+ * 
+ *  If member is in a team less than 8 hours, admin has the ability
+ *  to kick him out.
+ * 
+ */
+module.exports.kickMember = async (req, res) => {
+    const { teamName, subject } = req.params
+    const { member } = req.body
+    const userId = req.user.id
+
+    /** Check team exists */
+    const team = await getTeamByName(name, subject)
+    if (!team) {
+        return res.status(400).send({
+            message: `No team found with the name ${name}`,
+        });
+    }
+
+    /** Is user admin of the team */
+    if (userId !== team.TeamAdmin) {
+        return res.status(401).send('You are not a admin of the team!')
+    }
+
+    /** Member has to be less than 24 hours connected to the team */
+
+}
+
+/*********************************************************************
+ *  Update team informations.
+ * 
+ *  Name, description, number of members, properties, hashtags.
+ * 
+ */
+module.exports.updateTeam = async (req, res) => {
+    const { maxNumOfMem, briefDescription, hashtags } = req.body;
+    const { name, subject } = req.params;
+
+    const team = await getTeamByName(name, subject)
+
+    if (!team) {
+        return res.status(400).send({
+            message: `No team found with the name ${name}`,
+        });
+    }
+
+    try {
+        if (name) {
+            team.name = name;
+        }
+        if (maxNumOfMem) {
+            team.maxNumberOfMembers = maxNumOfMem;
+        }
+        if (name) {
+            team.briefDescription = briefDescription;
+        }
+        if (name) {
+            team.hashtags = hashtags;
+        }
+
+        team.save();
+        return res.send({
+            message: `Team ${name} has been updated!`,
+        });
+    } catch (err) {
+        return res.status(500).send({
+            message: `Error: ${err.message}`,
+        });
+    }
+};

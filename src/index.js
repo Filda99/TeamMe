@@ -31,6 +31,14 @@ initializePassport(passport)
 /****************************************
  *         App uses and session         *
  ***************************************/
+
+
+ app.use(express.static(path.join(__dirname, 'public')));
+ app.use(methodOverride('_method'))
+ app.use(express.json())
+ app.use(express.urlencoded({ extended: true }))
+ app.use(flash())
+
 /**
  * APP Session
  */
@@ -48,12 +56,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(methodOverride('_method'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
-app.use(flash())
-
 
 /****************************************
  *           Pages and routes           *
@@ -63,16 +65,15 @@ app.get("/", (req, res) => {
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/login.html'));
+    res.sendFile(path.join(__dirname, '/public/registration.html'));
 })
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/register.html'));
+    res.sendFile(path.join(__dirname, '/public/registration.html'));
 })
 
-app.get('/dashboard', checkAuthenticated, (req, res) => {
-    console.log(`---------> Printing user:`, req.user);
-    res.sendFile(path.join(__dirname, '/public/dashboard.html'));
+app.get('/my_profile', checkAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/my_profile.html'));
 })
 
 app.get('/teams', checkAuthenticated, (req, res) => {
@@ -81,9 +82,11 @@ app.get('/teams', checkAuthenticated, (req, res) => {
 
 app.use('/user', routes.user)
 app.use('/team', routes.team)
+app.use('/faculty', routes.faculty)
+app.use('/subject', routes.subject)
 
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
+    successRedirect: '/my_profile',
     failureRedirect: '/login',
     failureFlash: true
 }))

@@ -5,6 +5,7 @@ const { getUserById, getUserByEmail } = require('../utils/getUser')
 /*********************************************************************
  *  Get user's information and send it
  * 
+ *  @param email  User email
  *  @returns  User information except of password 
  */
 module.exports.getUser = async (req, res) => {
@@ -39,10 +40,10 @@ module.exports.createUser = async (req, res) => {
   /**
    * Get inputs and check, if we have all we need
    */
-  const { email, password, name, yearOfStudy, communicationChannel, properties } = req.body;
-  if (!email || !password || !name || !yearOfStudy || !communicationChannel || !properties) {
+  const { email, password, yearOfStudy, communicationChannel, workingHours, approach, nationality, faculty } = req.body;
+  if (!email || !password || !yearOfStudy || !communicationChannel || !faculty) {
     return res.status(400).send({
-      message: 'Please provide a username and a password to create a user!',
+      message: 'Please provide all required properties to create a user account!',
     });
   }
 
@@ -53,7 +54,29 @@ module.exports.createUser = async (req, res) => {
     const user = await getUserByEmail(email)
     if (user) {
       return res.status(400).send({
-        message: 'An account with that username already exists!',
+        message: 'An account with that email already exists!',
+      });
+    }
+
+    /**
+     * Get name/login from email
+     */
+    let name = email.split('@')
+    let login = ''
+    if (name[0] != null) {
+      login = name[0]
+    } else {
+      return res.status(400).send({
+        message: 'You need to put real email address!',
+      });
+    }
+
+    /**
+     * Check email contains 'vutbr' in itself
+     */
+    if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
+      return res.status(400).send({
+        message: 'You need to put school email address!',
       });
     }
 
@@ -64,10 +87,13 @@ module.exports.createUser = async (req, res) => {
     await User.create({
       email: email,
       password: hashPassword,
-      name: name,
+      login: login,
       yearOfStudy: yearOfStudy,
       communicationChannel: communicationChannel,
-      properties: properties,
+      workingHours: workingHours,
+      approach: approach,
+      nationality: nationality,
+      FacultyName: faculty
     });
     res.status(201).redirect('/login')
   } catch (err) {
@@ -127,7 +153,6 @@ module.exports.updateUser = async (req, res) => {
    */
   const { id } = req.params;
   const { password,
-    name,
     yearOfStudy,
     communicationChannel,
     properties
@@ -150,9 +175,6 @@ module.exports.updateUser = async (req, res) => {
     if (password) {
       const hashPassword = await bcrypt.hash(password, 10)
       user.password = hashPassword;
-    }
-    if (name) {
-      user.name = name;
     }
     if (year_of_study) {
       user.yearOfStudy = yearOfStudy;

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/subjects.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="registration.html">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="#">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="content">
+        <div class="content_container">
+            <ul class="title_container">
+                <li class="faculty_ref_container">
+                    <a href="faculties.html" class="faculty_ref">Výběr fakulty</a>
+                    <span class="twisted_bar"></span>
+                    <span class="left_bar"></span>
+                    <span class="right_bar"></span>
+                </li>
+                <li class="title">Vyberte předmět</li>
+                <li class="find_container">
+                    <form action="javascript:;" onsubmit="Search(this)">
+                        <input type="text" class="find_bar" id="search_phrase">
+                        <input type="submit" class="find_square" value="">
+                        <span class="round_bar"></span>
+                        <span class="line_bar"></span>
+                    </form>
+                </li>
+            </ul>
+            <div id="search">
+                <ul class="subject_list">
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">IEL</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">INP</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">NGL</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">OMG</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">DAM</a>
+                    </li> 
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">LOL</a>
+                    </li>   
+                </ul>
+                <ul class="subject_list">
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">POG</a>
+                    </li> 
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">IAL</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">IMP</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">NGC</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">OML</a>
+                    </li>
+                    <li class="subject_item">
+                        <a class="subject_link" href="teams.html">LEL</a>
+                    </li>   
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="subjects.js"></script>
+    
+</body>
+</html>

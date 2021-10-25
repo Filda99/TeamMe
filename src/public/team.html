@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="style/team.css">
+
+</head>
+<body>
+<!--https://www.youtube.com/watch?v=8QKOaTYvYUA&t=0s-->
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="registration.html">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="#">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="content">
+        <div class="content_container">
+           <div class="wrapper">
+            <h2>Informace o týmu</h2>
+            <!-- youtu.be/biI9OFH6Nmg -->
+                <table class="content-table">
+                    <tbody>
+                      <tr>
+                        <td><b>Název týmu</b></td>
+                        <td>Tým Honzy</td>
+                      </tr>
+                      <tr class="active-row">
+                        <td><b>Cílový počet členů</b></td>
+                        <td>5</td>
+                      </tr>
+                      <tbody>
+                        <td><b>Uživatelská jména členů</b></td>
+                        <td>xlogin01, xplagiat01, xhonza02, xlubos54</td>
+                      </tr>
+                      <tr>
+                        <td><b>Kontakt na vedoucího týmu</b></td>
+                        <td><a href="discord.com/kajagott/">Discord</a></td>
+                      </tr>
+                      <tr>
+                        <td><b>Klíčová slova</b></td>
+                        <td>C#, C++, C</td>
+                      </tr>
+                      <tr>
+                        <td><b>Preferovaná doba práce</b></td>
+                        <td>pozdě do noci</td>
+                      </tr>
+                      <tr>
+                        <td><b>Přístup k práci</b></td>
+                        <td>individuální</td>
+                      </tr>
+                      <tr>
+                        <td><b>Národnost</b></td>
+                        <td>česká</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                <div class="my_profile-button">
+                    <button type="button" class="my_profile-btn">Přidat se do týmu</button>
+                    <button type="button" class="my_profile-btn">Upravit informace</button>
+                    <button type="button" class="my_profile-btn-red">Opustit tým</button>
+                </div>
+          </div> 
+      </div>
+  </div>
+    
+            
+</body>
+</html>

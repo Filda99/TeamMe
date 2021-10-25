@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="style/team_info_edit.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="#">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="my_profile.html">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="hero">
+        <div class="form-box">
+            <form id="edit" class="input-group">
+                <input type="text" class="input-field" placeholder="Název týmu" required>
+                <input type="number" class="input-field" placeholder="Cílový počet členů" required>
+                <input type="text" class="input-field" placeholder="Kontakt na vedoucího týmu" required>
+                <input type="textarea" class="input-field-large" placeholder="Klíčová slova">
+                <div class="select">
+                    <select name="doba" id="doba" required>
+                        <option value="" disabled selected hidden>Preferovaná doba práce</option>
+                        <option value="0">brzy ráno</option>
+                        <option value="1">dlouho do noci</option>
+                        <option value="2">během dne</option>
+                    </select>
+                    <select name="pristup" id="pristup" required>
+                        <option value="" disabled selected hidden>Přístup k práci</option>
+                        <option value="0">týmový</option>
+                        <option value="1">individuální</option>
+                    </select>
+                    <select name="narodnost" id="narodnost" required>
+                        <option value="" disabled selected hidden>Národnost</option>
+                        <option value="0">česká</option>
+                        <option value="1">slovenská</option>
+                        <option value="2">československá</option>
+                        <option value="3">jiná</option>
+                    </select>
+                </div>
+                <!-- <input type="checkbox" class="check-box"><span>Souhlasím s podmínkami</span> -->
+                <button type="submit" class="submit-btn">Uložit změny</button>
+                <button type="submit" class="submit-btn-red">Spravovat členy</button>
+            </form>
+        </div>
+        
+    </div>
+    
+    
+</body>
+</html>
