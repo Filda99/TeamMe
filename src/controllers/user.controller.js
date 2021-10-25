@@ -1,11 +1,11 @@
 const { User } = require("../database/sequelize")
 const bcrypt = require('bcrypt')
-const { getUserById, getUserByEmail } = require('../utils/getUser')
+const { getUserById, getUserByEmail } = require('../utils/getUser');
+const { sendVerifiMail } = require("../nodemail");
 
 /*********************************************************************
  *  Get user's information and send it
  * 
- *  @param email  User email
  *  @returns  User information except of password 
  */
 module.exports.getUser = async (req, res) => {
@@ -31,6 +31,30 @@ module.exports.getUser = async (req, res) => {
   return res.send(user);
 };
 
+
+/*********************************************************************
+ *  Validate user through email link
+ * 
+ *  @returns  Set validate in db to null for that user
+ */
+module.exports.verificateUser = async (req, res) => {
+  const { token } = req.params
+
+  /** Find token in db */
+  const user = await User.findOne({
+    where: {
+      verification: token
+    }
+  })
+
+  if (user){
+    user.verification = null
+    user.save()
+    return res.status(200).redirect('/login')
+  }else{
+    return res.status(403).redirect('/register')
+  }
+}
 /*********************************************************************
  *  Create new user
  * 
@@ -59,7 +83,7 @@ module.exports.createUser = async (req, res) => {
     }
 
     /**
-     * Get name/login from email
+     * Get login from email
      */
     let name = email.split('@')
     let login = ''
@@ -72,7 +96,7 @@ module.exports.createUser = async (req, res) => {
     }
 
     /**
-     * Check email contains 'vutbr' in itself
+     * Check email contains 'vutbr' in itself and '.cz'
      */
     if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
       return res.status(400).send({
@@ -84,7 +108,7 @@ module.exports.createUser = async (req, res) => {
     * Try to create new user
     */
     const hashPassword = await bcrypt.hash(password, 10)
-    await User.create({
+    const newUser = await User.create({
       email: email,
       password: hashPassword,
       login: login,
@@ -96,6 +120,9 @@ module.exports.createUser = async (req, res) => {
       FacultyName: faculty
     });
     res.status(201).redirect('/login')
+
+    /** Send user verification email */
+    sendVerifiMail(email, login, req.headers.host, newUser.verification)
   } catch (err) {
     return res.status(500).send({
       message: `Error: ${err.message}`,

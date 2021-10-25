@@ -5,6 +5,7 @@ const user = require('../controllers/user.controller')
 // Show info about user
 router.get('/:email', user.getUser);
 
+router.get('/verify-email/:token', user.verificateUser)
 // Create user account
 router.post('/createUser', user.createUser)
 

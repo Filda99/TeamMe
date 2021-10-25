@@ -35,11 +35,11 @@ module.exports = {
   nationality: {
     type: DataTypes.INTEGER,
   },
-  // verification: {
-  //   type: Sequelize.UUID,
-  //   defaultValue: Sequelize.UUIDV4,
-  //   allowNull: true,
-  // },
+  verification: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: true,
+  },
 }, {
   // Other model options go here
 };

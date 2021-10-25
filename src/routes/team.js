@@ -22,7 +22,7 @@ router.post('/:subject/conn/:teamName', checkAuthenticated, team.connect)
 router.post('/:subject/disconn/:teamName', checkAuthenticated, team.disconnect)
 
 /** Delete team - by team admin */
-router.post('/:subject/delete/:name', checkAuthenticated, team.deleteTeam);
+router.post('/:subject/delete/:teamName', checkAuthenticated, team.deleteTeam);
 
 /** Update team infos - by team admin */
 router.post('/:subject/update/:id', checkAuthenticated, team.updateTeam);
