@@ -96,7 +96,7 @@ app.delete('/logout', (req, res) => {
     res.redirect('/login')
 })
 
-sequelize.sync({ logging: false, force: false }).then(() => {
+sequelize.sync({ logging: false, force: true }).then(() => {
     console.log('database in sync')
 })
 app.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}`))

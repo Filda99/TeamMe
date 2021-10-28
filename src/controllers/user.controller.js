@@ -2,6 +2,7 @@ const { User } = require("../database/sequelize")
 const bcrypt = require('bcrypt')
 const { getUserById, getUserByEmail } = require('../utils/getUser');
 const { sendVerifiMail } = require("../nodemail");
+const { workingDays } = require("../database/User");
 
 /*********************************************************************
  *  Get user's information and send it
@@ -64,7 +65,8 @@ module.exports.createUser = async (req, res) => {
   /**
    * Get inputs and check, if we have all we need
    */
-  const { email, password, yearOfStudy, communicationChannel, workingHours, approach, nationality, faculty } = req.body;
+  const { email, password, yearOfStudy, communicationChannel, workingDays, 
+    workingHours, approach, faculty } = req.body;
   if (!email || !password || !yearOfStudy || !communicationChannel || !faculty) {
     return res.status(400).send({
       message: 'Please provide all required properties to create a user account!',
@@ -82,6 +84,7 @@ module.exports.createUser = async (req, res) => {
       });
     }
 
+    
     /**
      * Get login from email
      */
@@ -96,13 +99,19 @@ module.exports.createUser = async (req, res) => {
     }
 
     /**
+     * TODO: UNCOMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * !!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
+    /**
      * Check email contains 'vutbr' in itself and '.cz'
      */
-    if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
-      return res.status(400).send({
-        message: 'You need to put school email address!',
-      });
-    }
+    // if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
+    //   return res.status(400).send({
+    //     message: 'You need to put school email address!',
+    //   });
+    // }
 
     /**
     * Try to create new user
@@ -114,15 +123,18 @@ module.exports.createUser = async (req, res) => {
       login: login,
       yearOfStudy: yearOfStudy,
       communicationChannel: communicationChannel,
+      workingDays: workingDays,
       workingHours: workingHours,
       approach: approach,
-      nationality: nationality,
-      FacultyName: faculty
+      FacultyName: faculty,
+      verification: null
     });
     res.status(201).redirect('/login')
 
     /** Send user verification email */
-    sendVerifiMail(email, login, req.headers.host, newUser.verification)
+    // console.log('-------------------');
+    // console.log('User created, sending email!');
+    // sendVerifiMail(email, login, req.headers.host, newUser.verification)
   } catch (err) {
     return res.status(500).send({
       message: `Error: ${err.message}`,
@@ -182,7 +194,9 @@ module.exports.updateUser = async (req, res) => {
   const { password,
     yearOfStudy,
     communicationChannel,
-    properties
+    workingHours,
+    workingDays,
+    approach
   } = req.body;
 
   /**
@@ -209,8 +223,14 @@ module.exports.updateUser = async (req, res) => {
     if (communicationChannel) {
       user.communicationChannel = communicationChannel;
     }
-    if (properties) {
-      user.properties = properties;
+    if (workingHours) {
+      user.workingHours = workingHours;
+    }
+    if (workingDays) {
+      user.workingDays = workingDays;
+    }
+    if (approach) {
+      user.approach = approach;
     }
 
     user.save();

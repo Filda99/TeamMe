@@ -29,10 +29,10 @@ module.exports = {
   workingHours: {
     type: DataTypes.INTEGER,
   },
-  approach: {
+  workingDays: {
     type: DataTypes.INTEGER,
   },
-  nationality: {
+  approach: {
     type: DataTypes.INTEGER,
   },
   verification: {

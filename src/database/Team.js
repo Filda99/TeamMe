@@ -15,7 +15,19 @@ module.exports = {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  properties: {
+  workingHours: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  workingDays: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  approach: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  partOfSemester: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -30,4 +42,13 @@ module.exports = {
 }, {
   // Other model options go here
 };
+
+/** Properties
+ * workingHours - daily 
+ * workingDays - in week ( workday / weekend)
+ * approach (individual / team)
+ * 
+ ** More:
+ * partOfSemester (1, 2, 3, 4) - each is 3 weeks
+ */
 

@@ -1,6 +1,5 @@
 const { Team, Team_Member, Subject, User } = require("../database/sequelize")
 const { getTeamByName, getTeamById } = require('../utils/getTeam')
-const { Op } = require("sequelize");
 const { checkTeam, checkMembers } = require('../utils/teamAvailability');
 const { getUserByEmail } = require("../utils/getUser");
 
@@ -10,10 +9,85 @@ const { getUserByEmail } = require("../utils/getUser");
  * 
  * Send:
  *  name, maxNumOfMem, percentage, joinedUsers
- *  @returns  Teams
+ *  @returns  Teams 
  */
 module.exports.showTeams = async (req, res) => {
+    /** USER LOGGED IN */
+    if (req.user) {
+        /** Go through all the properties and calculate the percentage */
+        /** Get users params and collect them */
+        const findUser = await User.findByPk(req.user.id)
+        if (!findUser) {
+            res.status(401).send('User not found!')
+        }
+        // const userParams = [findUser['workingHours'], findUser['approach'], findUser['nationality']]
+        /** Get params of all the teams and unite them in threes */
+        const teams = await Team.findAll()
+        // const teamsParams = JSON.stringify(teams)
+        let shareTeamInfo = []
+        /** Go through all the teams and count properties */
+        for (const team of teams) {
+            /** Get joined users to single team */
+            const numOfJoinedUsers = await team.getUsers()
 
+            // console.log('---------------');
+            // console.log(team['id']);
+            // console.log(findUser);
+            // console.log(`User params: `, findUser.workingDays, findUser.workingHours, findUser.approach);
+            // console.log(`Team params: `, team['workingDays'], team['workingHours'], team['approach']);
+            let pWorkingDays = Math.abs(Number(team['workingDays']) - Number(findUser.workingDays))
+            let pWorkingHours = Math.abs(Number(team['workingHours']) - Number(findUser.workingHours))
+            let pApproach = Math.abs(Number(team['approach']) - Number(findUser.approach))
+            // console.log(pWorkingDays, pWorkingHours, pApproach);
+            const pSum = pWorkingDays + pWorkingHours + pApproach
+            let pPerc = 100 / 8
+            switch (pSum) {
+                case 0:
+                    pPerc *= 8
+                    break;
+                case 1:
+                    pPerc *= 7
+                    break;
+                case 2:
+                    pPerc *= 6
+                    break;
+                case 3:
+                    pPerc *= 5
+                    break;
+                case 4:
+                    pPerc *= 4
+                    break;
+                case 5:
+                    pPerc *= 3
+                    break;
+                case 6:
+                    pPerc *= 2
+                    break;
+                case 7:
+                    pPerc *= 1
+                    break;
+                default:
+            }
+            // console.log(`Percentage: `, pPerc, `%`);
+            /** Get team params, which will be shared /w frontend */
+            shareTeamInfo.push(team['name'], numOfJoinedUsers.length, team['maxNumberOfMembers'], pPerc)
+        }
+        res.status(200).send(JSON.stringify(shareTeamInfo))
+    }
+    /** USER NOT LOGGED IN */
+    else {
+        /** Get all teams */
+        const teams = await Team.findAll()
+        let shareTeamInfo = []
+        /** Cycle through all the teams */
+        for (const team of teams) {
+            /** Get joined users to single team */
+            const numOfJoinedUsers = await team.getUsers()
+            /** Get team params, which will be shared /w frontend */
+            shareTeamInfo.push(team['name'], numOfJoinedUsers.length, team['maxNumberOfMembers'])
+        };
+        res.status(200).send(JSON.stringify(shareTeamInfo))
+    }
 }
 
 /*********************************************************************
@@ -26,10 +100,13 @@ module.exports.getMyTeams = async (req, res) => {
     }
     const user = await User.findByPk(req.user.id)
 
-    const teams = await user.getTeams()
-
-    console.log(teams);
-    res.status(200).send(teams)
+    if (user) {
+        const teams = await user.getTeams()
+        res.status(200).send(teams)
+    }
+    else {
+        res.status(401).send('User not found!')
+    }
 }
 
 /*********************************************************************
@@ -62,18 +139,19 @@ module.exports.getTeam = async (req, res) => {
 
 /*********************************************************************
  *  Create new team
- * 
+ * TODO: check subject already exists
  *  @returns  New team
  */
 module.exports.createTeam = async (req, res) => {
     /** Get params and check */
-    const { name, briefDescription, maxNumOfMem, hashtags, properties } = req.body;
+    const { name, briefDescription, maxNumOfMem, hashtags, workingHours, workingDays, approach, partOfSemester } = req.body;
     const { subject } = req.params
     const userId = req.user.id
-    console.log(userId);
 
-    if (!name || !briefDescription || !maxNumOfMem || !properties || !subject) {
-        return res.status(400).send('Please provide required fields');
+    if (!name || !briefDescription || !maxNumOfMem || !workingHours
+        || !workingDays || !approach || !subject || !partOfSemester) {
+        return res.status(400).send(`Please provide required fields:\n
+        name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, partOfSemester`);
     }
 
     /** Check team name is not used already */
@@ -94,7 +172,10 @@ module.exports.createTeam = async (req, res) => {
         const newTeam = await Team.create({
             name: name,
             briefDescription: briefDescription,
-            properties: properties,
+            workingHours: workingHours,
+            workingDays: workingDays,
+            approach: approach,
+            partOfSemester: partOfSemester,
             maxNumberOfMembers: maxNumOfMem,
             hashtags: hashtags,
             TeamAdmin: userId,
@@ -111,7 +192,7 @@ module.exports.createTeam = async (req, res) => {
 
 /*********************************************************************
  *  Connect to the existing team
- * 
+ * TODO: maxNumOfMem 
  *  @returns  New record in User_Profile table
  */
 module.exports.connect = async (req, res) => {
@@ -167,7 +248,7 @@ module.exports.disconnect = async (req, res) => {
     }
 
     /** Check I am a part of a team */
-    const userPartOfTeam = await existingTeam.getUsers({
+    const userPartOfTeam = await team.getUsers({
         where: {
             id: userId
         }
@@ -185,7 +266,7 @@ module.exports.disconnect = async (req, res) => {
     const time = await Team_Member.findOne({
         attributes: ['createdAt'],
         where: {
-            teamId: existingTeam.id,
+            teamId: team.id,
             userId: userId
         }
     })
@@ -200,7 +281,7 @@ module.exports.disconnect = async (req, res) => {
     await Team_Member.destroy({
         where: {
             userId: userId,
-            teamId: existingTeam.id
+            teamId: team.id
         }
     })
     res.status(200).send(`You are now not a member of team ${teamName}`)
