@@ -1,5 +1,20 @@
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                              Send Email                                          
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Send email through our outlook email.
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.10.2021
+ * 
+ */
+
 const nodemailer = require('nodemailer')
-const path = require('path')
 const verificationMail = require('./utils/sendEmail')
 
 
@@ -8,7 +23,7 @@ const transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
         user: 'teamme@outlook.cz',
-        pass: 't8p9@L*3sX4bkDQ&^yWlq2g'
+        pass: process.env.EMAIL_PASS
     },
 })
 

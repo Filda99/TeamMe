@@ -1,3 +1,19 @@
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                      Registration and Logging                                        
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Passport initialization, which takes care about registration and logging in to our system.
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.10.2021
+ * 
+ */
+
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const { getUserById, getUserByEmail, getUserPassById } = require('./utils/getUser')
@@ -26,7 +42,7 @@ function initialize(passport) {
     const strategy = new LocalStrategy({ usernameField: "email" },
         authenticateUser);
     passport.use(strategy)
-    console.log(strategy);
+    // console.log(strategy);
     passport.serializeUser((user, done) => done(null, user.id))
     passport.deserializeUser(async (id, done) => {
         const user = await getUserById(id)

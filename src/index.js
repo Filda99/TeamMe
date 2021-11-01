@@ -1,6 +1,21 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-}
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                      Main router index.js                                         
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Main file of the system. 
+ *      
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.10.2021
+ * 
+ */
+
+const dotenv = require('dotenv').config()
 
 /****************************************
  *              Includes                *
@@ -33,11 +48,11 @@ initializePassport(passport)
  ***************************************/
 
 
- app.use(express.static(path.join(__dirname, 'public')));
- app.use(methodOverride('_method'))
- app.use(express.json())
- app.use(express.urlencoded({ extended: true }))
- app.use(flash())
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(flash())
 
 /**
  * APP Session
@@ -96,7 +111,7 @@ app.delete('/logout', (req, res) => {
     res.redirect('/login')
 })
 
-sequelize.sync({ logging: false, force: true }).then(() => {
+sequelize.sync({ logging: false, force: false }).then(() => {
     console.log('database in sync')
 })
 app.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}`))

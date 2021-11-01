@@ -13,7 +13,7 @@ const User = sequelize.define("User", user)
 const Team = sequelize.define("Team", team)
 
 // USER
-User.belongsTo(Faculty, { foreignKey: 'FacultyName' })
+User.belongsTo(Faculty, { foreignKey: 'FacultyId' })
 
 // TEAM and USER
 const Team_Member = sequelize.define('Team_Member', {}, { timestamps: true });
@@ -25,6 +25,6 @@ Team.belongsTo(User, { foreignKey: 'TeamAdmin' })
 Team.belongsTo(Subject, { foreignKey: 'SubjectId' })
 
 // SUBJECT
-Subject.belongsTo(Faculty, { foreignKey: 'FacultyName' })
+Subject.belongsTo(Faculty, { foreignKey: 'FacultyId' })
 
 module.exports = { sequelize, User, Team, Team_Member, Subject, Faculty }

@@ -27,7 +27,7 @@ module.exports.createNew = async (req, res) => {
             short: short,
             name: name,
             year: year,
-            FacultyName: faculty
+            FacultyId: faculty
         })
         return res.status(200).send(newSubject)
     } catch (e) {

@@ -1,9 +1,14 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = {
+    id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
     short: {
         allowNull: false,
-        primaryKey: true,
         type: DataTypes.STRING
     },
     name: {
@@ -13,7 +18,6 @@ module.exports = {
     year: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        autoIncrement: true,
     }
 }
 

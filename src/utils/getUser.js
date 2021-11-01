@@ -1,3 +1,19 @@
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                      Get user by name or id                                    
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Get user by name or id
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.10.2021
+ * 
+ */
+
 const { User } = require("../database/sequelize")
 
 async function getUserById(id) {
@@ -8,7 +24,7 @@ async function getUserById(id) {
                 'email',
                 'login',
                 'yearOfStudy',
-                'FacultyName'
+                'FacultyId'
             ],
             where: {
                 id: id,
@@ -27,7 +43,7 @@ async function getUserByEmail(email) {
                 'email',
                 'login',
                 'yearOfStudy',
-                'FacultyName'
+                'FacultyId'
             ],
             where: {
                 email: email,

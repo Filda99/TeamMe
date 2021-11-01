@@ -2,7 +2,6 @@ const { User } = require("../database/sequelize")
 const bcrypt = require('bcrypt')
 const { getUserById, getUserByEmail } = require('../utils/getUser');
 const { sendVerifiMail } = require("../nodemail");
-const { workingDays } = require("../database/User");
 
 /*********************************************************************
  *  Get user's information and send it
@@ -21,13 +20,13 @@ module.exports.getUser = async (req, res) => {
    * Test if user is in a database
    */
   if (!user) {
-    return res.status(400).send({
+    return res.status(404).send({
       message: `No user found with the email ${email}`,
     });
   }
 
   /**
-   * If so, send it back
+   * If so, send it
    */
   return res.send(user);
 };
@@ -40,6 +39,9 @@ module.exports.getUser = async (req, res) => {
  */
 module.exports.verificateUser = async (req, res) => {
   const { token } = req.params
+  if(!token){
+    res.status(403).send('Error: No token!')
+  }
 
   /** Find token in db */
   const user = await User.findOne({
@@ -56,6 +58,8 @@ module.exports.verificateUser = async (req, res) => {
     return res.status(403).redirect('/register')
   }
 }
+
+
 /*********************************************************************
  *  Create new user
  * 
@@ -67,7 +71,8 @@ module.exports.createUser = async (req, res) => {
    */
   const { email, password, yearOfStudy, communicationChannel, workingDays, 
     workingHours, approach, faculty } = req.body;
-  if (!email || !password || !yearOfStudy || !communicationChannel || !faculty) {
+  if (!email || !password || !yearOfStudy || !communicationChannel || !faculty ||
+    !workingDays || !workingHours || !approach) {
     return res.status(400).send({
       message: 'Please provide all required properties to create a user account!',
     });
@@ -126,14 +131,12 @@ module.exports.createUser = async (req, res) => {
       workingDays: workingDays,
       workingHours: workingHours,
       approach: approach,
-      FacultyName: faculty,
-      verification: null
+      FacultyId: faculty,
+      verification: null    // TODO: remove
     });
     res.status(201).redirect('/login')
 
     /** Send user verification email */
-    // console.log('-------------------');
-    // console.log('User created, sending email!');
     // sendVerifiMail(email, login, req.headers.host, newUser.verification)
   } catch (err) {
     return res.status(500).send({
@@ -160,7 +163,7 @@ module.exports.deleteUser = async (req, res) => {
    */
   const user = await getUserByEmail(email)
   if (!user) {
-    return res.status(400).send({
+    return res.status(404).send({
       message: `No user found with the email ${email}`,
     });
   }
@@ -170,7 +173,7 @@ module.exports.deleteUser = async (req, res) => {
    */
   try {
     await user.destroy();
-    return res.send({
+    return res.status(202).send({
       message: `User ${email} has been deleted!`,
     });
   } catch (err) {
@@ -204,7 +207,7 @@ module.exports.updateUser = async (req, res) => {
    */
   const user = await getUserById(id)
   if (!user) {
-    return res.status(400).send({
+    return res.status(404).send({
       message: `No user found with the id ${id}`,
     });
   }

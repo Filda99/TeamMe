@@ -4,29 +4,29 @@ const team = require('../controllers/team.controller')
 const { checkAuthenticated } = require('../utils/isAuthenticated')
 
 /** Show all teams based on properties */
-router.get('/', team.showTeams)
+router.get('/:faculty/:subject/', team.showTeams)
 
 /** Get team info */
-router.get('/:subject/info/:id', team.getTeam)
+router.get('/:faculty/:subject/info/:id', team.getTeam)
 
 /** Get list of my teams */
 router.get('/myTeams', checkAuthenticated, team.getMyTeams)
 
 /** Create new team */
-router.post('/:subject/createTeam', checkAuthenticated, team.createTeam)
+router.post('/:faculty/:subject/createTeam', checkAuthenticated, team.createTeam)
 
 /** Connect to the team */
-router.post('/:subject/conn/:teamName', checkAuthenticated, team.connect)
+router.post('/:faculty/:subject/conn/:teamName', checkAuthenticated, team.connect)
 
 /** Disconnect from a team */
-router.post('/:subject/disconn/:teamName', checkAuthenticated, team.disconnect)
+router.post('/:faculty/:subject/disconn/:teamName', checkAuthenticated, team.disconnect)
 
 /** Delete team - by team admin */
-router.post('/:subject/delete/:teamName', checkAuthenticated, team.deleteTeam);
+router.post('/:faculty/:subject/delete/:teamName', checkAuthenticated, team.deleteTeam);
 
 /** Update team infos - by team admin */
-router.post('/:subject/update/:id', checkAuthenticated, team.updateTeam);
+router.post('/:faculty/:subject/update/:id', checkAuthenticated, team.updateTeam);
 
 /** Kick other member - by team admin */
-router.post('/:subject/kickMember/:teamName', checkAuthenticated, team.kickMember)
+router.post('/:faculty/:subject/kickMember/:teamName', checkAuthenticated, team.kickMember)
 module.exports = router;

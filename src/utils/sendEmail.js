@@ -1,6 +1,22 @@
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                              Send Email                                          
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Mail template downloaded from: unlayer (https://bit.ly/2ZCPQy0).
+ *      Get mail options(from, to, subject, message) and send them.
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.10.2021
+ * 
+ */
+
+
 function verificationMail(email, name, host, code) {
-    console.log('------------------------------------');
-    console.log('Connected to OUTLOOK. Sending email!');
     const mailOptions = {
         from: ' "Ověřte Vaši e-mailovou adresu" <teamme@outlook.cz>',
         to: email,

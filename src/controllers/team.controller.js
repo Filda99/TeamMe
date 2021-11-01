@@ -1,6 +1,7 @@
-const { Team, Team_Member, Subject, User } = require("../database/sequelize")
+const { Team, Team_Member, User } = require("../database/sequelize")
 const { getTeamByName, getTeamById } = require('../utils/getTeam')
 const { checkTeam, checkMembers } = require('../utils/teamAvailability');
+const { checkFaculty, checkSubject } = require('../utils/checkExistingElems')
 const { getUserByEmail } = require("../utils/getUser");
 
 /*********************************************************************
@@ -12,36 +13,70 @@ const { getUserByEmail } = require("../utils/getUser");
  *  @returns  Teams 
  */
 module.exports.showTeams = async (req, res) => {
+    const { subject, faculty } = req.params
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
+    }
+
+
+
     /** USER LOGGED IN */
     if (req.user) {
-        /** Go through all the properties and calculate the percentage */
+        /** MACROS FOR THIS CASE */
+        const maxPossibleDifference = 8
+        const hundredPercent = 100
+
+
         /** Get users params and collect them */
         const findUser = await User.findByPk(req.user.id)
         if (!findUser) {
             res.status(401).send('User not found!')
         }
-        // const userParams = [findUser['workingHours'], findUser['approach'], findUser['nationality']]
-        /** Get params of all the teams and unite them in threes */
-        const teams = await Team.findAll()
-        // const teamsParams = JSON.stringify(teams)
+        /** Get all teams */
+        const teams = await Team.findAll({
+            where: {
+                SubjectId: subject
+            }
+        })
+
+        /** Infos to be send to the world */
         let shareTeamInfo = []
-        /** Go through all the teams and count properties */
+        /** Go through all the teams and calculate the percentage */
         for (const team of teams) {
             /** Get joined users to single team */
             const numOfJoinedUsers = await team.getUsers()
 
-            // console.log('---------------');
-            // console.log(team['id']);
-            // console.log(findUser);
-            // console.log(`User params: `, findUser.workingDays, findUser.workingHours, findUser.approach);
-            // console.log(`Team params: `, team['workingDays'], team['workingHours'], team['approach']);
+            /**
+             * Calculation goes like this:
+             *  1) abs from difference two of same property
+             *  2) max difference is 8 (100%/8) -> give us number which we will multiply
+             *  3) by opposite number from difference
+             *  
+             */
             let pWorkingDays = Math.abs(Number(team['workingDays']) - Number(findUser.workingDays))
             let pWorkingHours = Math.abs(Number(team['workingHours']) - Number(findUser.workingHours))
             let pApproach = Math.abs(Number(team['approach']) - Number(findUser.approach))
-            // console.log(pWorkingDays, pWorkingHours, pApproach);
             const pSum = pWorkingDays + pWorkingHours + pApproach
-            let pPerc = 100 / 8
+
+            /** One-eight of a hundred percent */
+            let pPerc = hundredPercent / maxPossibleDifference
+
+            /** 
+             * The best case of parameter difference is 0,
+             * because of the absolute value of the difference.
+             */
             switch (pSum) {
+                /** Best case - needs to be 100% */
                 case 0:
                     pPerc *= 8
                     break;
@@ -68,7 +103,6 @@ module.exports.showTeams = async (req, res) => {
                     break;
                 default:
             }
-            // console.log(`Percentage: `, pPerc, `%`);
             /** Get team params, which will be shared /w frontend */
             shareTeamInfo.push(team['name'], numOfJoinedUsers.length, team['maxNumberOfMembers'], pPerc)
         }
@@ -77,7 +111,11 @@ module.exports.showTeams = async (req, res) => {
     /** USER NOT LOGGED IN */
     else {
         /** Get all teams */
-        const teams = await Team.findAll()
+        const teams = await Team.findAll({
+            where: {
+                SubjectId: subject
+            }
+        })
         let shareTeamInfo = []
         /** Cycle through all the teams */
         for (const team of teams) {
@@ -95,9 +133,6 @@ module.exports.showTeams = async (req, res) => {
  * 
  */
 module.exports.getMyTeams = async (req, res) => {
-    if (!req.user) {
-        res.status(403).send('You have to be logged in to see your teams.')
-    }
     const user = await User.findByPk(req.user.id)
 
     if (user) {
@@ -105,26 +140,28 @@ module.exports.getMyTeams = async (req, res) => {
         res.status(200).send(teams)
     }
     else {
-        res.status(401).send('User not found!')
+        res.status(404).send('User not found!')
     }
 }
 
 /*********************************************************************
  *  Show team informations.
- *  Otherwise just show teams.
- * 
  *  If user is logged in, send flag logged:true.
- * 
- *  TODO: checkAdmin - if user is admin of a team
  * 
  *  @returns  Teams
  */
 module.exports.getTeam = async (req, res) => {
     const { id } = req.params;
+    /** Check params not null */
+    if (!id) {
+        return res.status(400).send({
+            message: 'Please provide required params!',
+        });
+    }
 
     const team = await getTeamById(id)
     if (!team) {
-        return res.status(400).send({
+        return res.status(404).send({
             message: `No team found with the id ${id}`,
         });
     }
@@ -139,19 +176,32 @@ module.exports.getTeam = async (req, res) => {
 
 /*********************************************************************
  *  Create new team
- * TODO: check subject already exists
+ *
  *  @returns  New team
  */
 module.exports.createTeam = async (req, res) => {
     /** Get params and check */
     const { name, briefDescription, maxNumOfMem, hashtags, workingHours, workingDays, approach, partOfSemester } = req.body;
-    const { subject } = req.params
+    const { subject, faculty } = req.params
     const userId = req.user.id
-
     if (!name || !briefDescription || !maxNumOfMem || !workingHours
-        || !workingDays || !approach || !subject || !partOfSemester) {
+        || !workingDays || !approach || !subject || !faculty || !partOfSemester) {
         return res.status(400).send(`Please provide required fields:\n
-        name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, partOfSemester`);
+        name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, faculty, partOfSemester`);
+    }
+
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
     }
 
     /** Check team name is not used already */
@@ -165,7 +215,7 @@ module.exports.createTeam = async (req, res) => {
     /** Check user is not in other team in current subject */
     const team = await checkTeam(subject, userId)
     if (team.length) {
-        return res.status(401).send('You are already in some other team')
+        return res.status(403).send('You are already in some other team')
     }
     /** Try to create new team */
     try {
@@ -197,7 +247,27 @@ module.exports.createTeam = async (req, res) => {
  */
 module.exports.connect = async (req, res) => {
     /** Get params */
-    const { teamName, subject } = req.params
+    const { teamName, subject, faculty } = req.params
+    const userId = req.user.id
+    /** Check params not null */
+    if (!teamName || !subject || !faculty) {
+        return res.status(400).send({
+            message: 'Please provide required params!',
+        });
+    }
+
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
+    }
 
     /** Check team already exists */
     const existingTeam = await getTeamByName(teamName, subject)
@@ -208,20 +278,24 @@ module.exports.connect = async (req, res) => {
     }
 
     /** Check user is not in other team in current subject */
-    const team = await checkTeam(subject, req.user.id)
+    const team = await checkTeam(subject, userId)
     if (team.length) {
         return res.status(401).send('You are already in some other team')
     }
 
     /** Try to connect to a team */
     try {
-        existingTeam.addUser(req.user.id)
+        existingTeam.addUser(userId)
         res.status(201).send(`Connected to team ${existingTeam.name}`)
     } catch (e) {
         return res.status(400).send(e)
     }
 }
 
+/*****
+ * Helping function
+ * Add specified hourst to the time 
+ */
 function addHours(date, hours) {
     const newDate = new Date(date);
     newDate.setHours(newDate.getHours() + hours);
@@ -231,18 +305,36 @@ function addHours(date, hours) {
 /*********************************************************************
  *  Disconnect from a team.
  * 
- *  TODO: User can disconnect in first 24 hours from connecting to the team.
+ *  User can disconnect in first 24 hours from connecting to the team.
  * 
  */
 module.exports.disconnect = async (req, res) => {
     /** Get params */
-    const { teamName, subject } = req.params
+    const { teamName, subject, faculty } = req.params
     const userId = req.user.id
+    /** Check params not null */
+    if (!teamName || !subject || !faculty) {
+        return res.status(400).send({
+            message: 'Please provide required params!',
+        });
+    }
 
-    /** Check team already exists */
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
+    }
+    /** Check team really exists */
     const team = await getTeamByName(teamName, subject)
     if (!team) {
-        return res.status(400).send({
+        return res.status(404).send({
             message: `No team found with name ${teamName}`,
         });
     }
@@ -274,7 +366,7 @@ module.exports.disconnect = async (req, res) => {
     let timeNow = new Date()
     const newDate = addHours(timeNow, 24);
     if (timeToLeave > newDate) {
-        return res.status(403).send('You cant leave this team! It has been more than 24 hours since you joined.')
+        return res.status(406).send('You cant leave this team! It has been more than 24 hours since you joined.')
     }
 
     /** Disconnect from the team */
@@ -294,13 +386,26 @@ module.exports.disconnect = async (req, res) => {
  */
 module.exports.deleteTeam = async (req, res) => {
     const user = req.user.id
-    const { teamName, subject } = req.params;
-    if (!teamName) {
+    const { teamName, subject, faculty } = req.params;
+    /** Check params not null */
+    if (!teamName || !subject || !faculty) {
         return res.status(400).send({
-            message: 'Please provide name for the team you are trying to delete!',
+            message: 'Please provide required params!',
         });
     }
 
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
+    }
     /** Check team exists */
     const team = await getTeamByName(teamName, subject)
     if (!team) {
@@ -323,7 +428,7 @@ module.exports.deleteTeam = async (req, res) => {
 
     try {
         await team.destroy();
-        return res.send({
+        return res.status(200).send({
             message: `Team ${teamName} has been deleted!`,
         });
     } catch (err) {
@@ -341,10 +446,28 @@ module.exports.deleteTeam = async (req, res) => {
  * 
  */
 module.exports.kickMember = async (req, res) => {
-    const { teamName, subject } = req.params
+    const { teamName, subject, faculty } = req.params
     const { memberEmail } = req.body
     const userId = req.user.id
+    /** Check params not null */
+    if (!teamName || !subject || !memberEmail || !faculty) {
+        return res.status(400).send({
+            message: 'Please provide required params!',
+        });
+    }
 
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
+    }
     /** Check team exists */
     const team = await getTeamByName(teamName, subject)
     if (!team) {
@@ -402,33 +525,52 @@ module.exports.kickMember = async (req, res) => {
  */
 module.exports.updateTeam = async (req, res) => {
     const { maxNumOfMem, briefDescription, hashtags } = req.body;
-    const { name, subject } = req.params;
+    const { teamName, subject, faculty } = req.params;
+    /** Check params not null */
+    if (!teamName || !subject || !faculty) {
+        return res.status(400).send({
+            message: 'Please provide required params!',
+        });
+    }
 
-    const team = await getTeamByName(name, subject)
+    /** Check that faculty exists */
+    if (!await checkFaculty(faculty)) {
+        return res.status(403).send({
+            message: 'This faculty does not exists!',
+        });
+    }
+    /** Check that subject exists */
+    if (!await checkSubject(subject, faculty)) {
+        return res.status(403).send({
+            message: 'This subject does not exists!',
+        });
+    }
+
+    const team = await getTeamByName(teamName, subject)
 
     if (!team) {
         return res.status(400).send({
-            message: `No team found with the name ${name}`,
+            message: `No team found with the teamName ${teamName}`,
         });
     }
 
     try {
-        if (name) {
-            team.name = name;
+        if (teamName) {
+            team.teamName = teamName;
         }
         if (maxNumOfMem) {
             team.maxNumberOfMembers = maxNumOfMem;
         }
-        if (name) {
+        if (briefDescription) {
             team.briefDescription = briefDescription;
         }
-        if (name) {
+        if (hashtags) {
             team.hashtags = hashtags;
         }
 
         team.save();
-        return res.send({
-            message: `Team ${name} has been updated!`,
+        return res.status(200).send({
+            message: `Team ${teamName} has been updated!`,
         });
     } catch (err) {
         return res.status(500).send({
