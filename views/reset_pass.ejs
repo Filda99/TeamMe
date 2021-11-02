@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="style/reset_pass.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="#">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="#">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="hero">
+        <div class="form-box">
+            <form id="edit" class="input-group">
+                <h2 class="nadpis">Obnova hesla</h2>
+                <input type="password" class="input-field" placeholder="Aktuální heslo" required>
+                <input type="password" class="input-field" placeholder="Nové heslo" minlength="8" required>
+                <input type="password" class="input-field" placeholder="Zopakujte nové heslo" required>
+                <!-- <input type="checkbox" class="check-box"><span>Souhlasím s podmínkami</span> -->
+                <button type="submit" class="submit-btn">Aktualizovat heslo</button>
+                <button type="submit" class="submit-btn-red">Neprovádět změny</button>
+            </form>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

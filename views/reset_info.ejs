@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="style/reset_info.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="#">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="my_profile.html">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="hero">
+        <div class="form-box">
+                <form id="edit" class="input-group">
+                    <h2 class="nadpis">Aktualizace údajů</h2>
+                    <input type="number" class="input-field" name="yearOfStudy" placeholder="Ročník" required>
+                    <input type="text" class="input-field" name="communicationChannel" placeholder="Kontakt" required>
+                    <div class="select">
+                        <select name="faculty" id="selOptions" required>
+                            <option value="" disabled selected hidden>Fakulta</option>
+                            <option value="FIT">FIT</option>
+                            <option value="FEKT">FEKT</option>
+                            <option value="FCH">FCH</option>
+                            <option value="FAST">FAST</option>
+                            <option value="FA">FA</option>
+                            <option value="FP">FP</option>
+                            <option value="FaVU">FaVU</option>
+                        </select>
+                        <select name="approach" id="selOptions" required>
+                            <option value="" disabled selected hidden>Přístup k práci</option>
+                            <option value="1">týmový</option>
+                            <option value="2">individuální</option>
+                        </select>
+                        <select name="workingHours" id="selOptions" required>
+                            <option value="" disabled selected hidden>Preferovaná doba práce</option>
+                            <option value="1">brzy ráno</option>
+                            <option value="2">dlouho do noci</option>
+                            <option value="3">během dne</option>
+                        </select>
+                        <select name="workingDays " id="selOptions" required>
+                            <option value="" disabled selected hidden>Preferované dny práce</option>
+                            <option value="1">začátek týdne</option>
+                            <option value="2">konec týdne</option>
+                            <option value="3">víkend</option>
+                        </select>
+                    </div>
+                
+                <!-- <input type="checkbox" class="check-box"><span>Souhlasím s podmínkami</span> -->
+                <button type="submit" class="submit-btn">Uložit změny</button>
+            </form>
+        </div>
+        
+    </div>
+    
+    
+</body>
+</html>

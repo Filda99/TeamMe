@@ -1,0 +1,136 @@
+.wrapper {
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.content_container{
+    top: -85px;
+}
+
+.my_profile-title{
+    font-size: 2.0em;
+}
+
+.form-box{
+    top: 2%;
+    width: 70%;
+    height: 700px;
+    position: relative;
+    margin: 10vh auto;
+    background:  #dbe0e2;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 30px;
+    margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
+    margin-right: auto;
+    /* border: 2px solid red; */
+}
+
+.content-table {
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 1.2em;
+    min-width: 550px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #c7c7c7;
+}
+
+.my_profile-btn{
+    position: relative;
+    height: 40px;
+    width: 55%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    background: rgb(8, 116, 240);
+    color: white;
+    border: 0;
+    outline: none;
+    opacity: 0.8;
+    border-radius: 30px;
+    font-size: large;
+}
+
+.my_profile-btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+/*============ZMENSENE OKNO 980px==============*/
+@media screen and (max-width: 980px){
+    .wrapper {
+        max-width: 320px;
+    }
+    
+    .content_container{
+        top: -65px;
+    }
+
+    .my_profile-title{
+        font-size: 1.55em;
+    }
+    
+    .form-box{
+        width: 500px;
+        height: 600px;
+    }
+    
+    .content-table {
+        border-collapse: collapse;
+        margin: 15px 0;
+        font-size: 0.9em;
+        min-width: 200px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+    }
+    
+    .my_profile-btn{
+        font-size: small;
+    }
+}
+
+/*============ZMENSENE OKNO 750px==============*/
+@media screen and (max-width: 750px){
+    .wrapper {
+        max-width: 320px;
+    }
+
+    .my_profile-title{
+        font-size: 1.3em;
+    }
+    
+    .form-box{
+        top: 3%;
+        width: 340px;
+        height: 620px;
+    }
+    
+    .content-table {
+        border-collapse: collapse;
+        margin: 15px 0;
+        font-size: 0.9em;
+        min-width: 200px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+    }
+}
+

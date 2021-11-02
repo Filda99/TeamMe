@@ -1,0 +1,138 @@
+.title_container{
+    display: flex;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4vh;
+}
+
+.title{
+    font-size: 2.2rem;
+    color: #131313;
+    position: relative;
+    padding: 10px 30px;
+    display: block;
+    left: 10px;
+    opacity: 0.85;
+}
+
+.faculty_list{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 4vh 0;
+}
+
+.faculty_border{
+    display: flex;
+    height: 230px;
+    width: 230px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+}
+
+.faculty_item{
+    display: flex;
+    height: 200px;
+    width: 200px;
+    background: rgb(0, 61, 165);
+}
+
+/* @media (max-width: 800px) {
+    .faculty_list{
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+    }
+    .faculty_border{
+        display: flex;
+        height: 230px;
+        width: 230px;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 15px;
+        margin: 2% auto;
+    }
+  } */
+
+.faculty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border: 2px solid #535353;
+    box-shadow: 1px 1px 5px #535353;
+    text-decoration: none;
+    background-size: 200px;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: center;
+    background-image: url("images/vut.jpg");
+}
+
+.faculty:hover{
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 1px 1px 5px #ffffff;
+    transition: 0.3s;
+}
+
+.faculty_shortcut{
+    position: absolute;
+    margin-left: 135px;
+    margin-top: 5px;
+    font-size: 1.9rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0px 5px;
+    pointer-events: none;
+}
+
+.faculty_shortcut_2{
+    margin-left: 140px;
+}
+
+.faculty_shortcut_3{
+    margin-left: 115px;
+}
+
+.faculty_shortcut_4{
+    margin-left: 105px;
+}
+
+#FAST{
+    background-image: url(../images/FAST.png);
+}
+
+#FSI{
+    background-image: url(../images/FSI.png);
+}
+
+#FEKT{
+    background-image: url(../images/FEKT.png);
+}
+
+#FA{
+    background-image: url(../images/FA.png);
+}
+
+#FCH{
+    background-image: url(../images/FCH.png);
+}
+
+#FP{
+    background-image: url(../images/FP.png);
+}
+
+#FaVU{
+    background-image: url(../images/FaVU.png);
+}
+
+#FIT{
+    background-image: url(../images/FIT.png);
+}
+

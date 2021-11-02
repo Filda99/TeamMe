@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/teams.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li><a href="index.html">Domů</a></li>
+                <li><a href="#">Najít</a></li>
+                <li><a href="registration.html">Účet</a>
+                    <ul class="dropdown" id="dropdown">
+                        <li><a class="dropdown_item" href="#">Můj účet</a></li>
+                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>
+                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    </header>
+
+    <div class="content">
+        <div class="content_container">
+            <ul class="title_container">
+                <li class="add_team_container">
+                    <a href="create_team.html" class="add_team"></a>
+                    <span class="bar ver_bar"></span>
+                    <span class="bar hor_bar"></span>
+                </li>
+                <li class="title">Vyberte tým</li>
+                <li class="find_container" id="find_container">
+                    <form action="javascript:;" onsubmit="Search(this)">
+                        <input type="text" class="find_bar" id="search_phrase">
+                        <input type="submit" class="find_square" value="">
+                        <span class="round_bar"></span>
+                        <span class="line_bar"></span>
+                    </form>
+                </li>
+            </ul>
+            <div id="find_con_phone"></div>
+            <div class="team_border" id="team_border">
+                <div class="team_list" id="team_list">
+                    <a class="team_middle" href="team.html">
+                        <ul class="team_divider">
+                            <div class="team_row">
+                                <li class="team_name">Tým sedmikrásek</li>
+                                <li class="members">
+                                    <span class="member_container">
+                                        <span class="head"></span>
+                                        <span class="body"></span>
+                                    </span>
+                                    <div class="amount">4/6</div>
+                                </li>
+                                <li class="team_compatibility">100%</li>
+                            </div>
+                            <div class="team_row">
+                                <div class="team_keywords">#: BLYAT, CYKA</div>
+                            </div>
+                        </ul>
+                    </a>
+                    <hr class="row">
+                    <a class="team_middle" href="team.html">
+                        <ul class="team_divider">
+                            <div class="team_row">
+                                <li class="team_name">Tým sedmikrásek</li>
+                                <li class="members">
+                                    <span class="member_container">
+                                        <span class="head"></span>
+                                        <span class="body"></span>
+                                    </span>
+                                    <div class="amount">4/6</div>
+                                </li>
+                                <li class="team_compatibility">100%</li>
+                            </div>
+                            <div class="team_row">
+                                <div class="team_keywords">#: BLYAT, CYKA</div>
+                            </div>
+                        </ul>
+                    </a>
+                    <hr class="row">
+                    <a class="team_middle" href="team.html">
+                        <ul class="team_divider">
+                            <div class="team_row">
+                                <li class="team_name">Tým sedmikrásek</li>
+                                <li class="members">
+                                    <span class="member_container">
+                                        <span class="head"></span>
+                                        <span class="body"></span>
+                                    </span>
+                                    <div class="amount">4/6</div>
+                                </li>
+                                <li class="team_compatibility">100%</li>
+                            </div>
+                            <div class="team_row">
+                                <div class="team_keywords">#: BLYAT, CYKA</div>
+                            </div>
+                        </ul>
+                    </a>
+                    <hr class="row">    
+                    <a class="team_middle" href="team.html">
+                        <ul class="team_divider">
+                            <div class="team_row">
+                                <li class="team_name">Tým sedmikrásek</li>
+                                <li class="members">
+                                    <span class="member_container">
+                                        <span class="head"></span>
+                                        <span class="body"></span>
+                                    </span>
+                                    <div class="amount">4/6</div>
+                                </li>
+                                <li class="team_compatibility">100%</li>
+                            </div>
+                            <div class="team_row">
+                                <div class="team_keywords">#: BLYAT, CYKA</div>
+                            </div>
+                        </ul>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <script src="script/teams.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,144 @@
+/*============FULLSCREEN==============*/
+.hero{
+    height: 90%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+
+.form-box{
+    top: 5%;
+    width: 70%;
+    height: 700px;
+    position: relative;
+    margin: 8vh auto;
+    background:  #dbe0e2;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 30px;
+    margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
+    margin-right: auto;
+}
+
+.input-group{
+    top: 7%; /*20px*/
+    position: relative; /*absolute bylo*/
+    width: 380px;
+    margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
+    margin-right: auto;
+}
+
+.nadpis{
+    text-align: center;
+    font-size: 2.0rem;
+}
+
+.input-field{
+    width: 100%;
+    font-size: large;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+}
+
+.submit-btn{
+    width: 95%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 4% auto;
+    background: rgb(8, 116, 240);
+    color: white;
+    border: 0;
+    opacity: 0.8;
+    outline: none;
+    border-radius: 30px;
+    font-size: larger;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+.submit-btn-red{
+    width: 95%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 2% auto;
+    background: rgba(212, 15, 15, 0.767);
+    color: white;
+    border: 0;
+    outline: none;
+    opacity: 0.8;
+    border-radius: 30px;
+    font-size: larger;
+}
+
+.submit-btn-red:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+/*============ZMENSENE OKNO 950px==============*/
+@media screen and (max-width:950px){
+    .nadpis{
+        font-size: 1.3rem;
+    }
+    
+    .form-box{
+        top: 5%;
+        width: 380px;
+        height: 550px;
+    }
+    
+    .input-group{
+        top: 20px;
+        position: absolute;
+        width: 280px;
+        transition: .5s;
+    }
+    
+    .input-field{
+        font-size: small;
+    }
+    
+    .submit-btn{
+        width: 85%;
+        font-size: small;
+    }
+    
+    .submit-btn-red{
+        width: 85%;
+        font-size: small;
+    }
+    
+    #edit{
+        left: 50px;
+    }
+}
+
+/*============ZMENSENE OKNO 800px==============*/
+@media screen and (max-width: 750px){
+    .form-box{
+        top: 5%;
+        width: 320px;
+        height: 370px;
+    }
+    
+    .input-group{
+        top: 20px;
+        width: 230px;
+    }
+}
