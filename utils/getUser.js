@@ -15,10 +15,11 @@
  */
 
 const { User } = require("../database/sequelize")
+const { getFacultybyId } = require("./getFacultySubject")
 
 async function getUserById(id) {
     try{
-        return await User.findOne({
+        const user = await User.findOne({
             attributes: [
                 'id',
                 'email',
@@ -30,6 +31,9 @@ async function getUserById(id) {
                 id: id,
             }
         })
+        const userFaculty = await getFacultybyId(user.FacultyId)
+        console.log(user + userFaculty);
+        return user
     }catch(e){
         return e
     }
@@ -37,18 +41,23 @@ async function getUserById(id) {
 
 async function getUserByEmail(email) {
     try{
-        return await User.findOne({
+        const user = await User.findOne({
             attributes: [
                 'id',
                 'email',
                 'login',
                 'yearOfStudy',
-                'FacultyId'
+                'FacultyId',
+                'workingHours',
+                'workingDays',
+                'approach',
+                'communicationChannel'
             ],
             where: {
                 email: email,
             }
         })
+        return user
     }catch(e){
         return e
     }

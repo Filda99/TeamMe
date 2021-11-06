@@ -2,16 +2,16 @@
 <html lang="cs">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style/style-nav.css">
-    <link rel="stylesheet" href="style/main_page.css">
-    <link rel="stylesheet" href="style/team.css">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/main_page.css">
+    <link rel="stylesheet" href="/style/team.css">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <!--youtube.com/watch?v=8QKOaTYvYUA-->
     <header>
-        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
         <nav>
             <ul>
@@ -105,11 +105,11 @@
                     <tbody>
                         <tr>
                           <td><b>Název týmu</b></td>
-                          <td>Tým Honzy</td>
+                          <td><%= team.name %></td>
                         </tr>
                         <tr class="active-row">
                           <td><b>Cílový počet členů</b></td>
-                          <td>5</td>
+                          <td><%= team.maxNumberOfMembers %></td>
                         </tr>
                         <tr>
                           <td><b>Uživatelská jména členů</b></td>
@@ -119,11 +119,6 @@
                                 <li class="loginLi">xhonza02</li>
                                 <li class="loginLi">xlubos54 </li>
                                 <li class="loginLi">xlubos54</li>
-                                <li class="loginLi">xlubos54</li>
-                                <li class="loginLi">xlubos54</li>
-                                <li class="loginLi">xlubos54</li>
-                                <li class="loginLi">xlubos54</li>
-                                <li class="loginLi">xlubos54</li>
                           </td>
                         </tr>
                         <tr>
@@ -132,21 +127,19 @@
                         </tr>
                         <tr>
                           <td><b>Stručný popis</b></td>
-                          <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
-                            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate
-                          </td>
+                          <td> <%= team.briefDescription %> </td>
                         </tr>
                         <tr>
                           <td><b>Klíčová slova</b></td>
-                          <td>C# C++ C</td>
+                          <td><%= team.hashtags %></td>
                         </tr>
                         <tr>
                           <td><b>Preferovaná doba práce</b></td>
-                          <td>pozdě do noci</td>
+                          <td><%= team.workingHours %></td>
                         </tr>
                         <tr>
                           <td><b>Přístup k práci</b></td>
-                          <td>individuální</td>
+                          <td><%= team.approach %></td>
                         </tr>
                         <tr>
                           <td><b>Národnost</b></td>

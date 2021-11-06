@@ -1,5 +1,6 @@
-const { Team, User } = require("../database/sequelize")
+const { User, Team } = require("../database/sequelize")
 const { Op } = require("sequelize");
+const { team } = require("../routes");
 
 /**
  * Check if person is in another team in current subject
@@ -34,7 +35,21 @@ async function checkMembers(team, userId) {
     return members
 }
 
+/** 
+ * Check if user is a admin of a team
+ */
+async function checkAdmin(user, teamId) {
+    const isAdmin = await Team.findAll({
+        where: {
+            teadAdmin: user,
+            id: teamId
+        }
+    })
+    return isAdmin
+}
+
 module.exports = {
     checkTeam,
-    checkMembers
+    checkMembers,
+    checkAdmin
 }

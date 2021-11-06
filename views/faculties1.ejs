@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style/style-nav.css">
     <link rel="stylesheet" href="style/faculties.css">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <header>
         <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
@@ -27,37 +28,51 @@
         <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
     </header>
 
-    <div class="content" id="content"> 
+    <div class="content" id="content">
         <div class="content_container" id="content_container">
             <div class="title_container">
                 <div class="title">Vyberte fakultu</div>
             </div>
             <div id="faculty_list">
                 <ul class="faculty_list">
-                    <li class="faculty_border">
-                        <div class="faculty_item">
-                            <a class="faculty" id="FAST" onclick="test('testos')"></a>
-                            <label class="faculty_shortcut  faculty_shortcut_4">FAST</label>
-                        </div>
-                    </li>
-                    <li class="faculty_border">
-                        <div class="faculty_item">
-                            <a class="faculty" id="FSI" href="subjects.html"></a>
-                            <label class="faculty_shortcut">FSI</label>
-                        </div>
-                    </li>
-                    <li class="faculty_border">
-                        <div class="faculty_item">
-                            <a class="faculty" id="FEKT" href="subjects.html"></a>
-                            <label class="faculty_shortcut faculty_shortcut_4">FEKT</label>
-                        </div>
-                    </li>
-                    <li class="faculty_border">
-                        <div class="faculty_item">
-                            <a class="faculty" id="FA" href="subjects.html"></a>
-                            <label class="faculty_shortcut faculty_shortcut_2">FA</label>
-                        </div>
-                    </li>
+                    <% faculties.forEach((faculty, index)=> { %>
+                        <li class="faculty_border">
+                            <div class="faculty_item">
+                                <h1>
+                                    <%=faculty.name%>
+                                </h1>
+                                <a class="faculty" href="/subject/<%=faculty.id%>/" onclick="test('testos')"> <%=faculty.short%></a>
+                                <label class="faculty_shortcut  faculty_shortcut_4">
+                                    <%=faculty.short%>
+                                </label>
+                            </div>
+                        </li>
+            </div>
+            <% }) %>
+                <li class="faculty_border">
+                    <div class="faculty_item">
+                        <a class="faculty" id="FSI" href="subjects.html"></a>
+                        <label class="faculty_shortcut">FSI</label>
+                    </div>
+                </li>
+                <li class="faculty_border">
+                    <div class="faculty_item">
+                        <a class="faculty" id="FSI" href="subjects.html"></a>
+                        <label class="faculty_shortcut">FSI</label>
+                    </div>
+                </li>
+                <li class="faculty_border">
+                    <div class="faculty_item">
+                        <a class="faculty" id="FEKT" href="subjects.html"></a>
+                        <label class="faculty_shortcut faculty_shortcut_4">FEKT</label>
+                    </div>
+                </li>
+                <li class="faculty_border">
+                    <div class="faculty_item">
+                        <a class="faculty" id="FA" href="subjects.html"></a>
+                        <label class="faculty_shortcut faculty_shortcut_2">FA</label>
+                    </div>
+                </li>
                 </ul>
                 <ul class="faculty_list">
                     <li class="faculty_border">
@@ -85,11 +100,12 @@
                         </div>
                     </li>
                 </ul>
-            </div>
         </div>
     </div>
-    
+    </div>
+
     <script src="script/faculties.js"></script>
-    
+
 </body>
+
 </html>

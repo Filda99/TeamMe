@@ -7,7 +7,7 @@ const { checkAuthenticated } = require('../utils/isAuthenticated')
 router.get('/:faculty/:subject/', team.showTeams)
 
 /** Get team info */
-router.get('/:faculty/:subject/info/:id', team.getTeam)
+router.get('/:faculty/:subject/info/:name', team.getTeam)
 
 /** Get list of my teams */
 router.get('/myTeams', checkAuthenticated, team.getMyTeams)

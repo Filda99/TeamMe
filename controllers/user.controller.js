@@ -2,6 +2,7 @@ const { User } = require("../database/sequelize")
 const bcrypt = require('bcrypt')
 const { getUserById, getUserByEmail } = require('../utils/getUser');
 const { sendVerifiMail } = require("../nodemail");
+const { getFaculty, getFacultybyId } = require("../utils/getFacultySubject");
 
 /*********************************************************************
  *  Get user's information and send it
@@ -15,7 +16,6 @@ module.exports.getUser = async (req, res) => {
    * Find user by email
    */
   const user = await getUserByEmail(email)
-
   /** 
    * Test if user is in a database
    */
@@ -25,10 +25,19 @@ module.exports.getUser = async (req, res) => {
     });
   }
 
+  /** Get Faculty Name */
+  const faculty = await getFacultybyId(user['FacultyId'])
+  if(!faculty){
+    return res.status(400).send({
+      message: 'Faculty not found!',
+    });
+  }
+
   /**
    * If so, send it
    */
-  return res.send(user);
+  console.log(faculty);
+  res.render('user_profile', {user, faculty});
 };
 
 
@@ -39,7 +48,7 @@ module.exports.getUser = async (req, res) => {
  */
 module.exports.verificateUser = async (req, res) => {
   const { token } = req.params
-  if(!token){
+  if (!token) {
     res.status(403).send('Error: No token!')
   }
 
@@ -50,11 +59,11 @@ module.exports.verificateUser = async (req, res) => {
     }
   })
 
-  if (user){
+  if (user) {
     user.verification = null
     user.save()
     return res.status(200).redirect('/login')
-  }else{
+  } else {
     return res.status(403).redirect('/register')
   }
 }
@@ -69,10 +78,10 @@ module.exports.createUser = async (req, res) => {
   /**
    * Get inputs and check, if we have all we need
    */
-  const { email, password, yearOfStudy, communicationChannel, workingDays, 
+  const { email, password, yearOfStudy, communicationChannel, workingDays,
     workingHours, approach, faculty } = req.body;
-  if (!email || !password || !yearOfStudy || !communicationChannel || !faculty ||
-    !workingDays || !workingHours || !approach) {
+  if (!email || !password || !yearOfStudy || !communicationChannel ||
+    !faculty || !workingDays || !workingHours || !approach) {
     return res.status(400).send({
       message: 'Please provide all required properties to create a user account!',
     });
@@ -89,7 +98,13 @@ module.exports.createUser = async (req, res) => {
       });
     }
 
-    
+    const findFaculty = await getFaculty(faculty)
+    if(!findFaculty){
+      return res.status(400).send({
+        message: 'Faculty not found!',
+      });
+    }
+
     /**
      * Get login from email
      */
@@ -131,7 +146,7 @@ module.exports.createUser = async (req, res) => {
       workingDays: workingDays,
       workingHours: workingHours,
       approach: approach,
-      FacultyId: faculty,
+      FacultyId: findFaculty['id'],
       verification: null    // TODO: remove
     });
     res.status(201).redirect('/login')
@@ -173,6 +188,7 @@ module.exports.deleteUser = async (req, res) => {
    */
   try {
     await user.destroy();
+    req.logOut()
     return res.status(202).send({
       message: `User ${email} has been deleted!`,
     });

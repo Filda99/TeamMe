@@ -40,6 +40,7 @@ const { checkAuthenticated, checkNotAuthenticated } = require('./utils/isAuthent
 const methodOverride = require('method-override')
 const passport = require('passport')
 const initializePassport = require('./passport-config')
+const { getUserById } = require('./utils/getUser')
 initializePassport(passport)
 
 
@@ -87,13 +88,14 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('registration')
 })
 
-app.get('/my_profile', checkAuthenticated, (req, res) => {
-    res.render('my_profile')
+app.get('/my_profile', checkAuthenticated, async (req, res) => {
+    const user = await getUserById(req.user.id)
+    res.redirect(`/user/${user.email}`)
 })
 
-app.get('/teams', checkAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/teams.html'));
-})
+// app.get('/teams', checkAuthenticated, (req, res) => {
+//     res.sendFile(path.join(__dirname, '/public/teams.html'));
+// })
 
 app.use('/user', routes.user)
 app.use('/team', routes.team)
@@ -101,7 +103,7 @@ app.use('/faculty', routes.faculty)
 app.use('/subject', routes.subject)
 
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/my_profile',
+    successRedirect: 'my_profile',
     failureRedirect: '/login',
     failureFlash: true
 }))

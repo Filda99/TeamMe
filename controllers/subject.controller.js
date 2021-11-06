@@ -25,6 +25,7 @@ module.exports.getAll = async (req, res) => {
         }
     })
 
+    console.log(subject);
     res.render('subjects')
 }
 

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style/style-nav.css">
     <link rel="stylesheet" href="style/main_page.css">
     <link rel="stylesheet" href="style/registration.css">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <header>
         <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
@@ -36,17 +37,17 @@
                 <button type="button" class="toggle-btn" onclick="register()">Registrace</button>
             </div>
 
-            <form id="login" class="input-group">
-                <input type="email" class="input-field" placeholder="E-mail" required>
-                <input type="text" class="input-field" placeholder="Heslo" required>
+            <form id="login" method="post" action="/login" class="input-group">
+                <input type="email" class="input-field" name="email" placeholder="E-mail" required>
+                <input type="text" class="input-field" name="password" placeholder="Heslo" required>
                 <button type="submit" class="submit-btn">Přihlásit se</button>
             </form>
 
-            <form id="register" action="/user/CreateUser" class="input-group">
+            <form id="register" action="/user/CreateUser" method="post" class="input-group">
                 <input type="email" class="input-field" name="email" placeholder="E-mail" required>
-                <input type="text" class="input-field" placeholder="Heslo" required>
-                <input type="number" class="input-field" placeholder="Ročník" required>
-                <input type="text" class="input-field" placeholder="Kontakt" required>
+                <input type="password" class="input-field" name="password" placeholder="Heslo" required>
+                <input type="number" class="input-field" name="yearOfStudy" placeholder="Ročník" required>
+                <input type="text" class="input-field" name="communicationChannel" placeholder="Kontakt" required>
                 <div class="select">
                     <select name="faculty" id="selOptions" required>
                         <option value="" disabled selected hidden>Fakulta</option>
@@ -69,7 +70,7 @@
                         <option value="2">dlouho do noci</option>
                         <option value="3">během dne</option>
                     </select>
-                    <select name="workingDays " id="selOptions" required>
+                    <select name="workingDays" id="selOptions" required>
                         <option value="" disabled selected hidden>Preferované dny práce</option>
                         <option value="1">začátek týdne</option>
                         <option value="2">konec týdne</option>
@@ -83,7 +84,7 @@
                         <option value="4">10. - 13. týden</option>
                     </select> -->
                 </div>
-                
+
                 <!-- <input type="checkbox" class="check-box"><span>Souhlasím s podmínkami</span> -->
                 <button type="submit" class="submit-btn">Registrovat se</button>
             </form>
@@ -93,13 +94,13 @@
             var y = document.getElementById("register");
             var z = document.getElementById("btn");
 
-            function register(){
+            function register() {
                 x.style.left = "-400px";
                 y.style.left = "50px";
                 z.style.left = "110px";
             }
 
-            function login(){
+            function login() {
                 x.style.left = "50px";
                 y.style.left = "450px";
                 z.style.left = "0px";
@@ -107,7 +108,8 @@
 
         </script>
     </div>
-</div>
-    
+    </div>
+
 </body>
+
 </html>

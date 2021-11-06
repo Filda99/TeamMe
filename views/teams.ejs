@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/style/style-nav.css">
     <link rel="stylesheet" href="/style/teams.css">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
     <header>
-        <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
         <nav>
             <ul>
@@ -48,87 +49,38 @@
             <div id="find_con_phone"></div>
             <div class="team_border" id="team_border">
                 <div class="team_list" id="team_list">
-                    <a class="team_middle" href="team.html">
-                        <ul class="team_divider">
-                            <div class="team_row">
-                                <li class="team_name">Tým sedmikrásek</li>
-                                <li class="members">
-                                    <span class="member_container">
-                                        <span class="head"></span>
-                                        <span class="body"></span>
-                                    </span>
-                                    <div class="amount">4/6</div>
-                                </li>
-                                <li class="team_compatibility">100%</li>
-                            </div>
-                            <div class="team_row">
-                                <div class="team_keywords">#: BLYAT, CYKA</div>
-                            </div>
-                        </ul>
-                    </a>
-                    <hr class="row">
-                    <a class="team_middle" href="team.html">
-                        <ul class="team_divider">
-                            <div class="team_row">
-                                <li class="team_name">Tým sedmikrásek</li>
-                                <li class="members">
-                                    <span class="member_container">
-                                        <span class="head"></span>
-                                        <span class="body"></span>
-                                    </span>
-                                    <div class="amount">4/6</div>
-                                </li>
-                                <li class="team_compatibility">100%</li>
-                            </div>
-                            <div class="team_row">
-                                <div class="team_keywords">#: BLYAT, CYKA</div>
-                            </div>
-                        </ul>
-                    </a>
-                    <hr class="row">
-                    <a class="team_middle" href="team.html">
-                        <ul class="team_divider">
-                            <div class="team_row">
-                                <li class="team_name">Tým sedmikrásek</li>
-                                <li class="members">
-                                    <span class="member_container">
-                                        <span class="head"></span>
-                                        <span class="body"></span>
-                                    </span>
-                                    <div class="amount">4/6</div>
-                                </li>
-                                <li class="team_compatibility">100%</li>
-                            </div>
-                            <div class="team_row">
-                                <div class="team_keywords">#: BLYAT, CYKA</div>
-                            </div>
-                        </ul>
-                    </a>
-                    <hr class="row">    
-                    <a class="team_middle" href="team.html">
-                        <ul class="team_divider">
-                            <div class="team_row">
-                                <li class="team_name">Tým sedmikrásek</li>
-                                <li class="members">
-                                    <span class="member_container">
-                                        <span class="head"></span>
-                                        <span class="body"></span>
-                                    </span>
-                                    <div class="amount">4/6</div>
-                                </li>
-                                <li class="team_compatibility">100%</li>
-                            </div>
-                            <div class="team_row">
-                                <div class="team_keywords">#: BLYAT, CYKA</div>
-                            </div>
-                        </ul>
-                    </a>
+
+                    <% teams.forEach((team, index)=> { %>
+                        <a class="team_middle" href="info/<%= team.name %>">
+                            <ul class="team_divider">
+                                <div class="team_row">
+                                    <li class="team_name"><%=team.name%></li>
+                                    <li class="members">
+                                        <span class="member_container">
+                                            <span class="head"></span>
+                                            <span class="body"></span>
+                                        </span>
+                                        <div class="amount"><%= shareTeamInfo.pop() %> / <%= team.maxNumberOfMembers %></div>
+                                    </li>
+                                    <% if(logged) { %>
+                                        <li class="team_compatibility"><%= shareTeamInfo.shift() %> %</li>
+                                    <% } %>
+                                </div>
+                                <div class="team_row">
+                                    <div class="team_keywords">#: <%= team.hashtags %></div>
+                                </div>
+                            </ul>
+                        </a>
+                        <hr class="row">
+                    <% }) %>
+
                 </div>
             </div>
         </div>
     </div>
-  
+
     <script src="script/teams.js"></script>
-    
+
 </body>
+
 </html>

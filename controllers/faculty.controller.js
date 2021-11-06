@@ -8,7 +8,7 @@ const { Faculty } = require("../database/sequelize")
 module.exports.getAll = async (req, res) => {
     const faculties = await Faculty.findAll()
 
-    res.render('faculties', {faculties})
+    res.render('faculties')
 }
 
 

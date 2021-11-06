@@ -19,6 +19,14 @@ const { Subject, Faculty } = require("../database/sequelize");
 
 
 async function checkFaculty(faculty) {
+    try{
+        faculty = Number(faculty)
+    }catch(e){
+        return 0
+    }
+    if(typeof faculty !== "number"){
+        return 0
+    }
     /** Check subject exists */
     const facultyExists = await Faculty.findAll({
         where: {
@@ -33,8 +41,15 @@ async function checkFaculty(faculty) {
 
 
 async function checkSubject(subject, faculty) {
+    try{
+        subject = Number(subject)
+    }catch(e){
+        return 0
+    }
+    if(typeof subject !== "number"){
+        return 0
+    }
     /** Check subject exists */
-    console.log(faculty);
     const subjectExists = await Subject.findAll({
         where: {
             id: subject,
