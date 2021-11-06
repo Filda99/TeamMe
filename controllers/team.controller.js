@@ -59,7 +59,8 @@ module.exports.showTeams = async (req, res) => {
         for (const team of teams) {
             /** Get joined users to single team */
             const numOfJoinedUsers = await team.getUsers()
-
+            shareTeamInfo.push(numOfJoinedUsers.length)
+            
             /**
              * Calculation goes like this:
              *  1) abs from difference two of same property
@@ -108,10 +109,10 @@ module.exports.showTeams = async (req, res) => {
                 default:
             }
             /** Get team params, which will be shared /w frontend */
-            shareTeamInfo.push(numOfJoinedUsers.length, pPerc)
+            shareTeamInfo.push(pPerc)
         }
         const logged = true
-        res.render('teams', { team, shareTeamInfo, logged })
+        res.render('teams', { teams, shareTeamInfo, logged })
     }
     /** USER NOT LOGGED IN */
     else {
@@ -189,6 +190,10 @@ module.exports.getTeam = async (req, res) => {
             message: `No team found with the name ${name}`,
         });
     }
+
+    /********************************************* */
+    /**********   GET INFOS TO SHARE    ********** */
+    /** ADMIN and LOGGED */
     let logged = false
     let isAdmin = false
     if (req.user) {
@@ -196,10 +201,18 @@ module.exports.getTeam = async (req, res) => {
         let admin = checkAdmin(res.user.id)
         isAdmin = admin ? true : false
     }
+    /** MEMBERS */
+    const teamMembers = await team.getUsers()
+
+    /** TEAM ADMIN */
+    const teamAdmin = await User.findByPk(team.TeamAdmin)
+
+    /** WORKING HOURS, DAYS, APPROACH */
 
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
-    res.render('team', { team, logged, isAdmin })
+    console.log(team);
+    res.render('team', { team, teamMembers, teamAdmin, logged, isAdmin })
     // return res.status(200).send([team, { 'logged': logged, 'admin': admin }]);
 };
 
@@ -614,7 +627,7 @@ module.exports.updateTeam = async (req, res) => {
             message: `No team found with the teamName ${teamName}`,
         });
     }
-    
+
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
     try {

@@ -60,7 +60,7 @@
                                             <span class="head"></span>
                                             <span class="body"></span>
                                         </span>
-                                        <div class="amount"><%= shareTeamInfo.pop() %> / <%= team.maxNumberOfMembers %></div>
+                                        <div class="amount"><%= shareTeamInfo.shift() %> / <%= team.maxNumberOfMembers %></div>
                                     </li>
                                     <% if(logged) { %>
                                         <li class="team_compatibility"><%= shareTeamInfo.shift() %> %</li>
