@@ -207,8 +207,6 @@ module.exports.getTeam = async (req, res) => {
     /** TEAM ADMIN */
     const teamAdmin = await User.findByPk(team.TeamAdmin)
 
-    /** WORKING HOURS, DAYS, APPROACH */
-
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
     console.log(team);

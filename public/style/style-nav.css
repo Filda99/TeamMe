@@ -54,7 +54,7 @@ header{
 }
     
 .nav-toggle:focus ~ .nav-toggle-label {
-outline: 3px solid rgba(lightblue, .75);
+    outline: 3px solid rgba(lightblue, .75);
 }
 
 .nav-toggle-label{
@@ -225,6 +225,27 @@ nav ul li ul li a{
         text-align: center;
         justify-content: center;
     }
+
+    /*NEWS DROPDOWN*/
+    .dropdown-news{
+        width: 250px;
+        display: none; /*none*/
+        position: absolute;
+        background-color:var(--background);
+        padding: 10px;
+        top: 20px;
+        margin-left: -8em; /*posun okenka doleva*/
+        border-radius: 0px 0px 4px 4px;
+    }
+
+    .dropdown_item-news{
+        position: relative;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        color: white;
+    }
+    /*END*/
 
      nav ul li:hover ul {
         display: inline;
