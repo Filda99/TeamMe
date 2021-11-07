@@ -4,13 +4,13 @@ document.write('\
         <input type="checkbox" id="nav-toggle" class="nav-toggle">\
         <nav>\
             <ul>\
-                <li><a href="index.html">Domů</a></li>\
-                <li><a href="#">Najít tým</a></li>\
-                <li><a href="registration.html">Účet</a>\
+                <li><a href="/">Domů</a></li>\
+                <li><a href="/faculty">Najít tým</a></li>\
+                <li><a href="my_profile">Účet</a>\
                     <ul class="dropdown" id="dropdown">\
-                        <li><a class="dropdown_item" href="my_profile.html">Můj účet</a></li>\
-                        <li><a class="dropdown_item" href="#">Moje týmy</a></li>\
-                        <li><a class="dropdown_item" href="#">Odhlásit se</a></li>\
+                        <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>\
+                        <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>\
+                        <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>\
                     </ul>\
                 </li>\
 		<li><a href="registration.html">new</a>\

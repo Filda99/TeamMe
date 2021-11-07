@@ -12,6 +12,9 @@ router.get('/:faculty/:subject/info/:name', team.getTeam)
 /** Get list of my teams */
 router.get('/myTeams', checkAuthenticated, team.getMyTeams)
 
+/** Create new team form */
+router.get('/:faculty/:subject/create', checkAuthenticated, team.createTeamForm)
+
 /** Create new team */
 router.post('/:faculty/:subject/createTeam', checkAuthenticated, team.createTeam)
 

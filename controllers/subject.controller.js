@@ -19,14 +19,13 @@ module.exports.getAll = async (req, res) => {
     }
 
 
-    const subject = await Subject.findAll({
+    const subjects = await Subject.findAll({
         where: {
             FacultyId: faculty
         }
     })
 
-    console.log(subject);
-    res.render('subjects')
+    res.render('subjects', {subjects, faculty})
 }
 
 
@@ -35,7 +34,7 @@ module.exports.getAll = async (req, res) => {
  * 
  */
 module.exports.createNew = async (req, res) => {
-    const { short, name, year } = req.body
+    const { short } = req.body
     const { faculty } = req.params
     if (!faculty) {
         res.status(401).send('Insert faculty first')
@@ -50,8 +49,6 @@ module.exports.createNew = async (req, res) => {
     try {
         const newSubject = await Subject.create({
             short: short,
-            name: name,
-            year: year,
             FacultyId: faculty
         })
         return res.status(200).send(newSubject)

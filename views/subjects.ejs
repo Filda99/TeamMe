@@ -2,8 +2,8 @@
 <html lang="cs">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style/style-nav.css">
-    <link rel="stylesheet" href="style/subjects.css">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/subjects.css">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
@@ -15,7 +15,7 @@
         <div class="content_container">
             <ul class="title_container">
                 <li class="faculty_ref_container">
-                    <a href="faculties.html" class="faculty_ref" id="faculty_ref">Výběr fakulty</a>
+                    <a href="/faculty" class="faculty_ref" id="faculty_ref">Výběr fakulty</a>
                     <span class="twisted_bar"></span>
                     <span class="left_bar"></span>
                     <span class="right_bar"></span>
@@ -33,6 +33,11 @@
             <div id="find_con_phone"></div>
             <div id="search">
                 <ul class="subject_list">
+                    <% subjects.forEach((subject, index) => { %>
+                        <li class="subject_item">
+                            <a class="subject_link" href="/team/<%=faculty%>/<%=subject.id%>"> <%= subject.short %> </a>
+                        </li>
+                    <% }) %>
                     <li class="subject_item">
                         <a class="subject_link" href="teams.html">IEL</a>
                     </li>

@@ -93,10 +93,6 @@ app.get('/my_profile', checkAuthenticated, async (req, res) => {
     res.redirect(`/user/${user.email}`)
 })
 
-// app.get('/teams', checkAuthenticated, (req, res) => {
-//     res.sendFile(path.join(__dirname, '/public/teams.html'));
-// })
-
 app.use('/user', routes.user)
 app.use('/team', routes.team)
 app.use('/faculty', routes.faculty)
@@ -108,7 +104,7 @@ app.post('/login', passport.authenticate('local', {
     failureFlash: true
 }))
 
-app.delete('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
     req.logOut()
     res.redirect('/login')
 })

@@ -112,7 +112,7 @@ module.exports.showTeams = async (req, res) => {
             shareTeamInfo.push(pPerc)
         }
         const logged = true
-        res.render('teams', { teams, shareTeamInfo, logged })
+        res.render('teams', { teams, shareTeamInfo, logged, subject })
     }
     /** USER NOT LOGGED IN */
     else {
@@ -131,7 +131,7 @@ module.exports.showTeams = async (req, res) => {
             shareTeamInfo.push(numOfJoinedUsers.length)
         };
         const logged = false
-        res.render('teams', { teams, shareTeamInfo, logged })
+        res.render('teams', { teams, shareTeamInfo, logged, subject })
     }
 }
 
@@ -196,10 +196,14 @@ module.exports.getTeam = async (req, res) => {
     /** ADMIN and LOGGED */
     let logged = false
     let isAdmin = false
-    if (req.user) {
-        logged = true
-        let admin = checkAdmin(res.user.id)
-        isAdmin = admin ? true : false
+    try{
+        if (req.user) {
+            logged = true
+            let admin = checkAdmin(req.user.id)
+            isAdmin = admin ? true : false
+        }
+    }catch(e){
+        console.log(e);
     }
     /** MEMBERS */
     const teamMembers = await team.getUsers()
@@ -209,10 +213,18 @@ module.exports.getTeam = async (req, res) => {
 
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
-    console.log(team);
     res.render('team', { team, teamMembers, teamAdmin, logged, isAdmin })
     // return res.status(200).send([team, { 'logged': logged, 'admin': admin }]);
 };
+
+/*********************************************************************
+ *  Show create new team form
+ * 
+ */
+module.exports.createTeamForm = (req, res) => {
+    const {subject, faculty} = req.params
+    res.render('create_team', {subject, faculty})
+}
 
 /*********************************************************************
  *  Create new team
@@ -230,9 +242,22 @@ module.exports.createTeam = async (req, res) => {
     /**********      CHECK PARAMS       ********** */
     if (!name || !briefDescription || !maxNumOfMem || !workingHours
         || !workingDays || !approach || !subject || !faculty || !partOfSemester) {
+            console.log(
+                `name`, name,
+                `briefDescription`, briefDescription,
+                `maxNumOfMem`, maxNumOfMem,
+                `workingHours`, workingHours,
+                `workingDays`, workingDays,
+                `approach`, approach,
+                `partOfSemester`, partOfSemester,
+                `subject`, subject,
+                `faculty`, faculty,
+        
+            );
         return res.status(400).send(`Please provide required fields:\n
         name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, faculty, partOfSemester`);
     }
+    
     /** Check that faculty exists */
     if (!await checkFaculty(faculty)) {
         return res.status(403).send({
@@ -278,7 +303,7 @@ module.exports.createTeam = async (req, res) => {
             SubjectId: subject
         });
         newTeam.addUser(userId)
-        res.status(201).send('Team created')
+        res.status(201).redirect(`/team/${faculty}/${subject}`)
     } catch (err) {
         return res.status(500).send({
             message: `Error: ${err.message}`,

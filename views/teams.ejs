@@ -15,7 +15,7 @@
         <div class="content_container">
             <ul class="title_container">
                 <li class="add_team_container">
-                    <a href="create_team.html" class="add_team"></a>
+                    <a href="<%=subject%>/create" class="add_team"></a>
                     <span class="bar ver_bar"></span>
                     <span class="bar hor_bar"></span>
                 </li>
@@ -34,7 +34,7 @@
                 <div class="team_list" id="team_list">
 
                     <% teams.forEach((team, index)=> { %>
-                        <a class="team_middle" href="info/<%= team.name %>">
+                        <a class="team_middle" href="<%=subject%>/info/<%=team.name%>">
                             <ul class="team_divider">
                                 <div class="team_row">
                                     <li class="team_name"><%=team.name%></li>
