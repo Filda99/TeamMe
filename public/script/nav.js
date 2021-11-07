@@ -1,3 +1,4 @@
+
 document.write('\
 <header>\
         <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">\
@@ -13,7 +14,7 @@ document.write('\
                         <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>\
                     </ul>\
                 </li>\
-		<li><a href="registration.html">new</a>\
+		        <li><a href="registration.html">new</a>\
                     <ul class="dropdown-news" id="dropdown-news">\
                         <p class="dropdown_item-news">xplagiat96 odešel z týmu PNF</p>\
                         <p class="dropdown_item-news">xplagiat96 odešel z týmu Dlouhý název týmu</p>\

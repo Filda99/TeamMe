@@ -3,6 +3,7 @@ const { getTeamByName } = require('../utils/getTeam')
 const { checkTeam, checkMembers, checkAdmin } = require('../utils/teamAvailability');
 const { checkFaculty, checkSubject } = require('../utils/checkExistingElems')
 const { getUserByEmail } = require("../utils/getUser");
+const { userSendNotifi } = require("./notification.controller");
 
 /*********************************************************************
  *  Show teams based on user properties, if user logged in.
@@ -213,7 +214,7 @@ module.exports.getTeam = async (req, res) => {
 
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
-    res.render('team', { team, teamMembers, teamAdmin, logged, isAdmin })
+    res.render('team', { team, teamMembers, teamAdmin, logged, isAdmin, faculty, subject })
     // return res.status(200).send([team, { 'logged': logged, 'admin': admin }]);
 };
 
@@ -362,6 +363,13 @@ module.exports.connect = async (req, res) => {
     /** Try to connect to a team */
     try {
         existingTeam.addUser(userId)
+        
+        /** Send notification to admin */
+        // Get user login
+        const getMemberName = await User.findByPk(userId)
+        const message = `User ${getMemberName.login} has joined your team ${existingTeam.name}`
+        userSendNotifi(team.TeamAdmin, message)
+          
         res.status(201).send(`Connected to team ${existingTeam.name}`)
     } catch (e) {
         return res.status(400).send(e)
@@ -456,6 +464,13 @@ module.exports.disconnect = async (req, res) => {
             teamId: team.id
         }
     })
+
+    /** Send notification to admin */
+    // Get user login
+    const getMemberName = await User.findByPk(userId)
+    const message = `User ${getMemberName.login} has left your team ${teamName}`
+    await userSendNotifi(team.TeamAdmin, message)
+
     res.status(200).send(`You are now not a member of team ${teamName}`)
 }
 

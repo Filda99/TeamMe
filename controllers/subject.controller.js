@@ -1,6 +1,6 @@
 const { Subject } = require("../database/sequelize")
 const { checkFaculty } = require('../utils/checkExistingElems')
-
+const { getUserNotifi } = require('../controllers/notification.controller')
 
 /*********************************************************************
  *  Show all subjects
@@ -25,7 +25,9 @@ module.exports.getAll = async (req, res) => {
         }
     })
 
-    res.render('subjects', {subjects, faculty})
+    const notification = await getUserNotifi(req.user.id)
+    console.log('>>>>>NOTIFI', notification);
+    res.render('subjects', {subjects, faculty, notification})
 }
 
 
@@ -34,7 +36,7 @@ module.exports.getAll = async (req, res) => {
  * 
  */
 module.exports.createNew = async (req, res) => {
-    const { short } = req.body
+    const { short, year, specialization, compulsory } = req.body
     const { faculty } = req.params
     if (!faculty) {
         res.status(401).send('Insert faculty first')
@@ -49,6 +51,9 @@ module.exports.createNew = async (req, res) => {
     try {
         const newSubject = await Subject.create({
             short: short,
+            year: year,
+            specialization: specialization,
+            compulsory: compulsory,
             FacultyId: faculty
         })
         return res.status(200).send(newSubject)

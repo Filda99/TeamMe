@@ -39,7 +39,7 @@ async function checkMembers(team, userId) {
  * Check if user is a admin of a team
  */
 async function checkAdmin(user, teamId) {
-    const isAdmin = await Team.findAll({
+    const isAdmin = await Team.findOne({
         where: {
             teadAdmin: user,
             id: teamId

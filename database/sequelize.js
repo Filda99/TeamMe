@@ -3,6 +3,8 @@ const user = require("./User")
 const team = require("./Team")
 const faculty = require('./Faculty')
 const subject = require('./Subject')
+const notification = require('./Notifications')
+
 
 // Option 1: Passing a connection URI
 const sequelize = new Sequelize('postgres://postgres:postgres@localhost:5432/db_teamme') // Example for postgres
@@ -11,6 +13,7 @@ const Faculty = sequelize.define("Faculty", faculty)
 const Subject = sequelize.define("Subject", subject)
 const User = sequelize.define("User", user)
 const Team = sequelize.define("Team", team)
+const Notification = sequelize.define("Notification", notification)
 
 // USER
 User.belongsTo(Faculty, { foreignKey: 'FacultyId' })
@@ -27,4 +30,7 @@ Team.belongsTo(Subject, { foreignKey: 'SubjectId' })
 // SUBJECT
 Subject.belongsTo(Faculty, { foreignKey: 'FacultyId' })
 
-module.exports = { sequelize, User, Team, Team_Member, Subject, Faculty }
+// NOTIFICATIONS
+Notification.belongsTo(User, { foreignKey: 'UserId' })
+
+module.exports = { sequelize, User, Team, Team_Member, Subject, Faculty, Notification }
