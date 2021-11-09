@@ -34,12 +34,15 @@ module.exports.getUser = async (req, res) => {
   }
 
   let userLogged = false
-  if (req.user)
+  let notification = null;
+  if (req.user) {
     userLogged = true
+    notification = await getUserNotifi(req.user.id)
+  }
   /**
    * If so, send it
    */
-  res.render('user_profile', { user, faculty, userLogged });
+  res.render('user_profile', { user, faculty, userLogged, notification });
 };
 
 

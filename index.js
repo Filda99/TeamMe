@@ -94,6 +94,7 @@ app.use('/user', routes.user)
 app.use('/team', routes.team)
 app.use('/faculty', routes.faculty)
 app.use('/subject', routes.subject)
+app.use('/notification', routes.notification)
 
 app.post('/login', passport.authenticate('local', {
     successRedirect: 'my_profile',

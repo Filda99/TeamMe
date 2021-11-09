@@ -52,15 +52,17 @@ module.exports.getUserNotifi = async (userId) => {
  *  When logged user wants to clear notification panel, delete all
  *  the records.
  */
-module.exports.clearUserNotifi = async (userId) => {
+module.exports.clearUserNotifi = async (req, res) => {
     try{
         const deleteNotifi = await Notification.findAll({
             where: {
-                UserId: userId
+                UserId: req.user.id
             }
         })
         deleteNotifi.destroy()
-        return 1
+        res.status(400).send({
+            message: 'Cleared'
+        })
     }catch(e){
         return e
     }
