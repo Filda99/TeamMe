@@ -10,121 +10,150 @@
 </head>
 
 <body>
-  
-  <script src="/script/nav.js"></script>
 
-  <!-- <div class="content">
-        <div class="content_container">
-          </div>
-           <div class="wrapper">
-                <h2>Můj účet</h2>
+  <% if(!userLogged) { %>
+    <header>
+      <img src="images/logo.png" alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="index.html">Domů</a></li>
+          <li><a href="#">Najít tým</a></li>
+          <li><a href="registration.html">Účet</a>
+            <ul class="dropdown" id="dropdown">
+              <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
+              <li><a class="dropdown_item" href="/register">Registrace</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">NOVINKY</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <button type="submit" class="clear-btn_index">Vyčistit</button>
+                <p class="dropdown_item-news">xplagiat96 odešel z týmu PNF</p>
+                <p class="dropdown_item-news">xplagiat96 odešel z týmu Dlouhý název týmu</p>
+                <p class="dropdown_item-news">xplagiat96 odešel z týmu Project Not Found</p>
+                <p class="dropdown_item-news">xplagiat96 se přidal do týmu Název</p>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+          <button type="submit" class="clear-btn_index">Vyčistit</button>
+          <p class="notifications">xplagiat96 odešel z týmu Dlouhý název týmu založeného mnou</p>
+          <p class="notifications">xplagiat96 odešel z týmu Project Not Found</p>
+        </nav>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+
+
+        <div class="content">
+          <div class="form-box">
+            <div class="content_container">
+              <div class="wrapper">
+                <h2 class="my_profile-title">Můj účet</h2>
                 <table class="content-table">
-                    <tbody>
-                      <tr>
-                        <td><b>Uživatelské jméno</b></td>
-                        <td>kaja</td>
-                      </tr>
-                      <tr class="active-row">
-                        <td><b>E-mail</b></td>
-                        <td>kaja@centrum.cz</td>
-                      </tr>
-                      <tr>
-                        <td><b>Ročník</b></td>
-                        <td>2.</td>
-                      </tr>
-                      <tr>
-                        <td><b>Fakulta</b></td>
-                        <td>FIT</td>
-                      </tr>
-                      <tr>
-                        <td><b>Kontakt</b></td>
-                        <td><a href="discord.com/kajagott/">Discord</a></td>
-                      </tr>
-                      <tr>
-                        <td><b>Preferovaná doba práce</b></td>
-                        <td>pozdě do noci</td>
-                      </tr>
-                      <tr>
-                        <td><b>Přístup k práci</b></td>
-                        <td>individuální</td>
-                      </tr>
-                      <tr>
-                        <td><b>Národnost</b></td>
-                        <td>česká</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <tbody>
+                    <tr>
+                      <td><b>Uživatelské jméno</b></td>
+                      <td>
+                        <%=user.login%>
+                      </td>
+                    </tr>
+                    <tr class="active-row">
+                      <td><b>E-mail</b></td>
+                      <td>
+                        <%=user.email%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Ročník</b></td>
+                      <td>
+                        <%=user.yearOfStudy%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Fakulta</b></td>
+                      <td>
+                        <%=faculty.short%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Kontakt</b></td>
+                      <td>
+                        <%=user.communicationChannel%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Preferovaná doba práce</b></td>
+                      <td>
+                        <%=user.workingHours%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Přístup k práci</b></td>
+                      <td>
+                        <%=user.approach%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Preferované dny pro práci</b></td>
+                      <td>
+                        <%=user.workingDays%>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
                 <div class="my_profile-button">
-                    <button type="button" class="my_profile-btn"><b>Upravit profil</b></button>
-                    <button type="button" class="my_profile-btn"><b>Změnit heslo</b></button>
+                  <form method="get" action="/user/update">
+                    <button type="submit" class="my_profile-btn">Upravit profil</button>
+                  </form>
+                  <form method="get" action="/resetPassword">
+                    <button type="button" class="my_profile-btn">Změnit heslo</button>
+                  </form>
+                  <form method="post" action="/user/delete">
+                    <input type="email" class="input-field" name="email" value='<%=user.email%>' hidden>
+                    <button type="submit" class="my_profile-btn">Smazat účet</button>
+                  </form>
                 </div>
-           </div> 
-        </div>
-    </div> -->
-
-  <div class="content">
-    <div class="form-box">
-      <div class="content_container">
-        <div class="wrapper">
-          <h2 class="my_profile-title">Můj účet</h2>
-          <table class="content-table">
-            <tbody>
-              <tr>
-                <td><b>Uživatelské jméno</b></td>
-                <td>
-                  <%=user.login%>
-                </td>
-              </tr>
-              <tr class="active-row">
-                <td><b>E-mail</b></td>
-                <td>
-                  <%=user.email%>
-                </td>
-              </tr>
-              <tr>
-                <td><b>Ročník</b></td>
-                <td>
-                  <%=user.yearOfStudy%>
-                </td>
-              </tr>
-              <tr>
-                <td><b>Fakulta</b></td>
-                <td>
-                  <%=faculty.short%>
-                </td>
-              </tr>
-              <tr>
-                <td><b>Kontakt</b></td>
-                <td><%=user.communicationChannel%></td>
-              </tr>
-              <tr>
-                <td><b>Preferovaná doba práce</b></td>
-                <td> <%=user.workingHours%></td>
-              </tr>
-              <tr>
-                <td><b>Přístup k práci</b></td>
-                <td> <%=user.approach%></td>
-              </tr>
-              <tr>
-                <td><b>Preferované dny pro práci</b></td>
-                <td><%=user.workingDays%></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="my_profile-button">
-            <button type="button" class="my_profile-btn">Upravit profil</button>
-            <button type="button" class="my_profile-btn">Změnit heslo</button>
-            <form method="post" action="/user/delete">
-              <input type="email" class="input-field" name="email" value='<%=user.email%>' hidden >
-              <button type="submit" class="my_profile-btn">Smazat účet</button>
-            </form>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
 
 </body>
 
+<script src="/script/app.js">
+
+</script>
 </html>

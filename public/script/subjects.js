@@ -105,62 +105,50 @@ function CheckHeight(number_of_rows){
 window.onresize = SubjectsRes;
 window.onload = SubjectsRes;    
 
+var filter = false;
 
-function Search(){
-    var search_phrase = document.getElementById("search_phrase").value.toLowerCase();
-    let contentos = document.getElementById("search");
-    let stringos = "";
-    let shortcut;
-    let number_of_subjects = 0;
-
-    for(var i = 0; i < Subjectos.length; i++){
-        if(number_of_subjects%6 == 0){
-            if(number_of_subjects > 5){
-                stringos = stringos.concat("</ul>");
-            }
-            stringos = stringos.concat("<ul class='subject_list'>");
-        }
-        shortcut = Subjectos[i].toLowerCase();
-        if(shortcut.includes(search_phrase)){
-            stringos = stringos.concat("<li class='subject_item'>");
-            stringos = stringos.concat("<a class='subject_link' href='teams.html'>", shortcut, "</a></li>");
-        }
-    }
-
-    if(number_of_subjects%6 == 0){
-        if(number_of_subjects > 5){
-            stringos = stringos.concat("</ul>");
-        }
-    }
-
-    contentos.innerHTML = stringos;
-    
-    window.onresize = SubjectsRes;
-    window.onload = SubjectsRes;    
+function Return(){
+    filter = false;
+    document.getElementById("filter").style.display = "none";
 }
 
-var Subjectos = [];
-var ajax = new XMLHttpRequest();
-ajax.open("GET", "/subject", true); //doplnit cestu k SELECT * FROM SUBJECT 
-ajax.send();
-
-
-ajax.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-
-        try{
-            var data = JSON.parse(ajax.responseText);
-        }
-        catch(e){
-            return;
-        }
-
-        for(var i = 0; i < data.length; i++){
-            Subjectos.push(data[i].short);
-            shortcut = data[i].short;
-        }
-
-        Subjectos.sort();
-        Search();
+function OpenFilter(){
+    if(filter){
+        filter = false
+        document.getElementById("filter").style.display = "none";
     }
+    else{
+        filter = true;
+        document.getElementById("filter").style.display = "flex";
+    }
+}
+
+
+var my_subjects = document.getElementById("search").innerHTML;
+var number_of_original_subjects = document.querySelectorAll('.subject_item').length;
+
+function Search(){
+    let search_phrase = document.getElementById("search_phrase").value.toLowerCase();
+    console.log(my_subjects);
+    let stringos = "";
+    let shortcut;
+    let counter = 0;
+
+    for(var i = 0; i < number_of_original_subjects; i++){ // my_teams - inner HTML (string)
+        shortcut = my_subjects.substring(my_subjects.indexOf('href="teams.html"', i+1) + 18, my_subjects.indexOf("</a>", i+1)).toLocaleLowerCase();
+        if(shortcut.includes(search_phrase)){
+            if(counter%5 == 0){
+                stringos = stringos.concat('<ul class="subject_list">');
+            }
+            stringos = stringos.concat(my_subjects.substring(my_subjects.indexOf('<li class="subject_item">', i+1), my_subjects.indexOf("</li>", i+1) + 5));
+            counter++;
+            if(counter == 5){
+                stringos = stringos.concat('</ul>');
+            }
+        }
+    }
+    if(counter != 5){
+        stringos = stringos.concat('</ul>');
+    }
+    document.getElementById("search").innerHTML = stringos;
 }

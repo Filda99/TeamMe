@@ -88,23 +88,15 @@
 }
 
 /*============ZMENSENE OKNO 950px==============*/
-@media screen and (max-width:950px){
-    .hero{
-        height: 100%;
-        width: 100%;
-        background-position: center;
-        background-size: cover;
-        position: absolute;
-    }
-
+@media screen and (max-width: 950px){
     .nadpis{
         text-align: center;
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
     
     .form-box{
         top: 5%;
-        width: 380px;
+        width: 480px;
         height: 490px;
         position: relative;
         margin: 10vh auto;
@@ -117,7 +109,7 @@
     .input-group{
         top: 20px;
         position: absolute;
-        width: 280px;
+        width: 320px;
         transition: .5s;
     }
     
@@ -179,7 +171,7 @@
     }
     
     #edit{
-        left: 50px;
+        left: 90px;
     }
 
     #selOptions {
@@ -187,21 +179,8 @@
     }
 }
 
-/*============ZMENSENE OKNO 800px==============*/
+/*============ZMENSENE OKNO 750px==============*/
 @media screen and (max-width: 750px){
-    .hero{
-        height: 100%;
-        width: 100%;
-        background-position: center;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .nadpis{
-        text-align: center;
-        font-size: 1.3rem;
-    }
-    
     .form-box{
         top: 3%;
         width: 320px;
@@ -224,8 +203,6 @@
     .submit-btn{
         font-size: small;
     }
-    
-    
     .submit-btn-red{
         font-size: small;
     }
@@ -236,5 +213,40 @@
 
     #selOptions {
         font-size: small;
+    }
+}
+
+/*====================================================================*/
+/*============ZMENSENE OKNO 450px==============*/
+@media screen and (max-width: 450px){
+    .form-box{
+        top: 1px;
+        width: 390px;
+    }
+
+    #edit{
+        left: 80px;
+    }
+}
+
+/*============ZMENSENE OKNO 375px==============*/
+@media screen and (max-width: 375px){
+    .form-box{
+        top: 5px;
+        width: 350px;
+    }
+    #edit{
+        left: 60px;
+    }
+}
+
+/*============ZMENSENE OKNO 350px==============*/
+@media screen and (max-width: 350px){
+    .form-box{
+        top: 15px;
+        width: 320px;
+    }
+    #edit{
+        left: 50px;
     }
 }

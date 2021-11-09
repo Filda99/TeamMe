@@ -94,7 +94,7 @@
 /*============ZMENSENE OKNO 950px==============*/
 @media screen and (max-width:950px){
     .nadpis{
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
     
     .form-box{
@@ -129,7 +129,7 @@
     }
 }
 
-/*============ZMENSENE OKNO 800px==============*/
+/*============ZMENSENE OKNO 750px==============*/
 @media screen and (max-width: 750px){
     .form-box{
         top: 5%;
@@ -140,5 +140,9 @@
     .input-group{
         top: 20px;
         width: 230px;
+    }
+
+    .nadpis{
+        font-size: 1.3rem;
     }
 }

@@ -1,3 +1,4 @@
+/*obecne styly, na ktere se nesmi sahat*/
 .content{
     height: 100%;
     background: #c7c7c7;
@@ -19,11 +20,210 @@
     padding-top: 60px;
 }
 
-.wrap {
-    max-width: 850px;
-    margin: 20px auto;
+/*STYLY PRO HLAVNI STRANKU*/
+
+.info{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.info_container{
+    display: block;
+    height: auto;
+    width: 100%;
+    margin-top: 60px;
+    justify-content: center;
+}
+
+.upper_wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 17vh;
+    margin-bottom: 0;
+    width: 80%;
+    height: 200px;
+}
+
+.wrap{
+    display: block;
+    text-align: center;
+    width: 100%;
+    height: 100%;
     background:  #dbe0e2ea;
-    padding: 5px;
-    overflow: hidden;
     border-radius: 20px;
 }
+
+.title{
+    font-size: 2.0rem;   
+}
+
+.start_button_container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    margin: 20px 0px;
+}
+
+.start_button{
+    width: 45%;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+    background: rgb(8, 116, 240);
+    color: white;
+    border: 0;
+    opacity: 0.8;
+    outline: none;
+    border-radius: 30px;
+    font-size: 2rem;
+}
+
+.start_button:hover {
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+.bottom_wraps{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.bottom_wraps_content{
+    display: flex;
+    width: 90%;
+}
+
+.bottom_wrap{
+    height: 250px;
+    margin: 0 10px;
+}
+
+.bottom_wrap:first-child{
+    margin-left: -35px;
+}
+
+.bottom_text{
+    font-size: 0.8rem;
+}
+
+/*pro tlacitko Vycistit*/
+.clear-btn_index{
+    padding: 12px 30px;
+    cursor: pointer;
+    margin: 1% auto;
+    background: rgba(212, 15, 15, 0.767);
+    color: white;
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+}
+
+@media screen and (max-width: 1370px){
+    .bottom_title{
+        font-size: 1.8rem;
+        margin: 20px;
+    } 
+}
+
+@media screen and (max-width: 1200px){
+    .bottom_title{
+        margin: 10px;
+    } 
+}
+
+@media screen and (max-width: 810px){
+    .bottom_title{
+        font-size: 1.5rem;
+    }
+
+    .bottom_text{
+        font-size: 0.7rem;
+    } 
+}
+
+@media screen and (max-width: 680px){
+    .bottom_wrap{
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 625px){ 
+    .bottom_text{
+        font-size: 0.6rem;
+    }
+    .bottom_title{
+        font-size: 1.2rem;
+    } 
+}
+
+@media screen and (max-width: 445px){ 
+    .bottom_title{
+        font-size: 1rem;
+    }
+    .title:first-child{
+        margin: 10px;
+    } 
+}
+
+@media screen and (max-width: 410px){ 
+    .bottom_text{
+        font-size: 0.5rem;
+    }
+}
+
+@media screen and (max-height: 740px){ 
+    .upper_wrap{
+        margin-top: 80px;
+    }
+}
+
+@media screen and (max-height: 700px){ 
+    .upper_wrap{
+        margin-top: 60px;
+    }
+}
+
+@media screen and (max-height: 620px){
+    .upper_wrap{
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-height: 590px){
+    .upper_wrap{
+        margin-top: 10px;
+    }
+
+    .title:first-child{
+        font-size: 1.4rem;
+        margin: 10px;
+    }
+
+    .start_button_container{
+        margin: -10px 0;
+    }
+
+    .start_button{
+        font-size: 1.2rem;
+        height: 40px;
+    }
+
+    .upper_w{
+        height: 160px;
+    }
+
+    p{
+        font-size: 0.9rem;
+    }
+}
+
+

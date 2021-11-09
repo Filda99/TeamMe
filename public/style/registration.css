@@ -1,134 +1,148 @@
-/*============ZMENSENE OKNO==============*/
-@media screen and (max-width:900px)
-{
-    .hero{
-        height: 100%;
-        width: 100%;
-        background-position: center;
-        background-size: cover;
-        position: absolute;
-    }
-    
-    .form-box{
-        width: 380px;
-        height: 600px;
-        position: relative;
-        margin: 10vh auto;
-        background:  #dbe0e2;
-        padding: 5px;
-        overflow: hidden;
-        border-radius: 30px;
-    }
-    
-    .button-box{
-        width: 208px;
-        margin: 35px auto;
-        position: relative;
-        box-shadow: 0 0 20px 9px rgba(8, 12, 240, 0.09);
-        border-radius: 30px;
-        background-color: rgb(176, 176, 177);
-    }
-    
-    .toggle-btn{
-        padding: 10px 20px; 
-        cursor: pointer;
-        background: transparent;
-        border: 0;
-        outline: none;
-        position: relative;
-        color: white;
-    }
-    
-    #btn{
-        top: 0;
-        left: 0;
-        position: absolute;
-        width: 97px;
-        height: 100%;
-        background: rgb(8, 116, 240);
-        border-radius: 30px;
-        transition: .5s;
-    }
-    
-    .input-group{
-        top: 100px;
-        position: absolute;
-        width: 280px;
-        transition: .5s;
-    }
-    
-    .input-field{
-        width: 100%;
-        padding: 10px 0;
-        margin: 5px 0;
-        border-left: 0;
-        border-right: 0;
-        border-top: 0;
-        border-bottom: 1px solid #999;
-        outline: none;
-        background: transparent;
-    }
-
-    .input-field:focus{
-        border-bottom: 2px solid rgb(61, 61, 61);
-        transition: ease-in-out 50ms;
-    }
-    
-    .submit-btn{
-        width: 85%;
-        padding: 10px 30px;
-        cursor: pointer;
-        display: block;
-        margin: 8% auto;
-        background: rgb(8, 116, 240);
-        color: white;
-        border: 0;
-        opacity: 0.8;
-        outline: none;
-        border-radius: 30px;
-    }
-    
-    .submit-btn:hover {
-        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-        color: white;
-        opacity: 1;
-        transition: 0.2s;
-    }
-    
-    .check-box{
-        margin: 30px 10px 30px 0;
-    }
-    
-    #login{
-        left: 50px;
-    }
-    
-    #register{
-        left: 450px;
-    }
-    
-    .select {
-        display: inline;
-        justify-content: center;
-        align-items: center;
-        padding: 22px 14 px;
-        text-decoration: none;
-    }
-    
-    #selOptions {
-        width: 100%;
-        color: #777;
-        height: 35px;
-        display: inline-block;
-        padding: 2px 4px;
-        margin: 2% auto;
-        background:  #dbe0e2;
-        text-decoration: none;
-        border-radius: 10px;
-    }
-}
 /*============FULLSCREEN==============*/
-@media screen and (min-width:900px)
+.hero{
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+
+/* .form-box{
+    width: 380px;
+    height: 600px;
+    position: relative;
+    margin: 10vh auto;
+    background:  #dbe0e2;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 30px;
+} */
+
+.form-box{
+    width: 70%;
+    height: 600px;
+    position: relative;
+    margin: 10vh auto;
+    background:  #dbe0e2;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 30px;
+    /* border-top-left-radius: 30px;
+    border-top-right-radius: 30px; */
+    margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
+    margin-right: auto;
+}
+
+.button-box{
+    width: 208px;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px rgba(8, 12, 240, 0.09);
+    border-radius: 30px;
+    background-color: rgb(176, 176, 177);
+}
+
+.toggle-btn{
+    padding: 10px 20px; 
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+    color: white;
+}
+
+#btn{
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 97px;
+    height: 100%;
+    background: rgb(8, 116, 240);
+    border-radius: 30px;
+    transition: .5s;
+}
+
+.input-group{
+    top: 100px;
+    position: absolute;
+    margin-left: 20%;
+    width: 50%;
+    height: 450px;
+    transition: .5s;
+}
+
+.input-field{
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+}
+
+.input-field:focus{
+    border-bottom: 2px solid rgb(61, 61, 61);
+    transition: ease-in-out 50ms;
+}
+
+.submit-btn{
+    width: 40%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    background: rgb(8, 116, 240);
+    color: white;
+    border: 0;
+    opacity: 0.8;
+    outline: none;
+    border-radius: 30px;
+}
+
+.submit-btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+.check-box{
+    margin: 30px 10px 30px 0;
+}
+
+#login{
+    left: 50px;
+}
+
+#register{
+    left: 100%;
+}
+
+.select {
+    display: inline;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#selOptions {
+    width: 100%;
+    color: #777;
+    height: 35px;
+    display: inline-block;
+    padding: 2px 4px;
+    margin: 5px auto;
+    background:  #dbe0e2;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+/*============ZMENSENE OKNO==============*/
+@media screen and (max-width:800px)
 {
     .hero{
         height: 100%;
@@ -138,17 +152,6 @@
         position: absolute;
     }
     
-    /* .form-box{
-        width: 380px;
-        height: 600px;
-        position: relative;
-        margin: 10vh auto;
-        background:  #dbe0e2;
-        padding: 5px;
-        overflow: hidden;
-        border-radius: 30px;
-    } */
-
     .form-box{
         width: 380px;
         height: 600px;
@@ -158,10 +161,6 @@
         padding: 5px;
         overflow: hidden;
         border-radius: 30px;
-        /* border-top-left-radius: 30px;
-        border-top-right-radius: 30px; */
-        margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
-        margin-right: auto;
     }
     
     .button-box{
@@ -199,6 +198,7 @@
         position: absolute;
         width: 280px;
         transition: .5s;
+        margin-left: 0;
     }
     
     .input-field{
@@ -230,6 +230,7 @@
         opacity: 0.8;
         outline: none;
         border-radius: 30px;
+        font-size: 0.8rem;
     }
     
     .submit-btn:hover {

@@ -1,7 +1,7 @@
 window.onresize = Teams_resize;
 window.onload = Teams_resize;
 
-let number_of_teams = 4;
+var number_of_teams = document.querySelectorAll('.team_middle').length;
 var myheight = myheight = 200 + number_of_teams*120 + 40;
 
 function Teams_resize(){
@@ -25,36 +25,33 @@ function Teams_resize(){
     }
 }
 
+var my_teams = document.getElementById("team_list").innerHTML;
+var number_of_original_teams = document.querySelectorAll('.team_middle').length;
 
-/*
-var ajaxus = new XMLHttpRequest(); 
-ajaxus.open("POST", ":/", true); 
-ajaxus.send();
+// zmenit <input type="text" class="find_bar" id="search_phrase">
+// na     <input type="text" class="find_bar" id="search_phrase" oninput="Search(this)">
 
-ajaxus.onreadystatechange = function(){             // jmeno   max         %       pocet_clenu
-    if(this.readyState == 4 && this.status == 200){ // name maxNumOfMem percentage joinedUsers
+function Search(){
+    let search_phrase = document.getElementById("search_phrase").value.toLowerCase();
+    let stringos = "";
+    let first = true;
+    let team_name;
+    let keywords;
 
-        try{
-            var data1 = JSON.parse(ajaxus.responseText); // SELECT * FROM TEAM INNER JOIN SUBJECT WHERE subject=team;
-        }
-        catch(e){
-            return;
-        }
-
-        let contentos = document.getElementById("team_list");
-        let stringos = "";
-        let members_of_team = [];
-
-        for(var x = 0; x < data1.length; x++){
-            for(var y = 0; y < data2.length; y++){
-                if(data2[y].id == data1[x].id){ 
-                    members_of_team.push(data1[x].name);
-                }
+    for(var i = 0; i < number_of_original_teams; i++){ // my_teams - inner HTML (string)
+        team_name = my_teams.substring(my_teams.indexOf("team_name", i+1) + 11, my_teams.indexOf("</li>", 1+(i*3))).toLocaleLowerCase();
+        keywords = my_teams.substring(my_teams.indexOf("team_keywords", i+1) + 18, my_teams.indexOf("</ul>", i+1)- 66).toLocaleLowerCase();
+        if(team_name.includes(search_phrase) || keywords.includes(search_phrase)){
+            if(first == true){
+                first = false;
             }
+            else{
+                stringos = stringos.concat('<hr class="row"></hr>');
+            }
+            stringos = stringos.concat(my_teams.substring(my_teams.indexOf('<a class="team_middle" href="team.html">', i+1), my_teams.indexOf("</a>", 1+(i*3)) + 4));
         }
-
-        
-
-        contentos.innerHTML = stringos;
     }
-}*/
+
+    document.getElementById("team_list").innerHTML = stringos;
+    number_of_teams = document.querySelectorAll('.team_middle').length;
+}

@@ -35,7 +35,7 @@ body{
     height: 60px;
 }
 
-/* styly navigace*/
+/*STYLY NAVIGACE*/
 header{
     background: var(--background);
     text-align: center;
@@ -44,14 +44,20 @@ header{
     width: 100%;
 }
 
-/* .logo{ rozhoduje o vysce navigace, je to nejvetsi prvek} */
-
  /*nepotrebuji mit prepinac, staci mi symbol (v tutorialu X)*/
 .nav-toggle {
     position: absolute;
     top: -9999px;
     left: -9999px;
 }
+
+/*==================*/
+.nav-toggle_notify{
+    position: absolute;
+    top: -9999px;
+    right: -9999px;
+}
+/*==================*/
     
 .nav-toggle:focus ~ .nav-toggle-label {
     outline: 3px solid rgba(lightblue, .75);
@@ -72,6 +78,23 @@ header{
     border-radius: 5px;
 }
 
+/*==================*/
+.nav-toggle-label_notify{
+    position: absolute;
+    top: 12px;
+    right: 0;
+    margin-right: 1em;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+}
+/*==================*/
+/*3 carky v tlacitku*/
 .nav-toggle-label span,
 .nav-toggle-label span::before,
 .nav-toggle-label span::after {
@@ -110,6 +133,20 @@ nav {
     transition: transform 400ms ease-in-out;
 }
 
+/*==================*/
+.nav_notify {
+    position: absolute;
+    text-align: center;
+    top: 100%; /*posunuti o 100 % shora*/
+    left: 0;
+    background: var(--background);
+    width: 100%;
+    transform: scale(1,0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
+}
+/*==================*/
+
 nav ul{
     margin: 0;
     padding: 0;
@@ -130,6 +167,11 @@ nav a{
     opacity: 0;
 }
 
+.notifications{
+    color: white;
+    text-decoration: none;
+}
+
 /*kontroluje, jestli je prepinac zaskrnuty - pokud je zaskrnuto, navigace se schova*/
 .nav-toggle:checked ~ nav{
     transform: scale(1,1);
@@ -139,6 +181,22 @@ nav a{
     opacity: 1;
     transition: opacity 250 ms ease-in-out 250ms; /*otevreni je pomalejsi*/
 }
+
+/*==================*/
+.nav-toggle_notify:checked ~ .nav_notify{
+    transform: scale(1,1);
+}
+
+.nav-toggle_notify:checked ~ nav a {
+    opacity: 1;
+    transition: opacity 250 ms ease-in-out 250ms; /*otevreni je pomalejsi*/
+}
+
+.nav-toggle:checked ~ .nav_notify{
+    display: none;
+}
+
+/*==================*/
 
 .dropdown{
     display: block;
@@ -150,11 +208,18 @@ nav ul li ul li a{
     padding: 7px;
 }
 
+
 /*menu pro desktop*/
 @media screen and (min-width: 800px){
     .nav-toggle-label{
         display: none;
     }
+
+    /*==================*/
+    .nav-toggle-label_notify{
+        display: none;
+    }
+    /*==================*/
 
     header{
         display: grid;
@@ -180,6 +245,13 @@ nav ul li ul li a{
         justify-content: flex-end;
         align-items: center;
     }
+
+    /*==================*/
+    .nav_notify{
+        display: none;
+    }
+    /*==================*/
+
 
     nav ul{
         display: flex;

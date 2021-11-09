@@ -182,7 +182,102 @@
     color: #ffffff;
 }
 
-@media screen and (max-width: 950px){
+.empty{
+    width: 40px;
+}
+
+.filter{
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background-image: url(../images/filter.png);
+    margin-top: -15px;
+    box-shadow: 1px 1px 2px #131313;
+}
+
+.filter:hover{
+    box-shadow: 1px 1px 2px #ffffff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter_window_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter_window{
+    width: 400px;
+    height: 200px;
+    border: 2px solid #131313;
+    background: #ffffff;
+    box-shadow: 1px 1px 5px #131313;
+    font-size: 3rem;
+    z-index: 10;
+}
+
+.return_container{
+    position: absolute;
+    border: 2px solid #131313;
+    width: 40px;
+    height: 40px;
+    margin-left: 358px;
+    margin-top: -2px;
+}
+
+.return_container:hover{
+    background: #FF3333;
+    cursor: pointer;
+}
+
+.bar{
+    position: absolute;
+    pointer-events: none;
+    width: 36px;
+    height: 2px;
+    background: #131313;
+    font-size: 0;
+}
+
+.bar_1{
+    transform: translateY(18px) rotate(45deg);
+}
+
+.bar_2{
+    transform: translateY(18px) rotate(-45deg);
+}
+
+.select_title{
+    width: 100%;
+    height: 50px;
+    font-size: 2rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+}
+
+.select_container{
+    height: 120px;
+    display: grid;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.my_selects{
+    width: 250px;
+    height: 40px;
+    font-size: 1.5rem;
+    outline: none;
+    border: 2px solid #131313;
+}
+
+@media screen and (max-width: 980px){
     .title{
         font-size: 2.2rem;
         margin-bottom: 10px;
@@ -226,6 +321,12 @@
         transform: translateX(-62px) translateY(21px) rotate(135deg);
     }
 
+}
+
+@media screen and (max-width: 815px){
+    .title{
+        font-size: 2rem;
+    }
 }
 
 @media screen and (max-width: 750px){
@@ -284,6 +385,13 @@
     }
 }
 
+@media screen and (max-width: 700px){
+    .title{
+        padding: 5px 15px;
+        width: 200px;
+    }
+}
+
 @media screen and (max-width: 600px){
     #find_container{
         width: 50px;
@@ -300,6 +408,8 @@
 
     .title{
         padding: 5px 15px;
+        width: 150px;
+        margin-left: -50px;
     }
 
     .find_bar{

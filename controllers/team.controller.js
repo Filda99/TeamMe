@@ -223,9 +223,18 @@ module.exports.getTeam = async (req, res) => {
  *  Show create new team form
  * 
  */
-module.exports.createTeamForm = (req, res) => {
+ module.exports.createTeamForm = (req, res) => {
     const { subject, faculty } = req.params
     res.render('create_team', { subject, faculty })
+}
+
+/*********************************************************************
+ *  Show update team form
+ * 
+ */
+module.exports.updateTeamForm = (req, res) => {
+    const { subject, faculty } = req.params
+    res.render('team_info_edit', { subject, faculty })
 }
 
 /*********************************************************************

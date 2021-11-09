@@ -27,17 +27,19 @@ module.exports.getUser = async (req, res) => {
 
   /** Get Faculty Name */
   const faculty = await getFacultybyId(user['FacultyId'])
-  if(!faculty){
+  if (!faculty) {
     return res.status(400).send({
       message: 'Faculty not found!',
     });
   }
 
+  let userLogged = false
+  if (req.user)
+    userLogged = true
   /**
    * If so, send it
    */
-  console.log(faculty);
-  res.render('user_profile', {user, faculty});
+  res.render('user_profile', { user, faculty, userLogged });
 };
 
 
@@ -99,7 +101,7 @@ module.exports.createUser = async (req, res) => {
     }
 
     const findFaculty = await getFaculty(faculty)
-    if(!findFaculty){
+    if (!findFaculty) {
       return res.status(400).send({
         message: 'Faculty not found!',
       });
@@ -198,6 +200,10 @@ module.exports.deleteUser = async (req, res) => {
     });
   }
 };
+
+module.exports.resetPass = async (req, res) => {
+  res.render('reset_pass')
+}
 
 /*********************************************************************
  *  Update user

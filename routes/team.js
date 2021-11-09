@@ -16,7 +16,7 @@ router.get('/myTeams', checkAuthenticated, team.getMyTeams)
 router.get('/:faculty/:subject/create', checkAuthenticated, team.createTeamForm)
 
 /** Update team form */
-router.get('/:faculty/:subject/update', checkAuthenticated, team.createTeamForm)
+router.get('/:faculty/:subject/update', checkAuthenticated, team.updateTeamForm)
 
 /** Create new team */
 router.post('/:faculty/:subject/createTeam', checkAuthenticated, team.createTeam)

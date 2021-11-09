@@ -74,7 +74,7 @@
 /*============ZMENSENE OKNO 980px==============*/
 @media screen and (max-width: 980px){
     .wrapper {
-        max-width: 320px;
+        max-width: 420px;
     }
     
     .content_container{
@@ -82,19 +82,19 @@
     }
 
     .my_profile-title{
-        font-size: 1.55em;
+        font-size: 1.5em;
     }
     
     .form-box{
         width: 500px;
-        height: 600px;
+        height: 580px;
     }
     
     .content-table {
         border-collapse: collapse;
         margin: 15px 0;
         font-size: 0.9em;
-        min-width: 200px;
+        min-width: 400px;
         border-radius: 5px 5px 0 0;
         overflow: hidden;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -109,7 +109,7 @@
 /*============ZMENSENE OKNO 750px==============*/
 @media screen and (max-width: 750px){
     .wrapper {
-        max-width: 320px;
+        max-width: 420px;
     }
 
     .my_profile-title{
@@ -118,8 +118,33 @@
     
     .form-box{
         top: 3%;
-        width: 340px;
-        height: 620px;
+        width: 500px;
+        height: 580px;
+    }
+    
+    .content-table {
+        border-collapse: collapse;
+        margin: 15px 0;
+        font-size: 0.9em;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+    }
+}
+
+/*====================================================*/
+/*============ZMENSENE OKNO 450px==============*/
+@media screen and (max-width: 450px){
+    .wrapper {
+        max-width: 320px;
+    }
+
+    .form-box{
+        top: 2%;
+        width: 390px;
+
     }
     
     .content-table {
@@ -134,3 +159,26 @@
     }
 }
 
+
+/*============ZMENSENE OKNO 350px==============*/
+@media screen and (max-width: 350px){
+    .wrapper {
+        max-width: 300px;
+    }
+    
+    .form-box{
+        top: 2%;
+        width: 390px;
+    }
+    
+    .content-table {
+        border-collapse: collapse;
+        margin: 15px 0;
+        font-size: 0.9em;
+        min-width: 260px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+    }
+}
