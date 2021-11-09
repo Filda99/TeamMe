@@ -1,10 +1,20 @@
 window.onresize = Teams_resize;
 window.onload = Teams_resize;
+var current = document.getElementById("dropdown-news").style.display;
 
 var number_of_teams = document.querySelectorAll('.team_middle').length;
 var myheight = myheight = 200 + number_of_teams*120 + 40;
 
 function Teams_resize(){
+    if(window.innerWidth < 800){
+        document.getElementById("dropdown-news").style.display = "none";
+        document.getElementById("notif").style.display = "none";
+    }
+    else{
+        document.getElementById("dropdown-news").style.display = current;
+        document.getElementById("notif").style.display = "flex";
+    }
+    
     if(window.innerWidth <= 750){
         if(document.getElementById("find_container").innerHTML != ""){
             document.getElementById("find_con_phone").innerHTML = document.getElementById("find_container").innerHTML;

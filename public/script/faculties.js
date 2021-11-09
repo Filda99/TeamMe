@@ -1,5 +1,6 @@
 window.onresize = FacultiesRes;
 window.onload = FacultiesRes;
+var current = document.getElementById("dropdown-news").style.display;
 
 function FacultiesRes(){
     if(window.innerWidth < 800){
@@ -7,6 +8,7 @@ function FacultiesRes(){
         document.getElementById("notif").style.display = "none";
     }
     else{
+        document.getElementById("dropdown-news").style.display = current;
         document.getElementById("notif").style.display = "flex";
     }
     const faculties = document.querySelector("#faculty_list");

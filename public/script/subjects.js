@@ -1,4 +1,15 @@
+var current = document.getElementById("dropdown-news").style.display;
+
 function SubjectsRes(){
+    if(window.innerWidth < 800){
+        document.getElementById("dropdown-news").style.display = "none";
+        document.getElementById("notif").style.display = "none";
+    }
+    else{
+        document.getElementById("dropdown-news").style.display = current;
+        document.getElementById("notif").style.display = "flex";
+    }
+    
     const subjects = document.querySelector("#search");
     var all_subjects = [];
     var number_of_subjects = subjects.getElementsByTagName("li").length;

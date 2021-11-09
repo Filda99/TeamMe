@@ -10,12 +10,10 @@ router.get('/:email', user.getUser);
 router.get('/verify-email/:token', user.verificateUser)
 
 // Show update form
-router.get('/update/')
+router.get('/form/update/', checkAuthenticated, user.showUpdate)
 
 // Show reset password form
-router.get('/resetPassword')
-
-router.post('/resetPassword/:id')
+router.get('/form/resetPass', checkAuthenticated, user.showResetPass)
 
 // Create user account
 router.post('/createUser', user.createUser)

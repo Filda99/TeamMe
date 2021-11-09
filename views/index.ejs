@@ -2,8 +2,8 @@
 <html lang="cs">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style/style-nav.css">
-    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/main_page.css">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
@@ -65,8 +65,8 @@
             <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
             <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
             <nav class="nav_notify">
-                <li><a id="notif" href="#">Notifikace</a>
                     <ul class="dropdown-news" id="dropdown-news">
+                      <a id="notif" href="#"></a>
                       <form action="/notification/deleteAll" method="post">
                           <button type="submit" class="clear-btn_index">Vyčistit</button>
                         </form>
@@ -76,7 +76,6 @@
                             </p>
                             <%})%>
                     </ul>
-                  </li>
             </nav>
             <!-- NOTIFIKACNI LISTA END (mobilni) -->
           </header>
@@ -91,7 +90,9 @@
                     <h2 class="title">TeamMe</h2>
                     <p>Pomocí TeamMe můžete snadno vytvářet týmy do jakéhokoliv předmětu na kterékoliv fakultě VUT.</p>
                     <div class="start_button_container">
-                        <button type="submit" class="start_button">Začít</button>
+                      <form class="start_button" action="/register" method="GET">
+                          <button type="submit" class="start_button">Začít</button>
+                      </form>
                     </div>
                 </div>
            </div>
@@ -124,10 +125,6 @@
         </div>
     </div>  
 
-
-
-    
-    
 </body>
 <script src="/script/app.js"></script>
 </html>

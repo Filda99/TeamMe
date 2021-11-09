@@ -49,13 +49,13 @@
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
                 <form action="/notification/deleteAll" method="post">
-                    <button type="submit" class="clear-btn_index">Vyčistit</button>
-                  </form>
-                    <%notification.forEach((notifi, index)=> {%>
-                      <p class="dropdown_item-news">
-                        <%= notifi.notification %>
-                      </p>
-                      <%})%>
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
               </ul>
             </li>
             <!-- NOTIFIKACNI LISTA END -->
@@ -67,18 +67,17 @@
         <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
         <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
         <nav class="nav_notify">
-            <li><a id="notif" href="#">Notifikace</a>
-                <ul class="dropdown-news" id="dropdown-news">
-                  <form action="/notification/deleteAll" method="post">
-                      <button type="submit" class="clear-btn_index">Vyčistit</button>
-                    </form>
-                      <%notification.forEach((notifi, index)=> {%>
-                        <p class="dropdown_item-news">
-                          <%= notifi.notification %>
-                        </p>
-                        <%})%>
-                </ul>
-              </li>
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form action="/notification/deleteAll" method="post">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
         </nav>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
@@ -93,7 +92,7 @@
                 <table class="content-table">
                   <tbody>
                     <tr>
-                      <td><b>Uživatelské jméno</b></td>
+                      <td><b>Login</b></td>
                       <td>
                         <%=user.login%>
                       </td>
@@ -125,30 +124,41 @@
                     <tr>
                       <td><b>Preferovaná doba práce</b></td>
                       <td>
-                        <%=user.workingHours%>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><b>Přístup k práci</b></td>
-                      <td>
-                        <%=user.approach%>
+                        <% let hours='' ; switch(user.workingHours) { case 1: hours='brzy ráno' ; break; case 2:
+                          hours='dlouho do noci' ; break; case 3: hours='během dne' ; break; default:
+                          hours='Nedefinováno' ; break; } %>
+                          <%= hours %>
                       </td>
                     </tr>
                     <tr>
                       <td><b>Preferované dny pro práci</b></td>
                       <td>
-                        <%=user.workingDays%>
+                        <% let days='' ; switch(user.workingDays) { case 1: days='začátek týdne' ; break; case 2:
+                          days='konec týdne' ; break; case 3: days='víkend' ; break; default: days='Nedefinováno' ;
+                          break; } %>
+                          <%= days %>
                       </td>
                     </tr>
+                    <tr>
+                      <td><b>Přístup k práci</b></td>
+                      <td>
+                        <% let approach='' ; switch(user.approach) { case 1: approach='týmový' ; break; case 2:
+                          approach='individuální' ; break; default: approach='Nedefinováno' ; break; } %>
+                          <%= approach %>
+                      </td>
+                    </tr>
+
                   </tbody>
                 </table>
                 <div class="my_profile-button">
-                  <form method="get" action="/user/update">
+                  <form method="get" action="/user/form/update">
                     <button type="submit" class="my_profile-btn">Upravit profil</button>
                   </form>
-                  <form method="get" action="/resetPassword">
-                    <button type="button" class="my_profile-btn">Změnit heslo</button>
+
+                  <form action="/user/form/resetPass" method="get">
+                    <button type="submit" class="my_profile-btn">Změnit heslo</button>
                   </form>
+
                   <form method="post" action="/user/delete">
                     <input type="email" class="input-field" name="email" value='<%=user.email%>' hidden>
                     <button type="submit" class="my_profile-btn">Smazat účet</button>
@@ -165,4 +175,5 @@
 
 </script>
 <script src="/script/app.js"></script>
+
 </html>

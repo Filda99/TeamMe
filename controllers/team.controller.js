@@ -359,11 +359,15 @@ module.exports.createTeam = async (req, res) => {
         newTeam.addUser(userId)
 
         /** Check there is a place in team */
-        const numOfJoinedUsers = await newTeam.getUsers()
-        if ((numOfJoinedUsers + 1) >= newTeam.maxNumberOfMembers) {
+        const numOfJoinedUsers = await Team_Member.findAndCountAll({
+            where: {
+                teamId: existingTeam.id
+            }
+        })
+        if ((numOfJoinedUsers.count + 1) >= newTeam.maxNumberOfMembers) {
             newTeam.visible = 2
+            newTeam.save();
         }
-        newTeam.save();
 
         res.status(201).redirect(`/team/${faculty}/${subject}`)
     } catch (err) {
@@ -375,7 +379,7 @@ module.exports.createTeam = async (req, res) => {
 
 /*********************************************************************
  *  Connect to the existing team
- * TODO: maxNumOfMem 
+ *
  *  @returns  New record in User_Profile table
  */
 module.exports.connect = async (req, res) => {
@@ -419,8 +423,12 @@ module.exports.connect = async (req, res) => {
         return res.status(401).send('You are already in some other team')
     }
     /** Check there is a place in team */
-    const numOfJoinedUsers = await existingTeam.getUsers()
-    if ((numOfJoinedUsers + 1) >= existingTeam.maxNumberOfMembers) {
+    const numOfJoinedUsers = await Team_Member.findAndCountAll({
+        where: {
+            teamId: existingTeam.id
+        }
+    })
+    if ((numOfJoinedUsers.count) >= existingTeam.maxNumberOfMembers) {
         existingTeam.visible = 2;
         existingTeam.save();
         return res.status(403).send({
@@ -440,6 +448,11 @@ module.exports.connect = async (req, res) => {
         const getMemberName = await User.findByPk(userId)
         const message = `User ${getMemberName.login} has joined your team ${existingTeam.name}`
         await userSendNotifi(existingTeam.TeamAdmin, message)
+
+        if ((numOfJoinedUsers.count + 1) == existingTeam.maxNumberOfMembers) {
+            existingTeam.visible = 2;
+            existingTeam.save();
+        }
 
         res.status(201).send(`Connected to team ${existingTeam.name}`)
     } catch (e) {
@@ -536,6 +549,10 @@ module.exports.disconnect = async (req, res) => {
     // Get user login
     const getMemberName = await User.findByPk(userId)
     const message = `User ${getMemberName.login} has left your team ${teamName}`
+
+    /** Set team visible to 1 */
+    team.visible = 1
+    team.save()
     await userSendNotifi(team.TeamAdmin, message)
 
     res.status(200).send(`You are now not a member of team ${teamName}`)
@@ -690,6 +707,10 @@ module.exports.kickMember = async (req, res) => {
         // Get user login
         const getMemberName = await User.findByPk(userId)
         const message = `User ${getMemberName.login} kicked you from team ${teamName}`
+
+        /** Set team visible to 1 */
+        team.visible = 1
+        team.save()
         await userSendNotifi(member.id, message)
 
     } catch (err) {

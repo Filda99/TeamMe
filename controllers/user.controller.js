@@ -1,9 +1,10 @@
 const { User } = require("../database/sequelize")
 const bcrypt = require('bcrypt')
-const { getUserById, getUserByEmail } = require('../utils/getUser');
+const { getUserById, getUserByEmail, getUserPassById } = require('../utils/getUser');
 const { sendVerifiMail } = require("../nodemail");
 const { getFaculty, getFacultybyId } = require("../utils/getFacultySubject");
-const { getUserNotifi } = require("./notification.controller");
+const { getUserNotifi, userSendNotifi } = require("./notification.controller");
+const { userPartOfAnyTeam } = require("../utils/teamAvailability");
 
 /*********************************************************************
  *  Get user's information and send it
@@ -47,7 +48,6 @@ module.exports.getUser = async (req, res) => {
   res.render('user_profile', { user, faculty, userLogged, notification });
 };
 
-
 /*********************************************************************
  *  Validate user through email link
  * 
@@ -74,7 +74,6 @@ module.exports.verificateUser = async (req, res) => {
     return res.status(403).redirect('/register')
   }
 }
-
 
 /*********************************************************************
  *  Create new user
@@ -191,6 +190,16 @@ module.exports.deleteUser = async (req, res) => {
   }
 
   /**
+   * Check user is not in some team
+   */
+  const teamMember = userPartOfAnyTeam(user.id)
+  if(teamMember){
+    return res.status(400).send({
+      message: "You are part of some team! Disconnect first!"
+    })
+  }
+
+  /**
    * Try to delete a user's profile
    */
   try {
@@ -206,15 +215,28 @@ module.exports.deleteUser = async (req, res) => {
   }
 };
 
-module.exports.resetPass = async (req, res) => {
+module.exports.showUpdate = async (req, res) => {
   let userLogged = false
   let notification = null;
   if (req.user) {
-      userLogged = true
-      notification = await getUserNotifi(req.user.id)
+    userLogged = true
+    notification = await getUserNotifi(req.user.id)
   }
+  const user = req.user.id
 
-  res.render('reset_pass', { userLogged, notification })
+  res.render('reset_info', { user, userLogged, notification })
+}
+
+module.exports.showResetPass = async (req, res) => {
+  let userLogged = false
+  let notification = null;
+  if (req.user) {
+    userLogged = true
+    notification = await getUserNotifi(req.user.id)
+  }
+  const user = req.user.id
+
+  res.render('reset_pass', { user, userLogged, notification })
 }
 
 /*********************************************************************
@@ -228,7 +250,10 @@ module.exports.updateUser = async (req, res) => {
    * Get all params
    */
   const { id } = req.params;
-  const { password,
+  const {
+    oldPass,
+    newPass1,
+    newPass2,
     yearOfStudy,
     communicationChannel,
     workingHours,
@@ -246,15 +271,31 @@ module.exports.updateUser = async (req, res) => {
     });
   }
 
+
   /**
    * Try to update those params, which are requested
    */
   try {
-    if (password) {
-      const hashPassword = await bcrypt.hash(password, 10)
-      user.password = hashPassword;
+    if (oldPass) {
+      const userPassword = await getUserPassById(id)
+
+      const oldHashedPass = await bcrypt.hash(oldPass, 10)
+
+      if (await bcrypt.compare(oldPass, userPassword.password, (err, result) => {
+        if(err){
+          return res.status(400).send({message: err})
+        }
+      })) 
+      // {
+      //   return res.status(400).send({ message: "Wrong old password!" })
+      // }
+      if (newPass1 !== newPass2) {
+        return res.status(400).send({ message: "New passwords dont match!" })
+      }
+      const hashNewPassword = await bcrypt.hash(newPass1, 10)
+      user.password = hashNewPassword;
     }
-    if (year_of_study) {
+    if (yearOfStudy) {
       user.yearOfStudy = yearOfStudy;
     }
     if (communicationChannel) {

@@ -40,24 +40,6 @@
     background: rgb(0, 61, 165);
 }
 
-/* @media (max-width: 800px) {
-    .faculty_list{
-        flex-direction: column; 
-        justify-content: center;
-        align-items: center;
-    }
-    .faculty_border{
-        display: flex;
-        height: 230px;
-        width: 230px;
-        justify-content: center;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 15px;
-        margin: 2% auto;
-    }
-  } */
-
 .faculty{
     display: flex;
     justify-content: center;

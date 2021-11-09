@@ -2,95 +2,94 @@
 <html lang="cs">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style/style-nav.css">
-    <link rel="stylesheet" href="style/main_page.css">
-    <link rel="stylesheet" href="style/reset_info.css">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/main_page.css">
+    <link rel="stylesheet" href="/style/reset_info.css">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <% if(!userLogged) { %>
-        <header>
-          <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-          <input type="checkbox" id="nav-toggle" class="nav-toggle">
-          <nav>
-            <ul>
-              <li><a href="/">Domů</a></li>
-              <li><a href="/faculty">Najít tým</a></li>
-              <li><a href="/register">Účet</a>
-                <ul class="dropdown" id="dropdown">
-                  <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
-                  <li><a class="dropdown_item" href="/register">Registrace</a></li>
-                </ul>
-              </li>
-    
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a>
+            <ul class="dropdown" id="dropdown">
+              <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
+              <li><a class="dropdown_item" href="/register">Registrace</a></li>
             </ul>
-          </nav>
-          <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-    
-        </header>
-        <% } if(userLogged) { %>
-          <header>
-            <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-            <input type="checkbox" id="nav-toggle" class="nav-toggle">
-            <nav>
-              <ul>
-                <li><a href="/">Domů</a></li>
-                <li><a href="/faculty">Najít tým</a></li>
-                <li><a href="/my_profile">Účet</a>
-                  <ul class="dropdown" id="dropdown">
-                    <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-                    <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-                    <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-                  </ul>
-                </li>
-                <!-- NOTIFIKACNI LISTA START -->
-                <li><a id="notif" href="#">Notifikace</a>
-                  <ul class="dropdown-news" id="dropdown-news">
-                    <form action="/notification/deleteAll" method="post">
-                        <button type="submit" class="clear-btn_index">Vyčistit</button>
-                      </form>
-                        <%notification.forEach((notifi, index)=> {%>
-                          <p class="dropdown_item-news">
-                            <%= notifi.notification %>
-                          </p>
-                          <%})%>
-                  </ul>
-                </li>
-                <!-- NOTIFIKACNI LISTA END -->
-              </ul>
-            </nav>
-            <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-    
-            <!-- NOTIFIKACNI LISTA START (mobilni) -->
-            <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
-            <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
-            <nav class="nav_notify">
-                <li><a id="notif" href="#">Notifikace</a>
-                    <ul class="dropdown-news" id="dropdown-news">
-                      <form action="/notification/deleteAll" method="post">
-                          <button type="submit" class="clear-btn_index">Vyčistit</button>
-                        </form>
-                          <%notification.forEach((notifi, index)=> {%>
-                            <p class="dropdown_item-news">
-                              <%= notifi.notification %>
-                            </p>
-                            <%})%>
-                    </ul>
-                  </li>
-            </nav>
-            <!-- NOTIFIKACNI LISTA END (mobilni) -->
-          </header>
-          <% } %>
+          </li>
 
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">Notifikace</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <form action="/notification/deleteAll" method="post">
+                    <button type="submit" class="clear-btn_index">Vyčistit</button>
+                  </form>
+                    <%notification.forEach((notifi, index)=> {%>
+                      <p class="dropdown_item-news">
+                        <%= notifi.notification %>
+                      </p>
+                      <%})%>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+                <ul class="dropdown-news" id="dropdown-news">
+                  <a id="notif" href="#"></a>
+                  <form action="/notification/deleteAll" method="post">
+                      <button type="submit" class="clear-btn_index">Vyčistit</button>
+                    </form>
+                      <%notification.forEach((notifi, index)=> {%>
+                        <p class="dropdown_item-news">
+                          <%= notifi.notification %>
+                        </p>
+                        <%})%>
+                </ul>
+        </nav>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+      
     <div class="hero">
         <div class="form-box">
-                <form id="edit" class="input-group">
+                <form id="edit" method="post" action="/user/update/<%=user%>" class="input-group">
                     <h2 class="nadpis">Aktualizace údajů</h2>
-                    <input type="number" class="input-field" name="yearOfStudy" placeholder="Ročník" required>
-                    <input type="text" class="input-field" name="communicationChannel" placeholder="Kontakt" required>
+                    <input type="number" class="input-field" name="yearOfStudy" placeholder="Ročník">
+                    <input type="text" class="input-field" name="communicationChannel" placeholder="Kontakt" >
                     <div class="select">
-                        <select name="faculty" id="selOptions" required>
+                        <select name="faculty" id="selOptions" >
                             <option value="" disabled selected hidden>Fakulta</option>
                             <option value="FIT">FIT</option>
                             <option value="FEKT">FEKT</option>
@@ -100,18 +99,18 @@
                             <option value="FP">FP</option>
                             <option value="FaVU">FaVU</option>
                         </select>
-                        <select name="approach" id="selOptions" required>
+                        <select name="approach" id="selOptions" >
                             <option value="" disabled selected hidden>Přístup k práci</option>
                             <option value="1">týmový</option>
                             <option value="2">individuální</option>
                         </select>
-                        <select name="workingHours" id="selOptions" required>
+                        <select name="workingHours" id="selOptions" >
                             <option value="" disabled selected hidden>Preferovaná doba práce</option>
                             <option value="1">brzy ráno</option>
                             <option value="2">dlouho do noci</option>
                             <option value="3">během dne</option>
                         </select>
-                        <select name="workingDays " id="selOptions" required>
+                        <select name="workingDays " id="selOptions" >
                             <option value="" disabled selected hidden>Preferované dny práce</option>
                             <option value="1">začátek týdne</option>
                             <option value="2">konec týdne</option>

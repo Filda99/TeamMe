@@ -1,6 +1,16 @@
-const { User, Team } = require("../database/sequelize")
+const { User, Team, Team_Member } = require("../database/sequelize")
 const { Op } = require("sequelize");
-const { team } = require("../routes");
+
+/**
+ * Check user is part of any team 
+ */
+async function userPartOfAnyTeam(userId){
+    return await Team_Member.findOne({
+        where: {
+            userId: userId
+        }
+    })
+}
 
 /**
  * Check user is part of the team
@@ -11,7 +21,6 @@ async function userPartOfTeam (team, userId){
             id: userId
         }
     })
-    console.log('USER: ', user);
     return user.length ? true : false;
 }
 
@@ -63,5 +72,6 @@ module.exports = {
     checkTeam,
     checkMembers,
     checkAdmin,
-    userPartOfTeam
+    userPartOfTeam,
+    userPartOfAnyTeam
 }
