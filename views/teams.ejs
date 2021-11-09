@@ -9,7 +9,79 @@
 </head>
 
 <body>
-    <script src="/script/nav.js"></script>
+    <% if(!userLogged) { %>
+        <header>
+          <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+          <input type="checkbox" id="nav-toggle" class="nav-toggle">
+          <nav>
+            <ul>
+              <li><a href="/">Domů</a></li>
+              <li><a href="/faculty">Najít tým</a></li>
+              <li><a href="/register">Účet</a>
+                <ul class="dropdown" id="dropdown">
+                  <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
+                  <li><a class="dropdown_item" href="/register">Registrace</a></li>
+                </ul>
+              </li>
+    
+            </ul>
+          </nav>
+          <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    
+        </header>
+        <% } if(userLogged) { %>
+          <header>
+            <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav>
+              <ul>
+                <li><a href="/">Domů</a></li>
+                <li><a href="/faculty">Najít tým</a></li>
+                <li><a href="/my_profile">Účet</a>
+                  <ul class="dropdown" id="dropdown">
+                    <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                    <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                    <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+                  </ul>
+                </li>
+                <!-- NOTIFIKACNI LISTA START -->
+                <li><a id="notif" href="#">Notifikace</a>
+                  <ul class="dropdown-news" id="dropdown-news">
+                    <form action="/notification/deleteAll" method="post">
+                        <button type="submit" class="clear-btn_index">Vyčistit</button>
+                      </form>
+                        <%notification.forEach((notifi, index)=> {%>
+                          <p class="dropdown_item-news">
+                            <%= notifi.notification %>
+                          </p>
+                          <%})%>
+                  </ul>
+                </li>
+                <!-- NOTIFIKACNI LISTA END -->
+              </ul>
+            </nav>
+            <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    
+            <!-- NOTIFIKACNI LISTA START (mobilni) -->
+            <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+            <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+            <nav class="nav_notify">
+                <li><a id="notif" href="#">Notifikace</a>
+                    <ul class="dropdown-news" id="dropdown-news">
+                      <form action="/notification/deleteAll" method="post">
+                          <button type="submit" class="clear-btn_index">Vyčistit</button>
+                        </form>
+                          <%notification.forEach((notifi, index)=> {%>
+                            <p class="dropdown_item-news">
+                              <%= notifi.notification %>
+                            </p>
+                            <%})%>
+                    </ul>
+                  </li>
+            </nav>
+            <!-- NOTIFIKACNI LISTA END (mobilni) -->
+          </header>
+          <% } %>
 
     <div class="content">
         <div class="content_container">
@@ -65,5 +137,5 @@
     <script src="script/teams.js"></script>
 
 </body>
-
+<script src="/script/app.js"></script>
 </html>

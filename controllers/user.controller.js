@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const { getUserById, getUserByEmail } = require('../utils/getUser');
 const { sendVerifiMail } = require("../nodemail");
 const { getFaculty, getFacultybyId } = require("../utils/getFacultySubject");
+const { getUserNotifi } = require("./notification.controller");
 
 /*********************************************************************
  *  Get user's information and send it
@@ -42,6 +43,7 @@ module.exports.getUser = async (req, res) => {
   /**
    * If so, send it
    */
+
   res.render('user_profile', { user, faculty, userLogged, notification });
 };
 
@@ -205,7 +207,14 @@ module.exports.deleteUser = async (req, res) => {
 };
 
 module.exports.resetPass = async (req, res) => {
-  res.render('reset_pass')
+  let userLogged = false
+  let notification = null;
+  if (req.user) {
+      userLogged = true
+      notification = await getUserNotifi(req.user.id)
+  }
+
+  res.render('reset_pass', { userLogged, notification })
 }
 
 /*********************************************************************

@@ -38,6 +38,7 @@ const methodOverride = require('method-override')
 const passport = require('passport')
 const initializePassport = require('./passport-config')
 const { getUserById } = require('./utils/getUser')
+const { getUserNotifi } = require('./controllers/notification.controller')
 initializePassport(passport)
 
 
@@ -73,16 +74,37 @@ app.use(passport.session())
 /****************************************
  *           Pages and routes           *
  ***************************************/
-app.get("/", (req, res) => {
-    res.render('index')
+app.get("/", async (req, res) => {
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('index', {userLogged, notification})
 })
 
-app.get('/login', checkNotAuthenticated, (req, res) => {
-    res.render('registration')
+app.get('/login', checkNotAuthenticated, async (req, res) => {
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('registration', {userLogged, notification})
 })
 
-app.get('/register', checkNotAuthenticated, (req, res) => {
-    res.render('registration')
+app.get('/register', checkNotAuthenticated, async (req, res) => {
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('registration', {userLogged, notification})
 })
 
 app.get('/my_profile', checkAuthenticated, async (req, res) => {

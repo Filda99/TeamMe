@@ -25,11 +25,14 @@ module.exports.getAll = async (req, res) => {
         }
     })
 
+    let userLogged = false
     let notification = null;
-    if(req.user){
+    if (req.user) {
+        userLogged = true
         notification = await getUserNotifi(req.user.id)
     }
-    res.render('subjects', {subjects, faculty, notification})
+    
+    res.render('subjects', {subjects, faculty, userLogged, notification})
 }
 
 

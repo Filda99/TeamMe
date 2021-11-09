@@ -3,7 +3,7 @@ const { getTeamByName, getAllTeamsToShow } = require('../utils/getTeam')
 const { checkTeam, checkMembers, checkAdmin, userPartOfTeam } = require('../utils/teamAvailability');
 const { checkFaculty, checkSubject } = require('../utils/checkExistingElems')
 const { getUserByEmail } = require("../utils/getUser");
-const { userSendNotifi } = require("./notification.controller");
+const { userSendNotifi, getUserNotifi } = require("./notification.controller");
 
 /*********************************************************************
  *  Show teams based on user properties, if user logged in.
@@ -112,7 +112,15 @@ module.exports.showTeams = async (req, res) => {
             shareTeamInfo.push(pPerc)
         }
         const logged = true
-        res.render('teams', { teams, shareTeamInfo, logged, subject })
+
+        let userLogged = false
+        let notification = null;
+        if (req.user) {
+            userLogged = true
+            notification = await getUserNotifi(req.user.id)
+        }
+
+        res.render('teams', { teams, shareTeamInfo, logged, subject, userLogged, notification })
     }
     /** USER NOT LOGGED IN */
     else {
@@ -124,7 +132,15 @@ module.exports.showTeams = async (req, res) => {
             shareTeamInfo.push(numOfJoinedUsers.length)
         };
         const logged = false
-        res.render('teams', { teams, shareTeamInfo, logged, subject })
+
+        let userLogged = false
+        let notification = null;
+        if (req.user) {
+            userLogged = true
+            notification = await getUserNotifi(req.user.id)
+        }
+
+        res.render('teams', { teams, shareTeamInfo, logged, subject, userLogged, notification })
     }
 }
 
@@ -200,7 +216,8 @@ module.exports.getTeam = async (req, res) => {
             isAdmin = admin ? true : false
 
             /** Part of team */
-            userIsPartOfTeam = userPartOfTeam(team, req.user.id)
+            userIsPartOfTeam = await userPartOfTeam(team, req.user.id)
+            console.log('>>>>HERE', userIsPartOfTeam);
         }
     } catch (e) {
         return res.status(401).send(e)
@@ -214,8 +231,17 @@ module.exports.getTeam = async (req, res) => {
 
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
-    res.render('team', { team, teamMembers, teamAdmin, logged, 
-        isAdmin, faculty, subject, userIsPartOfTeam })
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('team', {
+        team, teamMembers, teamAdmin, logged,
+        isAdmin, faculty, subject, userIsPartOfTeam, userLogged, notification
+    })
     // return res.status(200).send([team, { 'logged': logged, 'admin': admin }]);
 };
 
@@ -223,18 +249,34 @@ module.exports.getTeam = async (req, res) => {
  *  Show create new team form
  * 
  */
- module.exports.createTeamForm = (req, res) => {
+module.exports.createTeamForm = async (req, res) => {
     const { subject, faculty } = req.params
-    res.render('create_team', { subject, faculty })
+
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('create_team', { subject, faculty, userLogged, notification })
 }
 
 /*********************************************************************
  *  Show update team form
  * 
  */
-module.exports.updateTeamForm = (req, res) => {
+module.exports.updateTeamForm = async (req, res) => {
     const { subject, faculty } = req.params
-    res.render('team_info_edit', { subject, faculty })
+
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('team_info_edit', { subject, faculty, userLogged, notification })
 }
 
 /*********************************************************************
@@ -397,7 +439,7 @@ module.exports.connect = async (req, res) => {
         // Get user login
         const getMemberName = await User.findByPk(userId)
         const message = `User ${getMemberName.login} has joined your team ${existingTeam.name}`
-        userSendNotifi(team.TeamAdmin, message)
+        await userSendNotifi(existingTeam.TeamAdmin, message)
 
         res.status(201).send(`Connected to team ${existingTeam.name}`)
     } catch (e) {
@@ -643,6 +685,13 @@ module.exports.kickMember = async (req, res) => {
             }
         })
         res.status(200).send(`You kicked user ${memberEmail} from team ${teamName}`)
+
+        /** Send notification to admin */
+        // Get user login
+        const getMemberName = await User.findByPk(userId)
+        const message = `User ${getMemberName.login} kicked you from team ${teamName}`
+        await userSendNotifi(member.id, message)
+
     } catch (err) {
         return res.status(500).send({
             message: `Error: ${err.message}`,

@@ -8,38 +8,79 @@
     content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-   
-    <header>
-        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-          <ul>
-            <li><a href="/">Domů</a></li>
-            <li><a href="/faculty">Najít tým</a></li>
-            <li><a href="my_profile">Účet</a>
-              <ul class="dropdown" id="dropdown">
-                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-              </ul>
-            </li>
-            <li><a href="registration.html">new</a>
-                <ul class="dropdown-news" id="dropdown-news">
-                    <%notification.forEach((notifi, index) => {%>
-                        <p class="dropdown_item-news">
-                        <%= notifi.notification %>
-                        </p>
-                    <%})%>
-                    <p class="dropdown_item-news">xplagiat96 odešel z týmu Dlouhý název týmu</p>
-                    <p class="dropdown_item-news">xplagiat96 odešel z týmu Project Not Found</p>
-                    <p class="dropdown_item-news">xplagiat96 se přidal do týmu Název</p>
-                    <button type="submit" class="clear-btn_index">Vyčistit</button>
+    <% if(!userLogged) { %>
+        <header>
+          <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+          <input type="checkbox" id="nav-toggle" class="nav-toggle">
+          <nav>
+            <ul>
+              <li><a href="/">Domů</a></li>
+              <li><a href="/faculty">Najít tým</a></li>
+              <li><a href="/register">Účet</a>
+                <ul class="dropdown" id="dropdown">
+                  <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
+                  <li><a class="dropdown_item" href="/register">Registrace</a></li>
                 </ul>
-            </li>
-          </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-      </header>
+              </li>
+    
+            </ul>
+          </nav>
+          <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    
+        </header>
+        <% } if(userLogged) { %>
+          <header>
+            <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav>
+              <ul>
+                <li><a href="/">Domů</a></li>
+                <li><a href="/faculty">Najít tým</a></li>
+                <li><a href="/my_profile">Účet</a>
+                  <ul class="dropdown" id="dropdown">
+                    <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                    <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                    <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+                  </ul>
+                </li>
+                <!-- NOTIFIKACNI LISTA START -->
+                <li><a id="notif" href="#">Notifikace</a>
+                  <ul class="dropdown-news" id="dropdown-news">
+                    <form action="/notification/deleteAll" method="post">
+                        <button type="submit" class="clear-btn_index">Vyčistit</button>
+                      </form>
+                        <%notification.forEach((notifi, index)=> {%>
+                          <p class="dropdown_item-news">
+                            <%= notifi.notification %>
+                          </p>
+                          <%})%>
+                  </ul>
+                </li>
+                <!-- NOTIFIKACNI LISTA END -->
+              </ul>
+            </nav>
+            <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    
+            <!-- NOTIFIKACNI LISTA START (mobilni) -->
+            <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+            <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+            <nav class="nav_notify">
+                <li><a id="notif" href="#">Notifikace</a>
+                    <ul class="dropdown-news" id="dropdown-news">
+                      <form action="/notification/deleteAll" method="post">
+                          <button type="submit" class="clear-btn_index">Vyčistit</button>
+                        </form>
+                          <%notification.forEach((notifi, index)=> {%>
+                            <p class="dropdown_item-news">
+                              <%= notifi.notification %>
+                            </p>
+                            <%})%>
+                    </ul>
+                  </li>
+            </nav>
+            <!-- NOTIFIKACNI LISTA END (mobilni) -->
+          </header>
+          <% } %>
 
     <div class="content" id="content">
         <div class="content_container">
@@ -83,4 +124,5 @@
     </div>
     <script src="script/subjects.js"></script> 
 </body>
+<script src="/script/app.js"></script>
 </html>

@@ -1,4 +1,5 @@
-const { Faculty } = require("../database/sequelize")
+const { Faculty } = require("../database/sequelize");
+const { getUserNotifi } = require("./notification.controller");
 
 
 /*********************************************************************
@@ -8,7 +9,14 @@ const { Faculty } = require("../database/sequelize")
 module.exports.getAll = async (req, res) => {
     const faculties = await Faculty.findAll()
 
-    res.render('faculties')
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    res.render('faculties', { userLogged, notification })
 }
 
 

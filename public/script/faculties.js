@@ -2,6 +2,13 @@ window.onresize = FacultiesRes;
 window.onload = FacultiesRes;
 
 function FacultiesRes(){
+    if(window.innerWidth < 800){
+        document.getElementById("dropdown-news").style.display = "none";
+        document.getElementById("notif").style.display = "none";
+    }
+    else{
+        document.getElementById("notif").style.display = "flex";
+    }
     const faculties = document.querySelector("#faculty_list");
     var all_faculties = [];
     var number_of_faculties = faculties.getElementsByTagName("li").length;

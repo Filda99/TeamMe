@@ -11,7 +11,8 @@ async function userPartOfTeam (team, userId){
             id: userId
         }
     })
-    return user ? true : false;
+    console.log('USER: ', user);
+    return user.length ? true : false;
 }
 
 /**
