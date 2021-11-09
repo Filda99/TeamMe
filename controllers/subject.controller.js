@@ -25,8 +25,10 @@ module.exports.getAll = async (req, res) => {
         }
     })
 
-    const notification = await getUserNotifi(req.user.id)
-    console.log('>>>>>NOTIFI', notification);
+    let notification = null;
+    if(req.user){
+        notification = await getUserNotifi(req.user.id)
+    }
     res.render('subjects', {subjects, faculty, notification})
 }
 

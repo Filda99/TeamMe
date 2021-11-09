@@ -3,10 +3,20 @@ const { Op } = require("sequelize");
 const { team } = require("../routes");
 
 /**
+ * Check user is part of the team
+ */
+async function userPartOfTeam (team, userId){
+    const user = await team.getUsers({
+        where: {
+            id: userId
+        }
+    })
+    return user ? true : false;
+}
+
+/**
  * Check if person is in another team in current subject
  * 
- * @param {Subject} subject 
- * @param {User} userId 
  * @returns If person is in some other team in subject - team.
  *          Otherwise returns null.
  */
@@ -38,10 +48,10 @@ async function checkMembers(team, userId) {
 /** 
  * Check if user is a admin of a team
  */
-async function checkAdmin(user, teamId) {
+async function checkAdmin(teamId, user) {
     const isAdmin = await Team.findOne({
         where: {
-            teadAdmin: user,
+            TeamAdmin: user,
             id: teamId
         }
     })
@@ -51,5 +61,6 @@ async function checkAdmin(user, teamId) {
 module.exports = {
     checkTeam,
     checkMembers,
-    checkAdmin
+    checkAdmin,
+    userPartOfTeam
 }

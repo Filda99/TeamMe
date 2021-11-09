@@ -34,7 +34,6 @@ module.exports.userSendNotifi = async (userId, message) => {
  *  When logged, show new notifications.
  */
 module.exports.getUserNotifi = async (userId) => {
-    console.log('>>>>>>>>>>>HEEEERE');
     try{
         const notifications = await Notification.findAll({
             where: {

@@ -26,9 +26,6 @@ const session = require('express-session')
 const flash = require('express-flash')
 const app = express()
 
-/* System */
-const path = require('path')
-
 /* Database */
 const { sequelize } = require("./database/sequelize")
 const routes = require('./routes')

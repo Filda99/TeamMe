@@ -11,6 +11,7 @@
 
 <body>
   
+  <script src="/script/nav.js"></script>
 
   <div class="content">
     <div class="content_container">
@@ -96,15 +97,28 @@
         </table>
 
         <div class="my_profile-button">
-          <form action="../conn/<%= team.name %>" method="post">
-            <button type="submit" class="my_profile-btn">Přidat se</button>
-          </form>
+          <% if(!isAdmin && logged) { %>
+            <% if(!userIsPartOfTeam) { %>
+              <form action="../conn/<%= team.name %>" method="post">
+                <button type="submit" class="my_profile-btn">Přidat se</button>
+              </form>
+            <% } if(userIsPartOfTeam) {%>
+              <form action="../disconn/<%= team.name %>" method="post">
+                <button type="submit" class="my_profile-btn-red">Opustit tým</button>
+              </form>
+            <% }
+          } %>
+          <% if(isAdmin) { %>
+            <form action="../update" method="get">
+              <button type="submit" class="my_profile-btn-red">Spravovat tým</button>
+            </form>
 
-          <button type="button" class="my_profile-btn">Spravovat tým</button>
-
-          <form action="../disconn/<%= team.name %>" method="post">
-            <button type="submit" class="my_profile-btn-red">Opustit tým</button>
-          </form>
+            <form action="../delete/<%= team.name %>" method="post">
+              <button type="submit" class="my_profile-btn-red">Smazat tým</button>
+            </form>
+            
+          <% } %>
+          
         </div>
       </div>
     </div>

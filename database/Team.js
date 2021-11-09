@@ -38,6 +38,11 @@ module.exports = {
   hashtags: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  visible: {
+    type: DataTypes.INTEGER, // 1 - visible, 2 - unvisible (in list of teams)
+    defaultValue: 1,
+    allowNull: false,
   }
 }, {
   // Other model options go here

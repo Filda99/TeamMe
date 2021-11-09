@@ -14,34 +14,47 @@
  * 
  */
 
+const { Op } = require("sequelize")
 const { Team } = require("../database/sequelize")
 
+async function getAllTeamsToShow(subject) {
+    return await Team.findAll({
+        where: {
+            SubjectId: subject,
+            visible: {
+                [Op.ne]: 2
+            },
+        }
+    })
+}
+
 async function getTeamByName(name, subject) {
-    try{
+    try {
         return await Team.findOne({
             where: {
                 name: name,
                 SubjectId: subject
             }
         })
-    }catch(e){
+    } catch (e) {
         return e
     }
 }
 
 async function getTeamById(id) {
-    try{
+    try {
         return await Team.findOne({
             where: {
                 id: id,
             }
         })
-    }catch(e){
+    } catch (e) {
         return e
     }
 }
 
 module.exports = {
     getTeamByName,
-    getTeamById
+    getTeamById,
+    getAllTeamsToShow
 }
