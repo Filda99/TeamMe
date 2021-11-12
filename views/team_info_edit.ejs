@@ -87,29 +87,29 @@
         <div class="form-box">
             <h2 class="nadpis">Aktualizace týmu</h2>
             <form class="input-group">
-                    <input type="text" class="input-field" name="name" autocomplete="off" placeholder="Název týmu" required>
-                    <input type="number" class="input-field" name="maxNumOfMem" autocomplete="off" placeholder="Cílový počet členů" required>
-                    <input type="text" class="input-field" name="briefDescription " placeholder="Stručný popis" required>
+                    <input type="text" class="input-field" name="name" autocomplete="off" placeholder="Název týmu" >
+                    <input type="number" class="input-field" name="maxNumOfMem" autocomplete="off" placeholder="Cílový počet členů" >
+                    <input type="text" class="input-field" name="briefDescription " placeholder="Stručný popis" >
                     <input type="textarea" class="input-field" name="hashtags" placeholder="Klíčová slova">
                     <div class="select">
-                        <select name="workingHours" id="selOptions" required>
+                        <select name="workingHours" id="selOptions" >
                             <option value="" disabled selected hidden>Preferovaná doba práce</option>
                             <option value="0">brzy ráno</option>
                             <option value="1">dlouho do noci</option>
                             <option value="2">během dne</option>
                         </select>
-                        <select name="workingDays " id="selOptions" required>
+                        <select name="workingDays " id="selOptions" >
                             <option value="" disabled selected hidden>Preferované dny práce</option>
                             <option value="0">začátek týdne</option>
                             <option value="1">konec týdne</option>
                             <option value="2">víkend</option>
                         </select>
-                        <select name="approach" id="selOptions" required>
+                        <select name="approach" id="selOptions" >
                             <option value="" disabled selected hidden>Přístup k práci</option>
                             <option value="0">týmový</option>
                             <option value="1">individuální</option>
                         </select>
-                        <select name="partOfSemestr" id="selOptions" required>
+                        <select name="partOfSemestr" id="selOptions" >
                             <option value="" disabled selected hidden>Preferovaná část semestru</option>
                             <option value="0">1. - 3. týden</option>
                             <option value="1">4. - 6. týden</option>
@@ -119,14 +119,12 @@
                     </div>
                     <div class="my_profile-button">
                         <button type="submit" class="my_profile-btn">Uložit změny</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xlogin58</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xplagiat01</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xhonza02</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xlubos54</button>
-                        <!-- <button type="submit" class="my_profile-btn-red">Odebrat xlubos54</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xlubos54</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xlubos54</button>
-                        <button type="submit" class="my_profile-btn-red">Odebrat xlubos54</button> -->
+                        <button type="submit" class="my_profile-btn-red">Odebrat <%=teamMembersLogin.login%>
+                        </button>
+                        <% teamMembersLogin.forEach((member, index)=> { %>
+                          <button type="submit" class="my_profile-btn-red">Odebrat <%=member.login%>
+                          </button>
+                          <% }) %>
                     </div>
             </form>
       </div>

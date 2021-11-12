@@ -4,6 +4,7 @@ const { checkTeam, checkMembers, checkAdmin, userPartOfTeam } = require('../util
 const { checkFaculty, checkSubject } = require('../utils/checkExistingElems')
 const { getUserByEmail } = require("../utils/getUser");
 const { userSendNotifi, getUserNotifi } = require("./notification.controller");
+const { Op } = require("sequelize");
 
 /*********************************************************************
  *  Show teams based on user properties, if user logged in.
@@ -267,7 +268,7 @@ module.exports.createTeamForm = async (req, res) => {
  * 
  */
 module.exports.updateTeamForm = async (req, res) => {
-    const { subject, faculty } = req.params
+    const { subject, faculty, name } = req.params
 
     let userLogged = false
     let notification = null;
@@ -276,7 +277,27 @@ module.exports.updateTeamForm = async (req, res) => {
         notification = await getUserNotifi(req.user.id)
     }
 
-    res.render('team_info_edit', { subject, faculty, userLogged, notification })
+    const team = await getTeamByName(name, subject)
+    console.log(team);
+    const teamMembers = await Team_Member.findAll({
+        where: {
+            teamId: team.id,
+            userId:{
+                [Op.not]: req.user.id
+            }
+        }
+    })
+    console.log(teamMembers);
+    const teamMembersLogin = []
+    teamMembers.forEach(async (member) => {
+        console.log(member);
+        const user = await User.findByPk(member.userId);
+        console.log(user);
+        teamMembersLogin.push(user);
+    })
+    console.log(teamMembersLogin);
+
+    res.render('team_info_edit', { subject, faculty, userLogged, notification, teamMembersLogin })
 }
 
 /*********************************************************************
@@ -361,7 +382,7 @@ module.exports.createTeam = async (req, res) => {
         /** Check there is a place in team */
         const numOfJoinedUsers = await Team_Member.findAndCountAll({
             where: {
-                teamId: existingTeam.id
+                teamId: newTeam.id
             }
         })
         if ((numOfJoinedUsers.count + 1) >= newTeam.maxNumberOfMembers) {

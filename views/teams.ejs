@@ -2,10 +2,10 @@
 <html lang="cs">
 
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/style/style-nav.css">
-    <link rel="stylesheet" href="/style/teams.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/style/style-nav.css">
+  <link rel="stylesheet" href="/style/teams.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -48,13 +48,13 @@
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
                 <form action="/notification/deleteAll" method="post">
-                    <button type="submit" class="clear-btn_index">Vyčistit</button>
-                  </form>
-                    <%notification.forEach((notifi, index)=> {%>
-                      <p class="dropdown_item-news">
-                        <%= notifi.notification %>
-                      </p>
-                      <%})%>
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
               </ul>
             </li>
             <!-- NOTIFIKACNI LISTA END -->
@@ -66,75 +66,86 @@
         <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
         <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
         <nav class="nav_notify">
-                <ul class="dropdown-news" id="dropdown-news">
-                  <a id="notif" href="#"></a>
-                  <form action="/notification/deleteAll" method="post">
-                      <button type="submit" class="clear-btn_index">Vyčistit</button>
-                    </form>
-                      <%notification.forEach((notifi, index)=> {%>
-                        <p class="dropdown_item-news">
-                          <%= notifi.notification %>
-                        </p>
-                        <%})%>
-                </ul>
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form action="/notification/deleteAll" method="post">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
         </nav>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
       <% } %>
 
-    <div class="content">
-        <div class="content_container">
+        <div class="content">
+          <div class="content_container">
             <ul class="title_container">
-                <li class="add_team_container">
-                    <a href="<%=subject%>/create" class="add_team"></a>
-                    <span class="bar ver_bar"></span>
-                    <span class="bar hor_bar"></span>
-                </li>
-                <li class="title">Vyberte tým</li>
-                <li class="find_container" id="find_container">
-                    <form action="javascript:;" onsubmit="Search(this)">
-                        <input type="text" class="find_bar" id="search_phrase">
-                        <input type="submit" class="find_square" value="">
-                        <span class="round_bar"></span>
-                        <span class="line_bar"></span>
-                    </form>
-                </li>
+              <li class="add_team_container">
+                <a href="<%=subject%>/create" class="add_team"></a>
+                <span class="bar ver_bar"></span>
+                <span class="bar hor_bar"></span>
+              </li>
+              <li class="title">Vyberte tým</li>
+              <li class="find_container" id="find_container">
+                <form action="javascript:;" onsubmit="Search(this)">
+                  <input type="text" class="find_bar" id="search_phrase">
+                  <input type="submit" class="find_square" value="">
+                  <span class="round_bar"></span>
+                  <span class="line_bar"></span>
+                </form>
+              </li>
             </ul>
             <div id="find_con_phone"></div>
             <div class="team_border" id="team_border">
-                <div class="team_list" id="team_list">
+              <div class="team_list" id="team_list">
 
+                <% if(!teams.length) { %>
+                  <h1>Zatím nejsou založeny žádné týmy</h1>
+                <%}%>
                     <% teams.forEach((team, index)=> { %>
-                        <a class="team_middle" href="<%=subject%>/info/<%=team.name%>">
-                            <ul class="team_divider">
-                                <div class="team_row">
-                                    <li class="team_name"><%=team.name%></li>
-                                    <li class="members">
-                                        <span class="member_container">
-                                            <span class="head"></span>
-                                            <span class="body"></span>
-                                        </span>
-                                        <div class="amount"><%= shareTeamInfo.shift() %> / <%= team.maxNumberOfMembers %></div>
-                                    </li>
-                                    <% if(logged) { %>
-                                        <li class="team_compatibility"><%= shareTeamInfo.shift() %> %</li>
-                                    <% } %>
-                                </div>
-                                <div class="team_row">
-                                    <div class="team_keywords">#: <%= team.hashtags %></div>
-                                </div>
-                            </ul>
-                        </a>
-                        <hr class="row">
-                    <% }) %>
+                      <a class="team_middle" href="<%=subject%>/info/<%=team.name%>">
+                        <ul class="team_divider">
+                          <div class="team_row">
+                            <li class="team_name">
+                              <%=team.name%>
+                            </li>
+                            <li class="members">
+                              <span class="member_container">
+                                <span class="head"></span>
+                                <span class="body"></span>
+                              </span>
+                              <div class="amount">
+                                <%= shareTeamInfo.shift() %> / <%= team.maxNumberOfMembers %>
+                              </div>
+                            </li>
+                            <% if(logged) { %>
+                              <li class="team_compatibility">
+                                <%= shareTeamInfo.shift() %> %
+                              </li>
+                              <% } %>
+                          </div>
+                          <div class="team_row">
+                            <div class="team_keywords">#: <%= team.hashtags %>
+                            </div>
+                          </div>
+                        </ul>
+                      </a>
+                      <hr class="row">
+                      <% }) %>
 
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
 
-    <script src="script/teams.js"></script>
+        <script src="script/teams.js"></script>
 
 </body>
 <script src="/script/app.js"></script>
+
 </html>
