@@ -322,14 +322,14 @@ module.exports.createTeam = async (req, res) => {
     /** Check team name is not used already */
     const teamExists = await getTeamByName(name, subject)
     if (teamExists) {
-        return res.status(400).send({
-            message: 'Team with this name already exists',
-        });
+        res.status(400).send('Team with this name already exists');
+        return
     }
     /** Check user is not in other team in current subject */
     const team = await checkTeam(subject, userId)
     if (team.length) {
-        return res.status(403).send('You are already in some other team')
+        res.status(403).send('You are already in some other team')
+        return
     }
 
 

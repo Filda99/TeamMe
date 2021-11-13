@@ -49,13 +49,13 @@
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
                 <form action="/notification/deleteAll" method="post">
-                    <button type="submit" class="clear-btn_index">Vyčistit</button>
-                  </form>
-                    <%notification.forEach((notifi, index)=> {%>
-                      <p class="dropdown_item-news">
-                        <%= notifi.notification %>
-                      </p>
-                      <%})%>
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
               </ul>
             </li>
             <!-- NOTIFIKACNI LISTA END -->
@@ -67,133 +67,136 @@
         <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
         <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
         <nav class="nav_notify">
-                <ul class="dropdown-news" id="dropdown-news">
-                  <a id="notif" href="#"></a>
-                  <form action="/notification/deleteAll" method="post">
-                      <button type="submit" class="clear-btn_index">Vyčistit</button>
-                    </form>
-                      <%notification.forEach((notifi, index)=> {%>
-                        <p class="dropdown_item-news">
-                          <%= notifi.notification %>
-                        </p>
-                        <%})%>
-                </ul>
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form action="/notification/deleteAll" method="post">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
         </nav>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
       <% } %>
 
-  <div class="content">
-    <div class="content_container">
-      <div class="form-box">
-        <h2 class="team-title">Informace o týmu</h2>
-        <table class="content-table">
-          <tbody>
-            <tr>
-              <td><b>Název týmu</b></td>
-              <td>
-                <%= team.name %>
-              </td>
-            </tr>
-            <tr class="active-row">
-              <td><b>Cílový počet členů</b></td>
-              <td>
-                <%= team.maxNumberOfMembers %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Uživatelská jména členů</b></td>
-              <td>
-                <% teamMembers.forEach((member, index)=> { %>
-                  <li class="loginLi">
-                    <%= member.login %>
-                  </li>
-                  <% }) %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Vedoucí týmu</b></td>
-              <td>
-                <%=teamAdmin.login%>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Stručný popis</b></td>
-              <td>
-                <%= team.briefDescription %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Klíčová slova</b></td>
-              <td>
-                <%= team.hashtags %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Preferovaná doba práce</b></td>
-              <td>
-                <% let hours=''; switch(team.workingHours) { case 1: hours='brzy ráno' ; break; case 2:
-                  hours='dlouho do noci' ; break; case 3: hours='během dne' ; break; default: hours='Nedefinováno' ;
-                  break; } %>
-                  <%= hours %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Preferované dny práce</b></td>
-              <td>
-                <% let days=''; switch(team.workingDays) { case 1: days='začátek týdne' ; break; case 2:
-                  days='konec týdne' ; break; case 3: days='víkend' ; break; default: days='Nedefinováno' ; break; } %>
-                  <%= days %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Přístup k práci</b></td>
-              <td>
-                <% let approach=''; switch(team.approach) { case 1: approach='týmový' ; break; case 2:
-                  approach='individuální' ; break; default: approach='Nedefinováno' ; break; } %>
-                  <%= approach %>
-              </td>
-            </tr>
-            <tr>
-              <td><b>Preferovaná část semestru</b></td>
-              <td>
-                <% let semester=''; switch(team.partOfSemester) { case 1: semester='1. - 3. týden' ; break; case 2:
-                  semester='4. - 6. týden' ; break; case 3: semester='7. - 9. týden' ; break; case 3:
-                  semester='10. - 13. týden' ; break; default: semester='Nedefinováno' ; break; } %>
-                  <%= semester %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="content">
+          <div class="content_container">
+            <div class="form-box">
+              <h2 class="team-title">Informace o týmu</h2>
+              <table class="content-table">
+                <tbody>
+                  <tr>
+                    <td><b>Název týmu</b></td>
+                    <td>
+                      <%= team.name %>
+                    </td>
+                  </tr>
+                  <tr class="active-row">
+                    <td><b>Cílový počet členů</b></td>
+                    <td>
+                      <%= team.maxNumberOfMembers %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Uživatelská jména členů</b></td>
+                    <td>
+                      <% teamMembers.forEach((member, index)=> { %>
+                        <li class="loginLi">
+                          <a href="/user/<%=member.email%>">
+                            <%= member.login %>
+                          </a>
+                        </li>
+                        <% }) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Vedoucí týmu</b></td>
+                    <td>
+                      <%=teamAdmin.login%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Stručný popis</b></td>
+                    <td>
+                      <%= team.briefDescription %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Klíčová slova</b></td>
+                    <td>
+                      <%= team.hashtags %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Preferovaná doba práce</b></td>
+                    <td>
+                      <% let hours='' ; switch(team.workingHours) { case 1: hours='brzy ráno' ; break; case 2:
+                        hours='dlouho do noci' ; break; case 3: hours='během dne' ; break; default: hours='Nedefinováno'
+                        ; break; } %>
+                        <%= hours %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Preferované dny práce</b></td>
+                    <td>
+                      <% let days='' ; switch(team.workingDays) { case 1: days='začátek týdne' ; break; case 2:
+                        days='konec týdne' ; break; case 3: days='víkend' ; break; default: days='Nedefinováno' ; break;
+                        } %>
+                        <%= days %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Přístup k práci</b></td>
+                    <td>
+                      <% let approach='' ; switch(team.approach) { case 1: approach='týmový' ; break; case 2:
+                        approach='individuální' ; break; default: approach='Nedefinováno' ; break; } %>
+                        <%= approach %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>Preferovaná část semestru</b></td>
+                    <td>
+                      <% let semester='' ; switch(team.partOfSemester) { case 1: semester='1. - 3. týden' ; break; case
+                        2: semester='4. - 6. týden' ; break; case 3: semester='7. - 9. týden' ; break; case 3:
+                        semester='10. - 13. týden' ; break; default: semester='Nedefinováno' ; break; } %>
+                        <%= semester %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
-        <div class="my_profile-button">
-          <% if(!isAdmin && logged) { %>
-            <% if(!userIsPartOfTeam) { %>
-              <form action="../conn/<%= team.name %>" method="post">
-                <button type="submit" class="my_profile-btn">Přidat se</button>
-              </form>
-            <% } if(userIsPartOfTeam) {%>
-              <form action="../disconn/<%= team.name %>" method="post">
-                <button type="submit" class="my_profile-btn-red">Opustit tým</button>
-              </form>
-            <% }
-          } %>
-          <% if(isAdmin) { %>
-            <form action="../form/update/<%=team.name%>" method="get">
-              <button type="submit" class="my_profile-btn">Spravovat tým</button>
-            </form>
+              <div class="my_profile-button">
+                <% if(!isAdmin && logged) { %>
+                  <% if(!userIsPartOfTeam) { %>
+                    <form action="../conn/<%= team.name %>" method="post">
+                      <button type="submit" class="my_profile-btn">Přidat se</button>
+                    </form>
+                    <% } if(userIsPartOfTeam) {%>
+                      <form action="../disconn/<%= team.name %>" method="post">
+                        <button type="submit" class="my_profile-btn-red">Opustit tým</button>
+                      </form>
+                      <% } } %>
+                        <% if(isAdmin) { %>
+                          <form action="../form/update/<%=team.name%>" method="get">
+                            <button type="submit" class="my_profile-btn">Spravovat tým</button>
+                          </form>
 
-            <form action="../delete/<%= team.name %>" method="post">
-              <button type="submit" class="my_profile-btn-red">Smazat tým</button>
-            </form>
-            
-          <% } %>
-          
+                          <form action="../delete/<%= team.name %>" method="post">
+                            <button type="submit" class="my_profile-btn-red">Smazat tým</button>
+                          </form>
+
+                          <% } %>
+
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
 </body>
 <script src="/script/app.js"></script>
+
 </html>

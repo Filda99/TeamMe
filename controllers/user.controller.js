@@ -37,15 +37,20 @@ module.exports.getUser = async (req, res) => {
 
   let userLogged = false
   let notification = null;
+  let myProfile = false
   if (req.user) {
     userLogged = true
     notification = await getUserNotifi(req.user.id)
+    if(req.user.id == user.id){
+      myProfile = true
+    }
   }
   /**
    * If so, send it
    */
 
-  res.render('user_profile', { user, faculty, userLogged, notification });
+
+  res.render('user_profile', { user, faculty, userLogged, notification, myProfile });
 };
 
 /*********************************************************************

@@ -15,6 +15,7 @@
  * 
  */
 
+const { getUserNotifi } = require("../controllers/notification.controller");
 const { Subject, Faculty } = require("../database/sequelize");
 
 async function starterCheck(req, res, faculty, subject) {

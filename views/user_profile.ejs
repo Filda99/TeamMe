@@ -150,20 +150,23 @@
 
                   </tbody>
                 </table>
-                <div class="my_profile-button">
-                  <form method="get" action="/user/form/update">
-                    <button type="submit" class="my_profile-btn">Upravit profil</button>
-                  </form>
+                <% if(myProfile) { %>
+                  <div class="my_profile-button">
+                    <form method="get" action="/user/form/update">
+                      <button type="submit" class="my_profile-btn">Upravit profil</button>
+                    </form>
 
-                  <form action="/user/form/resetPass" method="get">
-                    <button type="submit" class="my_profile-btn">Změnit heslo</button>
-                  </form>
+                    <form action="/user/form/resetPass" method="get">
+                      <button type="submit" class="my_profile-btn">Změnit heslo</button>
+                    </form>
 
-                  <form method="post" action="/user/delete">
-                    <input type="email" class="input-field" name="email" value='<%=user.email%>' hidden>
-                    <button type="submit" class="my_profile-btn">Smazat účet</button>
-                  </form>
-                </div>
+                    <form method="post" action="/user/delete">
+                      <input type="email" class="input-field" name="email" value='<%=user.email%>' hidden>
+                      <button type="submit" class="my_profile-btn">Smazat účet</button>
+                    </form>
+                  </div>
+                  <% } %>
+
               </div>
             </div>
           </div>
