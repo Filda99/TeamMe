@@ -1,4 +1,6 @@
 /*TELO STRANKY*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');   
+
 .content{
     position: absolute;
     display: flex;
@@ -39,7 +41,7 @@
 body{
     margin: 0;
     background: #c7c7c7;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
 

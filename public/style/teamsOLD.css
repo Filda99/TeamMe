@@ -5,7 +5,7 @@
     align-items: center;
     list-style-type: none;
     height: 60px;
-    margin-top: 30px;   
+    margin-top: 30px;  
 }
 
 .add_team_container{
@@ -45,10 +45,99 @@
     cursor: pointer;
 }
 
+/*======================FILTR====================*/
+.empty{
+    width: 40px;
+}
+
+.filter{
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background-image: url(../images/filter.png);
+    margin-top: -15px;
+    box-shadow: 1px 1px 2px #131313;
+}
+
+.filter:hover{
+    box-shadow: 1px 1px 2px #ffffff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter_window_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter_window{
+    width: 400px;
+    height: 200px;
+    border: 2px solid #131313;
+    background: #ffffff;
+    box-shadow: 1px 1px 5px #131313;
+    font-size: 3rem;
+    z-index: 10;
+}
+.barrand{
+    position: absolute;
+    pointer-events: none;
+    width: 36px;
+    height: 2px;
+    background: #131313;
+    font-size: 0;
+}
+
+.bar_1{
+    transform: translateY(18px) rotate(45deg);
+}
+
+.bar_2{
+    transform: translateY(18px) rotate(-45deg);
+}
+
+.select_title{
+    width: 100%;
+    height: 50px;
+    font-size: 2rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+}
+
+.select_container{
+    height: 120px;
+    display: grid;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.my_selects{
+    width: 250px;
+    height: 40px;
+    font-size: 1.5rem;
+    outline: none;
+    border: 2px solid #131313;
+}
+/*======================FILTR ENDE====================*/
+
 .add_team:hover ~ .hor_bar{
     animation-duration: 1s;
     animation-name: spin_hor;
     animation-timing-function: ease-in-out;
+}
+
+.noTeams{
+    display:flex;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
 }
 
 @keyframes spin_hor{
@@ -69,10 +158,10 @@
 
 .title{
     display: flex;
-    font-size: 2.4rem;
-    font-weight: 600;
+    font-size: 3.2em;
+    font-weight: 590;
+    width: 340px;
     margin: 10px 0;
-    width: 300px;
     height: 100%;
     align-items: center;
     padding: 10px 30px;
@@ -131,7 +220,7 @@
 
 .team_list{
     display: block;
-    width: 90%;
+    width: 80%;
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -262,131 +351,6 @@
     justify-content: center;
     margin-top: 15px;
     margin-bottom: 15px;
-}
-
-.empty{
-    width: 40px;
-}
-
-.filter{
-    display: flex;
-    width: 40px;
-    height: 40px;
-    background-image: url(../images/filter.png);
-    margin-top: -15px;
-    box-shadow: 1px 1px 2px #131313;
-}
-
-.filter:hover{
-    box-shadow: 1px 1px 2px #ffffff;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.filter_window_container{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.filter_window{
-    width: 400px;
-    height: 200px;
-    border: 2px solid #131313;
-    background: #ffffff;
-    box-shadow: 1px 1px 5px #131313;
-    font-size: 3rem;
-    z-index: 10;
-}
-
-.return_container{
-    position: absolute;
-    border: 2px solid #131313;
-    width: 40px;
-    height: 40px;
-    margin-left: 358px;
-    margin-top: -2px;
-}
-
-.return_container:hover{
-    background: #FF3333;
-    cursor: pointer;
-}
-
-.filter_confirm_container{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-.filter_confirm{
-    width: 150px;
-    height: 40px;
-    font-size: 1.5rem;
-    padding: 10px 30px;
-    cursor: pointer;
-    display: block;
-    background: rgb(8, 116, 240);
-    color: white;
-    border: 0;
-    opacity: 0.8;
-    outline: none;
-    border-radius: 30px;
-}
-
-.filter_confirm:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    color: white;
-    opacity: 1;
-    transition: 0.2s;
-}
-
-.barrand{
-    position: absolute;
-    pointer-events: none;
-    width: 36px;
-    height: 2px;
-    background: #131313;
-    font-size: 0;
-}
-
-.bar_1{
-    transform: translateY(18px) rotate(45deg);
-}
-
-.bar_2{
-    transform: translateY(18px) rotate(-45deg);
-}
-
-.select_title{
-    width: 100%;
-    height: 50px;
-    font-size: 2rem;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-
-}
-
-.select_container{
-    height: 140px;
-    display: grid;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-}
-
-.my_selects{
-    margin-top: 10px;
-    width: 250px;
-    height: 40px;
-    font-size: 1.5rem;
-    outline: none;
-    border: 2px solid #131313;
 }
 
 @media screen and (max-width: 1200px){

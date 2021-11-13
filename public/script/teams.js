@@ -1,6 +1,9 @@
 window.onresize = Teams_resize;
 window.onload = Teams_resize;
-var current = document.getElementById("dropdown-news").style.display;
+
+if(document.getElementById("dropdown-news")){
+    var current = document.getElementById("dropdown-news").style.display;
+}
 
 var number_of_teams = document.querySelectorAll('.team_middle').length;
 var myheight = myheight = 200 + number_of_teams*120 + 40;
@@ -64,4 +67,27 @@ function Search(){
 
     document.getElementById("team_list").innerHTML = stringos;
     number_of_teams = document.querySelectorAll('.team_middle').length;
+}
+
+var filter = false;
+var selectValue;
+
+function Return(){
+    selectValue = window.location + "?semester=" + document.getElementById("year").value;
+    console.log(selectValue);
+    filter = false;
+    document.getElementById("filter").style.display = "none";
+}
+
+function OpenFilter(){
+    if(filter){
+        // selectValue = window.location + "?semester=" + document.getElementById("year").value;
+        // console.log(selectValue);
+        filter = false
+        document.getElementById("filter").style.display = "none";
+    }
+    else{
+        filter = true;
+        document.getElementById("filter").style.display = "flex";
+    }
 }

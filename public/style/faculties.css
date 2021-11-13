@@ -7,7 +7,9 @@
 }
 
 .title{
-    font-size: 2.2rem;
+    font-size: 2.5em;
+    font-weight: 600;
+    width: 400px;
     color: #131313;
     position: relative;
     padding: 10px 30px;

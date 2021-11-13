@@ -17,14 +17,50 @@
 
 const { Subject, Faculty } = require("../database/sequelize");
 
+async function starterCheck(req, res, faculty, subject) {
+    let userLogged = false
+    let notification = null;
+    if (req.user) {
+        userLogged = true
+        notification = await getUserNotifi(req.user.id)
+    }
+
+    if (faculty) {
+        /** Check that faculty exists */
+        try {
+            if (!await checkFaculty(faculty)) {
+                const message = 'Entered faculty does not exists!'
+                return res.status(403).render('error', { message, userLogged, notification });
+            }
+        }
+        catch (e) {
+            return res.status(403).render('error', { e });
+        }
+    }
+
+    if (subject) {
+        /** Check that subject exists */
+        try {
+            if (!await checkSubject(subject, faculty)) {
+                const message = 'Entered subject does not exists!'
+                return res.status(403).render('error', { message, userLogged, notification });
+            }
+        }
+        catch (e) {
+            return res.status(403).render('error', { e });
+        }
+    }
+}
 
 async function checkFaculty(faculty) {
-    try{
+    try {
         faculty = Number(faculty)
-    }catch(e){
+        if (!faculty)
+            return 0
+    } catch (e) {
         return 0
     }
-    if(typeof faculty !== "number"){
+    if (typeof faculty !== "number") {
         return 0
     }
     /** Check subject exists */
@@ -41,12 +77,14 @@ async function checkFaculty(faculty) {
 
 
 async function checkSubject(subject, faculty) {
-    try{
+    try {
         subject = Number(subject)
-    }catch(e){
+        if (!subject)
+            return 0
+    } catch (e) {
         return 0
     }
-    if(typeof subject !== "number"){
+    if (typeof subject !== "number") {
         return 0
     }
     /** Check subject exists */
@@ -63,6 +101,7 @@ async function checkSubject(subject, faculty) {
 }
 
 module.exports = {
-    checkSubject,
-    checkFaculty
+    starterCheck,
+    checkFaculty,
+    checkSubject
 }

@@ -81,6 +81,32 @@
       </header>
       <% } %>
 
+
+    <div class="filter_window_container" id="filter">
+      <div class="filter_window">
+            <div class="return_container" id="return" onclick="Return()">
+                <span class="bar bar_1"></span>
+                <span class="bar bar_2"></span>
+            </div>
+            <div class="select_title">Filtr</div>
+            <div class="select_container">
+                <select id="year" class="my_selects">
+                    <option value="">Ročník</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <select id="subject" class="my_selects">
+                    <option value="" >Typ předmětu</option>
+                    <option value="P">P</option>
+                    <option value="PV">PV</option>
+                    <option value="V">V</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="content" id="content">
         <div class="content_container">
             <ul class="title_container">
@@ -90,7 +116,9 @@
                     <span class="left_bar"></span>
                     <span class="right_bar"></span>
                 </li>
+                <li class="empty"></li>
                 <li class="title">Vyberte předmět</li>
+                <li class="filter" onclick="OpenFilter()"></li>
                 <li class="find_container" id="find_container">
                     <form action="javascript:;" onsubmit="Search(this)">
                         <input type="text" class="find_bar" id="search_phrase" oninput="Search(this)">
@@ -121,7 +149,6 @@
             </div>
         </div>
     </div>
-    <script src="script/subjects.js"></script> 
+    <script src="/script/subjects.js"></script> 
 </body>
-<script src="/script/app.js"></script>
 </html>

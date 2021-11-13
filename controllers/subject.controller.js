@@ -1,5 +1,5 @@
 const { Subject } = require("../database/sequelize")
-const { checkFaculty } = require('../utils/checkExistingElems')
+const { starterCheck } = require('../utils/checkExistingElems')
 const { getUserNotifi } = require('../controllers/notification.controller')
 
 /*********************************************************************
@@ -11,12 +11,8 @@ module.exports.getAll = async (req, res) => {
     if (!faculty) {
         res.status(401).send('Insert faculty first')
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty)
 
 
     const subjects = await Subject.findAll({
@@ -46,12 +42,8 @@ module.exports.createNew = async (req, res) => {
     if (!faculty) {
         res.status(401).send('Insert faculty first')
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty)
 
     try {
         const newSubject = await Subject.create({

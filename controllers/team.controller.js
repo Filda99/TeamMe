@@ -1,7 +1,7 @@
 const { Team, Team_Member, User } = require("../database/sequelize")
 const { getTeamByName, getAllTeamsToShow } = require('../utils/getTeam')
 const { checkTeam, checkMembers, checkAdmin, userPartOfTeam } = require('../utils/teamAvailability');
-const { checkFaculty, checkSubject } = require('../utils/checkExistingElems')
+const { starterCheck } = require('../utils/checkExistingElems')
 const { getUserByEmail } = require("../utils/getUser");
 const { userSendNotifi, getUserNotifi } = require("./notification.controller");
 const { Op } = require("sequelize");
@@ -21,22 +21,11 @@ module.exports.showTeams = async (req, res) => {
 
     /********************************************* */
     /**********      CHECK PARAMS       ********** */
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
 
     /** Get all visible teams (not full teams) */
     const teams = await getAllTeamsToShow(subject)
-    console.log(teams);
 
     /** Infos to be send to the world */
     let shareTeamInfo = []
@@ -173,24 +162,17 @@ module.exports.getTeam = async (req, res) => {
     let { subject, faculty, name } = req.params
     /********************************************* */
     /**********      CHECK PARAMS       ********** */
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
     /** Check params not null */
-    if (!name) {
+    if (!name || !faculty || !subject) {
         return res.status(400).send({
             message: 'Please provide required params!',
         });
     }
+
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
+
+
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
@@ -282,7 +264,7 @@ module.exports.updateTeamForm = async (req, res) => {
     const teamMembers = await Team_Member.findAll({
         where: {
             teamId: team.id,
-            userId:{
+            userId: {
                 [Op.not]: req.user.id
             }
         }
@@ -332,18 +314,8 @@ module.exports.createTeam = async (req, res) => {
         name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, faculty, partOfSemester`);
     }
 
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
@@ -416,18 +388,9 @@ module.exports.connect = async (req, res) => {
             message: 'Please provide required params!',
         });
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
+
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
@@ -510,18 +473,9 @@ module.exports.disconnect = async (req, res) => {
             message: 'Please provide required params!',
         });
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
+
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
@@ -597,18 +551,9 @@ module.exports.deleteTeam = async (req, res) => {
             message: 'Please provide required params!',
         });
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
+
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
@@ -665,18 +610,9 @@ module.exports.kickMember = async (req, res) => {
             message: 'Please provide required params!',
         });
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
+
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
@@ -760,18 +696,9 @@ module.exports.updateTeam = async (req, res) => {
             message: 'Please provide required params!',
         });
     }
-    /** Check that faculty exists */
-    if (!await checkFaculty(faculty)) {
-        return res.status(403).send({
-            message: 'This faculty does not exists!',
-        });
-    }
-    /** Check that subject exists */
-    if (!await checkSubject(subject, faculty)) {
-        return res.status(403).send({
-            message: 'This subject does not exists!',
-        });
-    }
+    /** Check that faculty and subject exists */
+    await starterCheck(req, res, faculty, subject)
+
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */

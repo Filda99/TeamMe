@@ -82,6 +82,31 @@
       </header>
       <% } %>
 
+
+        <div class="filter_window_container" id="filter">
+          <div class="filter_window">
+            <div class="return_container" id="return" onclick="OpenFilter()">
+              <span class="barrand bar_1"></span>
+              <span class="barrand bar_2"></span>
+            </div>
+            <div class="select_title">Filtr</div>
+            <form action="javascript:;" onsubmit="Return(this)">
+              <div class="select_container">
+                <select id="year" class="my_selects">
+                  <option value="">Část semestru</option>
+                  <option value="1">1.</option>
+                  <option value="2">2.</option>
+                  <option value="3">3.</option>
+                  <option value="4">4.</option>
+                </select>
+                <div class="filter_confirm_container">
+                  <input type="submit" class="filter_confirm" value="Potvrdit">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
         <div class="content">
           <div class="content_container">
             <ul class="title_container">
@@ -90,7 +115,9 @@
                 <span class="bar ver_bar"></span>
                 <span class="bar hor_bar"></span>
               </li>
+              <li class="empty"></li>
               <li class="title">Vyberte tým</li>
+              <li class="filter" onclick="OpenFilter()"></li>
               <li class="find_container" id="find_container">
                 <form action="javascript:;" onsubmit="Search(this)">
                   <input type="text" class="find_bar" id="search_phrase">
@@ -105,8 +132,8 @@
               <div class="team_list" id="team_list">
 
                 <% if(!teams.length) { %>
-                  <h1>Zatím nejsou založeny žádné týmy</h1>
-                <%}%>
+                  <h2 class="noTeams">Zatím nejsou založeny žádné týmy</h2>
+                  <%}%>
                     <% teams.forEach((team, index)=> { %>
                       <a class="team_middle" href="<%=subject%>/info/<%=team.name%>">
                         <ul class="team_divider">
@@ -125,7 +152,7 @@
                             </li>
                             <% if(logged) { %>
                               <li class="team_compatibility">
-                                <%= shareTeamInfo.shift() %> %
+                                <%= shareTeamInfo.shift() %>%
                               </li>
                               <% } %>
                           </div>
@@ -143,7 +170,7 @@
           </div>
         </div>
 
-        <script src="script/teams.js"></script>
+        <script src="/script/teams.js"></script>
 
 </body>
 <script src="/script/app.js"></script>
