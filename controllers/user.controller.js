@@ -104,9 +104,10 @@ module.exports.createUser = async (req, res) => {
     */
     const user = await getUserByEmail(email)
     if (user) {
-      return res.status(400).send({
-        message: 'An account with that email already exists!',
+      res.status(400).send({
+        message: 'An account with this email already exists!',
       });
+      return 1
     }
 
     const findFaculty = await getFaculty(faculty)
@@ -115,6 +116,7 @@ module.exports.createUser = async (req, res) => {
         message: 'Faculty not found!',
       });
     }
+
 
     /**
      * Get login from email

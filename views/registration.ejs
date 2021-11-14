@@ -191,12 +191,12 @@
       },
       body: value
     });
-    if (response.status > 400) {
+    if (response) {
       let error = await response.json()
       alert(error.message);
     }
     else
-      window.location.href = response.url
+      window.location.href = 'register'
   }
 
   const form = document.querySelector('#register');
