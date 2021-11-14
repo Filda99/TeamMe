@@ -130,14 +130,14 @@
             </div>
             <div class="select_title">Filtr</div>
             <div class="select_container">
-                <select id="year" class="my_selects">
+                <select id="year" name="year" class="my_selects">
                     <option value="">Ročník</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
                 </select>
-                <select id="subject" class="my_selects">
+                <select id="subject" name="subjectType" class="my_selects">
                     <option value="" >Typ předmětu</option>
                     <option value="P">P</option>
                     <option value="PV">PV</option>
@@ -172,7 +172,7 @@
             <div id="search">
                 <ul class="subject_list">
                     <% var index = 0; %>
-                    <% subjects.forEach((subject, index) => { %>
+                    <% subjectArray.forEach((subject) => { %>
                         <% index++ %>
                         <li class="subject_item">
                             <a class="subject_link" href="/team/<%=faculty%>/<%=subject.id%>"> <%= subject.short %> </a>

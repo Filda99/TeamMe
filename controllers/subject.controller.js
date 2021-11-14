@@ -8,18 +8,43 @@ const { getUserNotifi } = require('../controllers/notification.controller')
  */
 module.exports.getAll = async (req, res) => {
     const { faculty } = req.params
+    const { year, subjectType } = req.query
     if (!faculty) {
         res.status(401).send('Insert faculty first')
     }
     /** Check that faculty and subject exists */
     await starterCheck(req, res, faculty)
 
+    let subjectArray = new Array()
 
     const subjects = await Subject.findAll({
         where: {
-            FacultyId: faculty
+            FacultyId: faculty,
         }
     })
+
+    if(!year && !subjectType){
+        subjectArray = subjects
+    }
+    else if (year && !subjectType) {
+        subjects.forEach((subject) => {
+            if (subject.year == year)
+                subjectArray.push(subject)
+        })
+    }
+    else if(subjectType && !year){
+        subjects.forEach((subject) => {
+            if (subject.compulsory == subjectType)
+                subjectArray.push(subject)
+        })
+    }
+    else{
+        subjects.forEach((subject) => {
+            if (subject.compulsory == subjectType &&
+                subject.year == year)
+                subjectArray.push(subject)
+        })
+    }
 
     let userLogged = false
     let notification = null;
@@ -27,8 +52,8 @@ module.exports.getAll = async (req, res) => {
         userLogged = true
         notification = await getUserNotifi(req.user.id)
     }
-    
-    res.render('subjects', {subjects, faculty, userLogged, notification})
+
+    res.render('subjects', { subjectArray, faculty, userLogged, notification })
 }
 
 
