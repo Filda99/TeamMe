@@ -29,6 +29,10 @@ module.exports.showTeams = async (req, res) => {
     const teams = await getAllTeamsToShow(subject)
 
     /** Infos to be send to the world */
+    /** ForEach ->  [0] = numOfJoinedUsers
+     *              [1] = pPerc
+     *              [2] = team
+     */
     let shareTeamInfo = []
 
     /********************************************* */
@@ -47,15 +51,14 @@ module.exports.showTeams = async (req, res) => {
 
         /** Go through all the teams and calculate the percentage */
         for (const team of teams) {
+            let teamInfo = []
             /** Get joined users to single team */
             const numOfJoinedUsers = await team.getUsers()
-            shareTeamInfo.push(numOfJoinedUsers.length)
+            teamInfo.push(numOfJoinedUsers.length)
+            // shareTeamInfo.push(numOfJoinedUsers.length)
 
             /**
-             * Calculation goes like this:
-             *  1) abs from difference two of same property
-             *  2) max difference is 8 (100%/8) -> give us number which we will multiply
-             *  3) by opposite number from difference
+             * Percentage calculation based on given properties
              *  
              */
             let pDays = Math.abs(Number(team['workingDays']) - Number(findUser.workingDays))
@@ -64,20 +67,24 @@ module.exports.showTeams = async (req, res) => {
             /** Math variables */
             let pMaxSum = 8   // Maximum number
             let pDiff = pDays + pHours + pApproach  // Difference
-            
+
             /** If filter is chosen */
             console.log(partOfSemester);
             if (partOfSemester != null) {
                 pMaxSum = 12
                 let pPart = Math.abs(Number(team['partOfSemester']) - Number(partOfSemester))
                 pDiff = pDays + pHours + pApproach + pPart
-            }  
+            }
             let pSum = pMaxSum - pDiff
-            let pPerc = hundredPercent/pMaxSum*pSum
+            let pPerc = hundredPercent / pMaxSum * pSum
             pPerc = Math.ceil(pPerc)
 
             /** Get team params, which will be shared /w frontend */
-            shareTeamInfo.push(pPerc)
+            // shareTeamInfo.push(pPerc)
+            teamInfo.push(pPerc)
+            teamInfo.push(team)
+            shareTeamInfo.push(teamInfo)
+
         }
         const logged = true
 
@@ -87,6 +94,9 @@ module.exports.showTeams = async (req, res) => {
             userLogged = true
             notification = await getUserNotifi(req.user.id)
         }
+
+        /** Sort array before send based on pPerc */
+        shareTeamInfo = shareTeamInfo.sort(Comparator);
 
         res.render('teams', { teams, shareTeamInfo, logged, subject, userLogged, notification })
     }
@@ -110,6 +120,12 @@ module.exports.showTeams = async (req, res) => {
 
         res.render('teams', { teams, shareTeamInfo, logged, subject, userLogged, notification })
     }
+}
+
+function Comparator(a, b) {
+    if (a[1] < b[1]) return 1;
+    if (a[1] > b[1]) return -1;
+    return 0;
 }
 
 /*********************************************************************

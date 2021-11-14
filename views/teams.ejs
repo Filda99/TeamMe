@@ -173,37 +173,37 @@
 
                 <% if(!teams.length) { %>
                   <h2 class="noTeams">Zatím nejsou založeny žádné týmy</h2>
-                  <%}%>
-                    <% teams.forEach((team, index)=> { %>
-                      <a class="team_middle" href="<%=subject%>/info/<%=team.name%>">
-                        <ul class="team_divider">
-                          <div class="team_row">
-                            <li class="team_name">
-                              <%=team.name%>
-                            </li>
-                            <li class="members">
-                              <span class="member_container">
-                                <span class="head"></span>
-                                <span class="body"></span>
-                              </span>
-                              <div class="amount">
-                                <%= shareTeamInfo.shift() %> / <%= team.maxNumberOfMembers %>
-                              </div>
-                            </li>
-                            <% if(logged) { %>
-                              <li class="team_compatibility">
-                                <%= shareTeamInfo.shift() %>%
-                              </li>
-                              <% } %>
+                <%}%>
+                <% shareTeamInfo.forEach((info)=> { %>
+                  <a class="team_middle" href="<%=subject%>/info/<%=info[2].name%>">
+                    <ul class="team_divider">
+                      <div class="team_row">
+                        <li class="team_name">
+                          <%=info[2].name%>
+                        </li>
+                        <li class="members">
+                          <span class="member_container">
+                            <span class="head"></span>
+                            <span class="body"></span>
+                          </span>
+                          <div class="amount">
+                            <%= info[0] %> / <%= info[2].maxNumberOfMembers %>
                           </div>
-                          <div class="team_row">
-                            <div class="team_keywords">#: <%= team.hashtags %>
-                            </div>
-                          </div>
-                        </ul>
-                      </a>
-                      <hr class="row">
-                      <% }) %>
+                        </li>
+                        <% if(logged) { %>
+                          <li class="team_compatibility">
+                            <%= info[1] %>%
+                          </li>
+                          <% } %>
+                      </div>
+                      <div class="team_row">
+                        <div class="team_keywords">#: <%= info[2].hashtags %>
+                        </div>
+                      </div>
+                    </ul>
+                  </a>
+                  <hr class="row">
+                <% }) %>
 
               </div>
             </div>
