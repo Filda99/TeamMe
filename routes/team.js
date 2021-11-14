@@ -31,7 +31,7 @@ router.post('/:faculty/:subject/disconn/:teamName', checkAuthenticated, team.dis
 router.post('/:faculty/:subject/delete/:teamName', checkAuthenticated, team.deleteTeam);
 
 /** Update team infos - by team admin */
-router.post('/:faculty/:subject/update/:id', checkAuthenticated, team.updateTeam);
+router.post('/:faculty/:subject/update/:teamId', checkAuthenticated, team.updateTeam);
 
 /** Kick other member - by team admin */
 router.post('/:faculty/:subject/kickMember/:teamName', checkAuthenticated, team.kickMember)

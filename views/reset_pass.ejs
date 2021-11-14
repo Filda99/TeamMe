@@ -47,16 +47,36 @@
             <!-- NOTIFIKACNI LISTA START -->
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
-                <form action="/notification/deleteAll" method="post">
-                    <button type="submit" class="clear-btn_index">Vyčistit</button>
-                  </form>
-                    <%notification.forEach((notifi, index)=> {%>
-                      <p class="dropdown_item-news">
-                        <%= notifi.notification %>
-                      </p>
-                      <%})%>
+                <form id="notifForm">
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
               </ul>
             </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
             <!-- NOTIFIKACNI LISTA END -->
           </ul>
         </nav>
@@ -66,18 +86,38 @@
         <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
         <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
         <nav class="nav_notify">
-                <ul class="dropdown-news" id="dropdown-news">
-                  <a id="notif" href="#"></a>
-                  <form action="/notification/deleteAll" method="post">
-                      <button type="submit" class="clear-btn_index">Vyčistit</button>
-                    </form>
-                      <%notification.forEach((notifi, index)=> {%>
-                        <p class="dropdown_item-news">
-                          <%= notifi.notification %>
-                        </p>
-                        <%})%>
-                </ul>
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form id="notifFormMobil">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
         </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
       <% } %>
@@ -85,7 +125,7 @@
     <div class="hero">
         <div class="form-box">
           <!-- minlength="8" -->
-            <form id="edit" method="post" action="/user/update/<%=user%>" class="input-group">
+            <form id="edit" class="input-group">
                 <h2 class="nadpis">Obnova hesla</h2>
                 <input type="password" name="oldPass" class="input-field" placeholder="Aktuální heslo" required>
                 <input type="password" name="newPass1" class="input-field" placeholder="Nové heslo" required>
@@ -98,5 +138,37 @@
     
     
 </body>
+<script>
+  async function fetchLocation(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const value = JSON.stringify(Object.fromEntries(data))
+    
+    const response = await fetch("/user/update/<%=user.id%>", {
+      method: "POST",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: value
+    });
+    // get path elements
+    let myPath = window.location.href.split('/')
+    // remove last 2 elements from path
+    myPath.splice(-2)
+    // add user email to the end of path
+    await myPath.push('<%=user.email%>')
+    myPath = myPath.join('/')
+    window.location.href = myPath
+    if (response) {
+      let error = await response.json()
+      alert(error.message);
+    }
+  }
+  const form = document.querySelector('#edit');
+  form.addEventListener('submit', fetchLocation);
+</script>
+
 <script src="/script/app.js"></script>
 </html>

@@ -38,6 +38,7 @@ async function checkTeam(subject, userId) {
             SubjectId: subject
         }
     })
+    console.log(team);
     return team
 }
 

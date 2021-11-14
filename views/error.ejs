@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="cs">
-
 <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="/style/style-nav.css">
-  <link rel="stylesheet" href="/style/error.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/error.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
-  <% if(!userLogged) { %>
-    <header>
-      <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-      <input type="checkbox" id="nav-toggle" class="nav-toggle">
-      <nav>
-        <ul>
-          <li><a href="/">Domů</a></li>
-          <li><a href="/faculty">Najít tým</a></li>
-          <li><a href="/register">Účet</a>
-            <ul class="dropdown" id="dropdown">
-              <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
-              <li><a class="dropdown_item" href="/register">Registrace</a></li>
+    <% if(!userLogged) { %>
+        <header>
+          <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+          <input type="checkbox" id="nav-toggle" class="nav-toggle">
+          <nav>
+            <ul>
+              <li><a href="/">Domů</a></li>
+              <li><a href="/faculty">Najít tým</a></li>
+              <li><a href="/register">Účet</a>
+                <ul class="dropdown" id="dropdown">
+                  <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
+                  <li><a class="dropdown_item" href="/register">Registrace</a></li>
+                </ul>
+              </li>
+    
             </ul>
-          </li>
-
-        </ul>
-      </nav>
-      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-
-    </header>
-    <% } if(userLogged) { %>
-      <header>
-        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-          <ul>
-            <li><a href="/">Domů</a></li>
-            <li><a href="/faculty">Najít tým</a></li>
-            <li><a href="/my_profile">Účet</a>
-              <ul class="dropdown" id="dropdown">
-                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-              </ul>
-            </li>
-            <!-- NOTIFIKACNI LISTA START -->
+          </nav>
+          <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+    
+        </header>
+        <% } if(userLogged) { %>
+          <header>
+            <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav>
+              <ul>
+                <li><a href="/">Domů</a></li>
+                <li><a href="/faculty">Najít tým</a></li>
+                <li><a href="/my_profile">Účet</a>
+                  <ul class="dropdown" id="dropdown">
+                    <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                    <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                    <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+                  </ul>
+                </li>
+                <!-- NOTIFIKACNI LISTA START -->
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
-                <form action="/notification/deleteAll" method="post">
+                <form id="notifForm">
                   <button type="submit" class="clear-btn_index">Vyčistit</button>
                 </form>
                 <%notification.forEach((notifi, index)=> {%>
@@ -57,6 +56,26 @@
                   <%})%>
               </ul>
             </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
             <!-- NOTIFIKACNI LISTA END -->
           </ul>
         </nav>
@@ -68,7 +87,7 @@
         <nav class="nav_notify">
           <ul class="dropdown-news" id="dropdown-news">
             <a id="notif" href="#"></a>
-            <form action="/notification/deleteAll" method="post">
+            <form id="notifFormMobil">
               <button type="submit" class="clear-btn_index">Vyčistit</button>
             </form>
             <%notification.forEach((notifi, index)=> {%>
@@ -78,25 +97,42 @@
               <%})%>
           </ul>
         </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
-      </header>
-      <% } %>
-
-        <div class="content" id="content">
-          <img src="images/error.jpg" class="image_back" id="content_container">
-          <div class="error_border">
+          </header>
+          <% } %>
+    
+    <div class="content" id="content"> 
+        <!-- <img src="images/error.jpg" class="image_back" id="content_container"> -->
+        <div class="image_back" id="content_container"></div>
+        <div class="error_border">
             <div class="error_message">
-              <div class="ops">Jejda,</div>
-              <div class="rest">tady se něco pokazilo!</div>
-              <h5>
-                <%=message%>
-              </h3>
-
+                <div class="ops">
+                    Jejda, tady se něco pokazilo!<br>
+                    <%=message%>
+                </div>
             </div>
-          </div>
         </div>
-
+    </div>
+            
 </body>
-<script src="/script/app.js"></script>
-
 </html>

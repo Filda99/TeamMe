@@ -1,5 +1,5 @@
 const { Team, Team_Member, User } = require("../database/sequelize")
-const { getTeamByName, getAllTeamsToShow } = require('../utils/getTeam')
+const { getTeamByName, getAllTeamsToShow, getTeamById } = require('../utils/getTeam')
 const { checkTeam, checkMembers, checkAdmin, userPartOfTeam } = require('../utils/teamAvailability');
 const { starterCheck } = require('../utils/checkExistingElems')
 const { getUserByEmail } = require("../utils/getUser");
@@ -41,7 +41,7 @@ module.exports.showTeams = async (req, res) => {
         /** Get users params and collect them */
         const findUser = await User.findByPk(req.user.id)
         if (!findUser) {
-            res.status(401).send('User not found!')
+            res.status(401).send({message: 'User not found!'})
         }
 
 
@@ -146,7 +146,7 @@ module.exports.getMyTeams = async (req, res) => {
         res.status(200).send(teams)
     }
     else {
-        res.status(404).send('User not found!')
+        res.status(404).send({message: 'User not found!'})
     }
 }
 
@@ -200,10 +200,9 @@ module.exports.getTeam = async (req, res) => {
 
             /** Part of team */
             userIsPartOfTeam = await userPartOfTeam(team, req.user.id)
-            console.log('>>>>HERE', userIsPartOfTeam);
         }
     } catch (e) {
-        return res.status(401).send(e)
+        return res.status(401).send({message: e})
     }
     /** MEMBERS */
     const teamMembers = await team.getUsers()
@@ -225,7 +224,6 @@ module.exports.getTeam = async (req, res) => {
         team, teamMembers, teamAdmin, logged,
         isAdmin, faculty, subject, userIsPartOfTeam, userLogged, notification
     })
-    // return res.status(200).send([team, { 'logged': logged, 'admin': admin }]);
 };
 
 /*********************************************************************
@@ -260,7 +258,6 @@ module.exports.updateTeamForm = async (req, res) => {
     }
 
     const team = await getTeamByName(name, subject)
-    console.log(team);
     const teamMembers = await Team_Member.findAll({
         where: {
             teamId: team.id,
@@ -269,17 +266,12 @@ module.exports.updateTeamForm = async (req, res) => {
             }
         }
     })
-    console.log(teamMembers);
-    const teamMembersLogin = []
-    teamMembers.forEach(async (member) => {
-        console.log(member);
+    const teamMembersLogin = new Array()
+    for(member of teamMembers) {
         const user = await User.findByPk(member.userId);
-        console.log(user);
         teamMembersLogin.push(user);
-    })
-    console.log(teamMembersLogin);
-
-    res.render('team_info_edit', { subject, faculty, userLogged, notification, teamMembersLogin })
+    }
+    res.render('team_info_edit', { subject, faculty, team, userLogged, notification, teamMembersLogin })
 }
 
 /*********************************************************************
@@ -298,20 +290,11 @@ module.exports.createTeam = async (req, res) => {
     /**********      CHECK PARAMS       ********** */
     if (!name || !briefDescription || !maxNumOfMem || !workingHours
         || !workingDays || !approach || !subject || !faculty || !partOfSemester) {
-        console.log(
-            `name`, name,
-            `briefDescription`, briefDescription,
-            `maxNumOfMem`, maxNumOfMem,
-            `workingHours`, workingHours,
-            `workingDays`, workingDays,
-            `approach`, approach,
-            `partOfSemester`, partOfSemester,
-            `subject`, subject,
-            `faculty`, faculty,
-
-        );
-        return res.status(400).send(`Please provide required fields:\n
-        name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, faculty, partOfSemester`);
+        console.log(name, briefDescription, maxNumOfMem, workingHours
+            , workingDays, approach, subject, faculty, partOfSemester);
+        res.status(400).send({message: `Please provide required fields:\n
+        name, briefDescription, maxNumOfMem, workingHours, workingDays, approach, subject, faculty, partOfSemester`});
+        return
     }
 
     /** Check that faculty and subject exists */
@@ -322,13 +305,13 @@ module.exports.createTeam = async (req, res) => {
     /** Check team name is not used already */
     const teamExists = await getTeamByName(name, subject)
     if (teamExists) {
-        res.status(400).send('Team with this name already exists');
+        res.status(409).send({message:'Team with this name already exists'});
         return
     }
     /** Check user is not in other team in current subject */
     const team = await checkTeam(subject, userId)
     if (team.length) {
-        res.status(403).send('You are already in some other team')
+        res.status(403).send({message: "You are already in some other team"});
         return
     }
 
@@ -404,7 +387,7 @@ module.exports.connect = async (req, res) => {
     /** Check user is not in other team in current subject */
     const team = await checkTeam(subject, userId)
     if (team.length) {
-        return res.status(401).send('You are already in some other team')
+        return res.status(401).send({message: 'You are already in some other team'})
     }
     /** Check there is a place in team */
     const numOfJoinedUsers = await Team_Member.findAndCountAll({
@@ -438,9 +421,9 @@ module.exports.connect = async (req, res) => {
             existingTeam.save();
         }
 
-        res.status(201).send(`Connected to team ${existingTeam.name}`)
+        res.status(201).send({message: `Connected to team ${existingTeam.name}`})
     } catch (e) {
-        return res.status(400).send(e)
+        return res.status(400).send({message: e})
     }
 }
 
@@ -489,11 +472,11 @@ module.exports.disconnect = async (req, res) => {
     /** Check I am a part of a team */
     const userIsPartOfTeam = await userPartOfTeam(team, userId)
     if (!userIsPartOfTeam) {
-        return res.status(401).send('You are not a member of this team.')
+        return res.status(401).send({message: 'You are not a member of this team.'})
     }
     /** Check I am not a admin */
     if (team.TeamAdmin == userId) {
-        return res.status(403).send('You are admin of a team! You can only delete the team.')
+        return res.status(403).send({message: 'You are admin of a team! You can only delete the team.'})
     }
     /** Check time for disconnecting */
     const time = await Team_Member.findOne({
@@ -507,7 +490,7 @@ module.exports.disconnect = async (req, res) => {
     let timeNow = new Date()
     const newDate = addHours(timeNow, 24);
     if (timeToLeave > newDate) {
-        return res.status(406).send('You cant leave this team! It has been more than 24 hours since you joined.')
+        return res.status(406).send({message: 'You cant leave this team! It has been more than 24 hours since you joined.'})
     }
 
     /********************************************* */
@@ -530,7 +513,7 @@ module.exports.disconnect = async (req, res) => {
     team.save()
     await userSendNotifi(team.TeamAdmin, message)
 
-    res.status(200).send(`You are now not a member of team ${teamName}`)
+    res.status(200).send({message: `You are now not a member of team ${teamName}`})
 }
 
 /*********************************************************************
@@ -566,13 +549,13 @@ module.exports.deleteTeam = async (req, res) => {
     }
     /** Is user admin of the team */
     if (userId !== team.TeamAdmin) {
-        return res.status(401).send('You are not a admin of the team!')
+        return res.status(401).send({message: 'You are not a admin of the team!'})
     }
     /** Are there, in the team, some other members */
     const members = await checkMembers(team, userId)
     console.log('Members: ', members);
     if (members.length) {
-        return res.status(401).send('You can not delete team with users inside')
+        return res.status(401).send({message: 'You can not delete team with users inside'})
     }
 
     /********************************************* */
@@ -625,7 +608,7 @@ module.exports.kickMember = async (req, res) => {
     }
     /** Is user admin of the team */
     if (userId !== team.TeamAdmin) {
-        return res.status(401).send('You are not a admin of the team!')
+        return res.status(401).send({message: 'You are not a admin of the team!'})
     }
 
     /********************************************* */
@@ -633,7 +616,7 @@ module.exports.kickMember = async (req, res) => {
     try {
         const member = await getUserByEmail(memberEmail)
         if (!member) {
-            return res.status(401).send('Something went wrong.')
+            return res.status(401).send({message: 'Something went wrong.'})
         }
 
         /** Member has to be less than 24 hours connected to the team */
@@ -648,7 +631,7 @@ module.exports.kickMember = async (req, res) => {
         let timeNow = new Date()
         const newDate = addHours(timeNow, 24);
         if (timeToLeave > newDate) {
-            return res.status(403).send('You cant leave this team! It has been more than 24 hours since you joined.')
+            return res.status(403).send({message: 'You cant leave this team! It has been more than 24 hours since you joined.'})
         }
 
         /** Disconnect from the team */
@@ -658,7 +641,7 @@ module.exports.kickMember = async (req, res) => {
                 teamId: team.id
             }
         })
-        res.status(200).send(`You kicked user ${memberEmail} from team ${teamName}`)
+        res.status(200).send({message: `You kicked user ${memberEmail} from team ${teamName}`})
 
         /** Send notification to admin */
         // Get user login
@@ -686,12 +669,13 @@ module.exports.kickMember = async (req, res) => {
 module.exports.updateTeam = async (req, res) => {
     /********************************************* */
     /***********      GET PARAMS       *********** */
-    const { maxNumOfMem, briefDescription, hashtags } = req.body;
-    const { teamName, subject, faculty } = req.params;
+    const { teamName, maxNumOfMem, briefDescription, hashtags, workingHours, workingDays, approach,
+        partOfSemester } = req.body;
+    const { teamId, subject, faculty } = req.params;
     /********************************************* */
     /**********      CHECK PARAMS       ********** */
     /** Check params not null */
-    if (!teamName || !subject || !faculty) {
+    if (!teamId || !subject || !faculty) {
         return res.status(400).send({
             message: 'Please provide required params!',
         });
@@ -702,10 +686,10 @@ module.exports.updateTeam = async (req, res) => {
 
     /********************************************* */
     /**********    CHECK CONDITIONS     ********** */
-    const team = await getTeamByName(teamName, subject)
+    const team = await getTeamById(teamId, subject)
     if (!team) {
         return res.status(400).send({
-            message: `No team found with the teamName ${teamName}`,
+            message: `No team found with the id ${teamId}`,
         });
     }
 
@@ -724,14 +708,25 @@ module.exports.updateTeam = async (req, res) => {
         if (hashtags) {
             team.hashtags = hashtags;
         }
-
+        if (workingHours) {
+          team.workingHours = workingHours;
+        }
+        if (workingDays) {
+          team.workingDays = workingDays;
+        }
+        if (approach) {
+          team.approach = approach
+        }
+        if(partOfSemester){
+            team.partOfSemester = partOfSemester
+        }
         team.save();
         return res.status(200).send({
-            message: `Team ${teamName} has been updated!`,
+            message: `Team ${team.name} has been updated!`,
         });
     } catch (err) {
         return res.status(500).send({
             message: `Error: ${err.message}`,
         });
     }
-};
+}

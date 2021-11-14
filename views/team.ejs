@@ -48,7 +48,7 @@
             <!-- NOTIFIKACNI LISTA START -->
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
-                <form action="/notification/deleteAll" method="post">
+                <form id="notifForm">
                   <button type="submit" class="clear-btn_index">Vyčistit</button>
                 </form>
                 <%notification.forEach((notifi, index)=> {%>
@@ -58,6 +58,26 @@
                   <%})%>
               </ul>
             </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
             <!-- NOTIFIKACNI LISTA END -->
           </ul>
         </nav>
@@ -69,7 +89,7 @@
         <nav class="nav_notify">
           <ul class="dropdown-news" id="dropdown-news">
             <a id="notif" href="#"></a>
-            <form action="/notification/deleteAll" method="post">
+            <form id="notifFormMobil">
               <button type="submit" class="clear-btn_index">Vyčistit</button>
             </form>
             <%notification.forEach((notifi, index)=> {%>
@@ -79,6 +99,26 @@
               <%})%>
           </ul>
         </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
       <% } %>
@@ -172,20 +212,20 @@
               <div class="my_profile-button">
                 <% if(!isAdmin && logged) { %>
                   <% if(!userIsPartOfTeam) { %>
-                    <form action="../conn/<%= team.name %>" method="post">
+                    <form id="connect">
                       <button type="submit" class="my_profile-btn">Přidat se</button>
                     </form>
                     <% } if(userIsPartOfTeam) {%>
-                      <form action="../disconn/<%= team.name %>" method="post">
+                      <form id="disconnect">
                         <button type="submit" class="my_profile-btn-red">Opustit tým</button>
                       </form>
                       <% } } %>
                         <% if(isAdmin) { %>
-                          <form action="../form/update/<%=team.name%>" method="get">
+                          <form id="update">
                             <button type="submit" class="my_profile-btn">Spravovat tým</button>
                           </form>
 
-                          <form action="../delete/<%= team.name %>" method="post">
+                          <form id="delete">
                             <button type="submit" class="my_profile-btn-red">Smazat tým</button>
                           </form>
 
@@ -197,6 +237,93 @@
         </div>
 
 </body>
+<!-- DISCONNECT -->
+<script>
+  async function disconnect(event) {
+    const response = await fetch("../disconn/<%= team.name %>", {
+      method: "POST",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+    if (response) {
+      let error = await response.json()
+      alert(error.message);
+      window.location.href = ''
+    }
+  }
+
+  var form1 = document.querySelector('#disconnect');
+  if (form1)
+    form1.addEventListener('submit', disconnect);
+</script>
+
+<!-- CONNECT -->
+<script>
+  async function connect(event) {
+    const response = await fetch("../conn/<%= team.name %>", {
+      method: "POST",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response) {
+      let error = await response.json()
+      alert(error.message);
+      window.location.href = ''
+    }
+  }
+  var form2 = document.querySelector('#connect');
+  if (form2)
+    form2.addEventListener('submit', connect);
+</script>
+
+<!-- DELETE TEAM -->
+<script>
+  async function deleteTeam(event) {
+    const response = await fetch("../delete/<%= team.name %>", {
+      method: "POST",
+    });
+    if (response) {
+      // get path elements
+      let myPath = window.location.href.split('/')
+      // remove last 3 elements from path
+      myPath.splice(-3)
+      // add subject to the end of path
+      await myPath.push('<%=subject%>')
+      myPath = myPath.join('/')
+      window.location.href = myPath
+      let error = await response.json()
+      alert(error.message)
+    }
+  }
+
+  var form3 = document.querySelector('#delete');
+  if (form3)
+    form3.addEventListener('submit', deleteTeam);
+</script>
+
+<!-- UPDATE TEAM -->
+<script>
+  async function updateTeam(event) {
+    const response = await fetch("../form/update/<%=team.name%>", {
+      method: "GET",
+      redirect: 'follow',
+    });
+    if (response) {
+      window.location.href = response.url
+    }
+
+  }
+  var form4 = document.querySelector('#update');
+  if (form4)
+    form4.addEventListener('submit', updateTeam);
+</script>
+
 <script src="/script/app.js"></script>
 
 </html>

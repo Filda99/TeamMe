@@ -41,7 +41,7 @@ module.exports.getUser = async (req, res) => {
   if (req.user) {
     userLogged = true
     notification = await getUserNotifi(req.user.id)
-    if(req.user.id == user.id){
+    if (req.user.id == user.id) {
       myProfile = true
     }
   }
@@ -61,7 +61,7 @@ module.exports.getUser = async (req, res) => {
 module.exports.verificateUser = async (req, res) => {
   const { token } = req.params
   if (!token) {
-    res.status(403).send('Error: No token!')
+    res.status(403).send({ message: 'Error: No token!' })
   }
 
   /** Find token in db */
@@ -197,8 +197,9 @@ module.exports.deleteUser = async (req, res) => {
   /**
    * Check user is not in some team
    */
-  const teamMember = userPartOfAnyTeam(user.id)
-  if(teamMember){
+  const teamMember = await userPartOfAnyTeam(user.id)
+  console.log(teamMember);
+  if (teamMember != null) {
     return res.status(400).send({
       message: "You are part of some team! Disconnect first!"
     })
@@ -209,9 +210,9 @@ module.exports.deleteUser = async (req, res) => {
    */
   try {
     await user.destroy();
-    req.logOut()
+    await req.logOut()
     return res.status(202).send({
-      message: `User ${email} has been deleted!`,
+      message: `User ${email} has been deleted!`
     });
   } catch (err) {
     return res.status(500).send({
@@ -227,7 +228,7 @@ module.exports.showUpdate = async (req, res) => {
     userLogged = true
     notification = await getUserNotifi(req.user.id)
   }
-  const user = req.user.id
+  const user = await User.findByPk(req.user.id)
 
   res.render('reset_info', { user, userLogged, notification })
 }
@@ -239,7 +240,7 @@ module.exports.showResetPass = async (req, res) => {
     userLogged = true
     notification = await getUserNotifi(req.user.id)
   }
-  const user = req.user.id
+  const user = await User.findByPk(req.user.id)
 
   res.render('reset_pass', { user, userLogged, notification })
 }
@@ -284,19 +285,17 @@ module.exports.updateUser = async (req, res) => {
     if (oldPass) {
       const userPassword = await getUserPassById(id)
 
-      const oldHashedPass = await bcrypt.hash(oldPass, 10)
-
-      if (await bcrypt.compare(oldPass, userPassword.password, (err, result) => {
-        if(err){
-          return res.status(400).send({message: err})
+      if (bcrypt.compare(oldPass, userPassword.password, (err, result) => {
+        if (err) {
+          return res.status(400).send({ message: err })
         }
-      })) 
-      // {
-      //   return res.status(400).send({ message: "Wrong old password!" })
-      // }
-      if (newPass1 !== newPass2) {
-        return res.status(400).send({ message: "New passwords dont match!" })
-      }
+      }))
+        // {
+        //   return res.status(400).send({ message: "Wrong old password!" })
+        // }
+        if (newPass1 !== newPass2) {
+          return res.status(400).send({ message: "New passwords dont match!" })
+        }
       const hashNewPassword = await bcrypt.hash(newPass1, 10)
       user.password = hashNewPassword;
     }
