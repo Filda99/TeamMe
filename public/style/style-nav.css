@@ -1,0 +1,451 @@
+/*TELO STRANKY*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');   
+
+.content{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: #c7c7c7;
+}
+
+.content_container{
+    margin-top: 60px;
+    display: inline;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+/*pro tlacitko Vycistit*/
+.clear-btn_index{
+    padding: 12px 30px;
+    cursor: pointer;
+    margin: 1% auto;
+    background: rgba(212, 15, 15, 0.767);
+    color: white;
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+}
+
+/*NAVIGACE STYLY*/
+:root{
+    --background: rgb(8, 116, 240); /*posledni ovlivnuje pruhlednost*/
+}
+
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: #c7c7c7;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.logo{
+    height: 60px;
+    cursor: pointer;
+}
+
+/*STYLY NAVIGACE*/
+header{
+    background: var(--background);
+    text-align: center;
+    position: fixed;
+    z-index: 999; /*vzdycky je nahore*/
+    width: 100%;
+}
+
+ /*nepotrebuji mit prepinac, staci mi symbol (v tutorialu X)*/
+.nav-toggle {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+/*==================*/
+.nav-toggle_notify{
+    position: absolute;
+    top: -9999px;
+    right: -9999px;
+}
+/*==================*/
+    
+.nav-toggle:focus ~ .nav-toggle-label {
+    outline: 3px solid rgba(lightblue, .75);
+}
+
+.nav-toggle-label{
+    position: absolute;
+    top: 12px;
+    left: 0;
+    margin-left: 1em;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+}
+
+/*==================*/
+.nav-toggle-label_notify{
+    position: absolute;
+    top: 12px;
+    right: 0;
+    margin-right: 1em;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+}
+/*==================*/
+/*3 carky v tlacitku*/
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background: white;
+    height: 2px;
+    width: 2em;
+    border-radius: 2px;
+    position: relative;
+}
+
+.nav-toggle-label span::before,
+.nav-toggle-label span::after{
+    content: '';
+    position: absolute;
+}
+
+.nav-toggle-label span::before {
+    bottom: 7px;
+    height: 2px;
+}
+
+.nav-toggle-label span::after {
+    top: 7px;
+}
+
+nav {
+    position: absolute;
+    text-align: left;
+    top: 100%; /*posunuti o 100 % shora*/
+    left: 0;
+    background: var(--background);
+    width: 100%;
+    transform: scale(1,0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
+}
+
+/*==================*/
+.nav_notify {
+    position: absolute;
+    text-align: center;
+    top: 100%; /*posunuti o 100 % shora*/
+    left: 0;
+    background: var(--background);
+    width: 100%;
+    transform: scale(1,0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
+}
+/*==================*/
+
+/*NEWS DROPDOWN barva*/
+.dropdown_item-news{
+    position: relative;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: white;
+}
+/*END*/
+
+nav ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li{
+    margin-bottom: 1em;
+    margin-left: 1em;
+}
+
+nav a{
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    transition: opacity 150ms ease-in-out; /*zavreni je rychlejsi*/
+    opacity: 0;
+}
+
+.notifications{
+    color: white;
+    text-decoration: none;
+}
+
+/*  POP-UP notifikace*/
+
+.popup_window_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup_window{
+    width: 350px;
+    /* height: auto; */
+    border: 2px solid #131313;
+    background: #ffffff;
+    box-shadow: 1px 1px 5px #131313;
+    font-size: 3rem;
+    z-index: 10;
+}
+
+.popup_return_container{
+    position: absolute;
+    border: 2px solid #131313;
+    width: 40px;
+    height: 40px;
+    margin-left: 308px;
+    margin-top: -2px;
+}
+
+.popup_return_container:hover{
+    background: #FF3333;
+    cursor: pointer;
+}
+
+.popup_bar{
+    position: absolute;
+    pointer-events: none;
+    width: 36px;
+    height: 2px;
+    background: #131313;
+    font-size: 0;
+}
+
+.popup_bar_1{
+    transform: translateY(18px) rotate(45deg);
+}
+
+.popup_bar_2{
+    transform: translateY(18px) rotate(-45deg);
+}
+
+.popup_title{
+    width: 100%;
+    height: 50px;
+    font-size: 2rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.popup_container{
+    display: grid;
+    font-size: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+/*kontroluje, jestli je prepinac zaskrnuty - pokud je zaskrnuto, navigace se schova*/
+.nav-toggle:checked ~ nav{
+    transform: scale(1,1);
+}
+
+.nav-toggle:checked ~ nav a {
+    opacity: 1;
+    transition: opacity 250 ms ease-in-out 250ms; /*otevreni je pomalejsi*/
+}
+
+/*==================*/
+.nav-toggle_notify:checked ~ .nav_notify{
+    transform: scale(1,1);
+}
+
+.nav-toggle_notify:checked ~ nav a {
+    opacity: 1;
+    transition: opacity 250 ms ease-in-out 250ms; /*otevreni je pomalejsi*/
+}
+
+.nav-toggle:checked ~ .nav_notify{
+    display: none;
+}
+
+/*==================*/
+
+.dropdown{
+    display: block;
+    position: relative;
+    top: 10px;
+}
+
+nav ul li ul li a{
+    padding: 7px;
+}
+
+
+/*menu pro desktop*/
+@media screen and (min-width: 800px){
+    .nav-toggle-label{
+        display: none;
+    }
+
+    /*==================*/
+    .nav-toggle-label_notify{
+        display: none;
+    }
+    /*==================*/
+
+    header{
+        display: grid;
+        grid-template-columns: 1fr auto minmax(600px, 3fr) 1fr;
+    }
+
+    .logo{
+        grid-column: 2/3;
+        cursor: pointer;
+    }
+
+    nav{
+        all: unset;
+        /* pokud by all: unset nejelo v Edge, toto pomuze */
+        /* position: relative;
+        text-align: left;
+        transition: none;
+        transform: scale(1,1);
+        background: none;
+        top: initial;
+        left: initial; */
+        grid-column: 3/4; /*rozdeleni na mrizku, aby to bylo rovnomerne*/
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    /*==================*/
+    .nav_notify{
+        display: none;
+    }
+    /*==================*/
+
+
+    nav ul{
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    nav li{
+        margin-left: 3em;
+        margin-bottom: 0;
+    }
+
+    nav a{
+        opacity: 1;
+        position: relative;
+    }
+
+    nav ul li{
+        position: relative;
+        list-style: none;
+        float: center;
+    }
+    nav ul li a {
+        display: block;
+        padding: 22px 14 px;
+        text-decoration: none;
+    }
+
+    .dropdown{
+        width: 200px;
+        display: none; /*none*/
+        position: absolute;
+        background-color:var(--background);
+        padding: 10px;
+        top: 20px;
+        margin-left: -6em; /*posun okenka doleva*/
+        border-radius: 0px 0px 4px 4px;
+    }
+
+    .dropdown_item{
+        position: relative;
+        display: flex;
+        left: -30px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /*NEWS DROPDOWN*/
+    .dropdown-news{
+        width: 250px;
+        display: none; /*none*/
+        position: absolute;
+        list-style-type: none;
+        background-color: var(--background);
+        padding: 10px;
+        top: 20px;
+        margin-left: -8em; /*posun okenka doleva*/
+        border-radius: 0px 0px 4px 4px;
+    }
+
+    .dropdown_item-news{
+        position: relative;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        color: white;
+    }
+    /*END*/
+
+     nav ul li:hover ul {
+        display: inline;
+        justify-content: center;
+        align-items: center;
+    }
+
+    nav ul li ul li a{
+        width: 150px;
+        border-radius: 4px;
+    }
+
+    nav ul li ul li a{
+        padding: 7px;
+    }
+
+    nav a::before{ /*cary nad tlacitky*/
+        content: '';
+        display: block;
+        height: 3px;
+        background: white;
+        position: absolute;
+        top: -.3em;
+        left: 0;
+        right: 0;
+        /*pro schovani vrchnich list*/
+        transform: scale(0,1);
+        transition: transform ease-in-out 150ms;
+    }
+
+    nav a:hover::before{
+        transform: scale(1,1);
+    }
+}

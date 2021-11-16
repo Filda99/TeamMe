@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/style/style-nav.css">
+  <link rel="stylesheet" href="/style/teams.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a></li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">Notifikace</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <form id="notifForm">
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
+              </ul>
+            </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form id="notifFormMobil">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
+        </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+
+        <div class="filter_window_container" id="filter">
+          <div class="filter_window">
+            <div class="return_container" id="return" onclick="OpenFilter(this)">
+              <span class="barrand bar_1"></span>
+              <span class="barrand bar_2"></span>
+            </div>
+            <div class="select_title">Filtr</div>
+            <form id="filterButtonClick"> 
+              <div class="select_container">
+                <select class="my_selects" id="year">
+                  <option value="">Část semestru</option>
+                  <option value="1">1. - 3. týden</option>
+                  <option value="2">4. - 6. týden</option>
+                  <option value="3">7. - 9. týden</option>
+                  <option value="4">10. - 13. týden</option>
+                </select>
+                <div class="filter_confirm_container">
+                  <button type="submit" class="filter_confirm">Potvrdit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="content_container">
+            <ul class="title_container">
+              <li class="add_team_container">
+                <a href="<%=subject%>/create" class="add_team"></a>
+                <span class="bar ver_bar"></span>
+                <span class="bar hor_bar"></span>
+              </li>
+              <li class="empty"></li>
+              <li class="title">Vyberte tým</li>
+              <li class="filter" onclick="OpenFilter()"></li>
+              <li class="find_container" id="find_container">
+                <form action="javascript:;" onsubmit="Search(this)">
+                  <input type="text" class="find_bar" id="search_phrase">
+                  <input type="submit" class="find_square" value="">
+                  <span class="round_bar"></span>
+                  <span class="line_bar"></span>
+                </form>
+              </li>
+            </ul>
+            <div id="find_con_phone"></div>
+            <div class="team_border" id="team_border">
+              <div class="team_list" id="team_list">
+
+                <% if(!teams.length) { %>
+                  <h2 class="noTeams">Zatím nejsou založeny žádné týmy</h2>
+                <%}%>
+                <% shareTeamInfo.forEach((info)=> { %>
+                  <a class="team_middle" href="<%=subject%>/info/<%=info[2].name%>">
+                    <ul class="team_divider">
+                      <div class="team_row">
+                        <li class="team_name">
+                          <%=info[2].name%>
+                        </li>
+                        <li class="members">
+                          <span class="member_container">
+                            <span class="head"></span>
+                            <span class="body"></span>
+                          </span>
+                          <div class="amount">
+                            <%= info[0] %> / <%= info[2].maxNumberOfMembers %>
+                          </div>
+                        </li>
+                        <% if(logged) { %>
+                          <li class="team_compatibility">
+                            <%= info[1] %>%
+                          </li>
+                          <% } %>
+                      </div>
+                      <div class="team_row">
+                        <div class="team_keywords">#: <%= info[2].hashtags %>
+                        </div>
+                      </div>
+                    </ul>
+                  </a>
+                  <hr class="row">
+                <% }) %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+<script src="/script/teams.js"></script>
+
+<!-- aplikace filtru -->
+<script>
+  async function filterFunc(event){
+      OpenFilter();
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const value = JSON.stringify(Object.fromEntries(data));
+
+      selectValue = "?partOfSemester=" + document.getElementById("year").value;
+      const response = await fetch(selectValue, {
+        method: "GET",
+        redirect: 'follow',
+      });
+
+      if (response) {
+          window.location.href = response.url
+      }
+  }
+  var formFilter = document.querySelector('#filterButtonClick');
+  if (formFilter)
+    formFilter.addEventListener('submit', filterFunc);
+</script>
+
+</body>
+<script src="/script/app.js"></script>
+
+</html>

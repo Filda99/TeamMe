@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/subjects.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a></li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">Notifikace</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <form id="notifForm">
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
+              </ul>
+            </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form id="notifFormMobil">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
+        </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+
+
+      <div class="filter_window_container" id="filter">
+        <div class="filter_window">
+            <div class="return_container" id="return" onclick="OpenFilter()">
+                <span class="bar bar_1"></span>
+                <span class="bar bar_2"></span>
+            </div>
+            <div class="select_title">Filtr</div>
+            <form action="javascript:;" onsubmit="Return(this)">
+            <div class="select_container">
+                <select id="year" class="my_selects">
+                    <option value="">Ročník</option>
+                    <option value="1">1.</option>
+                    <option value="2">2.</option>
+                    <option value="3">3.</option>
+                </select>
+                <select id="subject" class="my_selects">
+                    <option value="" >Typ předmětu</option>
+                    <option value="P">povinný</option>
+                    <option value="PV">povinně volitelný</option>
+                    <option value="V">volitelný</option>
+                </select>
+                <div class="filter_confirm_container">
+                    <input type="submit" class="filter_confirm" value="Potvrdit">
+                </div> 
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <div class="content" id="content">
+      <div class="content_container">
+          <ul class="title_container">
+              <li class="faculty_ref_container">
+                  <a href="/faculty" class="faculty_ref" id="faculty_ref">Výběr fakulty</a>
+                  <span class="twisted_bar"></span>
+                  <span class="left_bar"></span>
+                  <span class="right_bar"></span>
+              </li>
+              <li class="empty"></li>
+              <li class="title">Vyberte předmět</li>
+              <li class="filter" onclick="OpenFilter()"></li>
+              <li class="find_container" id="find_container">
+                  <form action="javascript:;" onsubmit="Search(this)">
+                      <input type="text" class="find_bar" id="search_phrase" oninput="Search(this)">
+                      <input type="submit" class="find_square" value="">
+                      <span class="round_bar"></span>
+                      <span class="line_bar"></span>
+                  </form>
+              </li>
+          </ul>
+          <div id="find_con_phone"></div>
+          <div id="search">
+              <ul class="subject_list">
+                  <% var index = 0; %>
+                  <% subjectArray.forEach((subject) => { %>
+                      <% index++ %>
+                      <li class="subject_item">
+                          <a class="subject_link" href="/team/<%=faculty%>/<%=subject.id%>"> <%= subject.short %> </a>
+                      </li>
+
+                      <% if(!(index %= 6)) { %>
+                          </ul>
+                          <ul class="subject_list">
+                      <% } %>
+
+                  <% }) %>
+              </ul>
+              
+          </div>
+      </div>
+  </div>
+  <script src="/script/subjects.js"></script> 
+</body>
+</html>

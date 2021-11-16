@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/style/style-nav.css">
+  <link rel="stylesheet" href="/style/main_page.css">
+  <link rel="stylesheet" href="/style/team.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a></li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">Notifikace</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <form id="notifForm">
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
+              </ul>
+            </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form id="notifFormMobil">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
+        </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+
+      <div class="content">
+        <div class="content_container">
+          <div class="form-box">
+            <h2 class="team-title">Informace o týmu</h2>
+            <table class="content-table">
+              <tbody>
+                <tr>
+                  <td><b>Název týmu</b></td>
+                  <td>
+                    <%= team.name %>
+                  </td>
+                </tr>
+                <tr class="active-row">
+                  <td><b>Cílový počet členů</b></td>
+                  <td>
+                    <%= team.maxNumberOfMembers %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Uživatelská jména členů</b></td>
+                  <td>
+                    <% teamMembers.forEach((member, index)=> { %>
+                      <li class="loginLi">
+                        <a href="/user/<%=member.email%>">
+                          <%= member.login %>
+                        </a>
+                      </li>
+                      <% }) %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Vedoucí týmu</b></td>
+                  <td>
+                    <%=teamAdmin.login%>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Stručný popis</b></td>
+                  <td>
+                    <%= team.briefDescription %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Klíčová slova</b></td>
+                  <td>
+                    <%= team.hashtags %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Preferovaná doba práce</b></td>
+                  <td>
+                    <% let hours='' ; switch(team.workingHours) { case 1: hours='brzy ráno' ; break; case 2:
+                      hours='dlouho do noci' ; break; case 3: hours='během dne' ; break; default: hours='Nedefinováno'
+                      ; break; } %>
+                      <%= hours %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Preferované dny práce</b></td>
+                  <td>
+                    <% let days='' ; switch(team.workingDays) { case 1: days='začátek týdne' ; break; case 2:
+                      days='konec týdne' ; break; case 3: days='víkend' ; break; default: days='Nedefinováno' ; break;
+                      } %>
+                      <%= days %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Přístup k práci</b></td>
+                  <td>
+                    <% let approach='' ; switch(team.approach) { case 1: approach='týmový' ; break; case 2:
+                      approach='individuální' ; break; default: approach='Nedefinováno' ; break; } %>
+                      <%= approach %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Preferovaná část semestru</b></td>
+                  <td>
+                    <% let semester='' ; switch(team.partOfSemester) { case 1: semester='1. - 3. týden' ; break; case
+                      2: semester='4. - 6. týden' ; break; case 3: semester='7. - 9. týden' ; break; case 4:
+                      semester='10. - 13. týden' ; break; default: semester='Nedefinováno' ; break; } %>
+                      <%= semester %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="my_profile-button">
+              <% if(!isAdmin && logged) { %>
+                <% if(!userIsPartOfTeam) { %>
+                  <form id="connect">
+                    <button type="submit" class="my_profile-btn">Přidat se</button>
+                  </form>
+                  <% } if(userIsPartOfTeam) {%>
+                    <form id="disconnect">
+                      <button type="submit" class="my_profile-btn-red">Opustit tým</button>
+                    </form>
+                    <% } } %>
+                      <% if(isAdmin) { %>
+                        <form id="update">
+                          <button type="submit" class="my_profile-btn">Spravovat tým</button>
+                        </form>
+
+                        <form id="delete">
+                          <button type="submit" class="my_profile-btn-red">Smazat tým</button>
+                        </form>
+
+                        <% } %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+</body>
+<!-- DISCONNECT -->
+<script>
+async function disconnect(event) {
+  const response = await fetch("../disconn/<%= team.name %>", {
+    method: "POST",
+    redirect: 'follow',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  });
+  if (response) {
+    //let error = await response.json()
+    //alert(error.message);
+    window.location.href = ''
+  }
+}
+
+var form1 = document.querySelector('#disconnect');
+if (form1)
+  form1.addEventListener('submit', disconnect);
+</script>
+
+<!-- CONNECT -->
+<script>
+async function connect(event) {
+  const response = await fetch("../conn/<%= team.name %>", {
+    method: "POST",
+    redirect: 'follow',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+  if (response) {
+    //let error = await response.json()
+    //alert(error.message);
+    window.location.href = ''
+  }
+}
+var form2 = document.querySelector('#connect');
+if (form2)
+  form2.addEventListener('submit', connect);
+</script>
+
+<!-- DELETE TEAM -->
+<script>
+async function deleteTeam(event) {
+  const response = await fetch("../delete/<%= team.name %>", {
+    method: "POST",
+  });
+  if (response) {
+    // get path elements
+    let myPath = window.location.href.split('/')
+    // remove last 3 elements from path
+    myPath.splice(-3)
+    // add subject to the end of path
+    await myPath.push('<%=subject%>')
+    myPath = myPath.join('/')
+    window.location.href = myPath
+    let error = await response.json()
+    alert(error.message)
+  }
+}
+
+var form3 = document.querySelector('#delete');
+if (form3)
+  form3.addEventListener('submit', deleteTeam);
+</script>
+
+<!-- UPDATE TEAM -->
+<script>
+async function updateTeam(event) {
+  const response = await fetch("../form/update/<%=team.name%>", {
+    method: "GET",
+    redirect: 'follow',
+  });
+  if (response) {
+    window.location.href = response.url
+  }
+
+}
+var form4 = document.querySelector('#update');
+if (form4)
+  form4.addEventListener('submit', updateTeam);
+</script>
+
+<script src="/script/app.js"></script>
+
+</html>

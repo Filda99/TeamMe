@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/main_page.css">
+    <link rel="stylesheet" href="/style/create_team.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a></li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">Notifikace</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <form id="notifForm">
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
+              </ul>
+            </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form id="notifFormMobil">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
+        </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+
+    <div class="hero">
+      <div class="form-box">
+        <form id="edit" class="input-group">
+          <h2 class="nadpis">Vytvořit tým</h2>
+          <input type="text" class="input-field" name="name" autocomplete="off" placeholder="Název týmu" required>
+          <input type="number" class="input-field" name="maxNumOfMem" autocomplete="off"
+            placeholder="Cílový počet členů" required>
+          <input type="text" class="input-field" name="briefDescription" autocomplete="off"
+            placeholder="Stručný popis" required>
+          <input type="textarea" class="input-field" name="hashtags" autocomplete="off" placeholder="Klíčová slova">
+          <div class="select">
+            <select name="workingHours" class="selOptions" required>
+              <option value="" disabled selected hidden>Preferovaná doba práce</option>
+              <option value="1">brzy ráno</option>
+              <option value="2">dlouho do noci</option>
+              <option value="3">během dne</option>
+            </select>
+            <select name="workingDays" class="selOptions" required>
+              <option value="" disabled selected hidden>Preferované dny práce</option>
+              <option value="1">začátek týdne</option>
+              <option value="2">konec týdne</option>
+              <option value="3">víkend</option>
+            </select>
+            <select name="approach" class="selOptions" required>
+              <option value="" disabled selected hidden>Přístup k práci</option>
+              <option value="1">týmový</option>
+              <option value="2">individuální</option>
+            </select>
+            <select name="partOfSemester" class="selOptions" required>
+              <option value="" disabled selected hidden>Preferovaná část semestru</option>
+              <option value="1">1. - 3. týden</option>
+              <option value="2">4. - 6. týden</option>
+              <option value="3">7. - 9. týden</option>
+              <option value="4">10. - 13. týden</option>
+            </select>
+          </div>
+          <input name="subject" value="<%=subject%>" hidden>
+          <input name="faculty" value="<%=faculty%>" hidden>
+
+
+          <button type="submit" class="submit-btn">Založit tým</button>
+        </form>
+      </div>
+    </div>
+    
+    
+</body>
+
+<script>
+  async function fetchLocation(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const value = JSON.stringify(Object.fromEntries(data))
+
+    const response = await fetch("createTeam", {
+      method: "POST",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: value
+    });
+    if (response.status > 400) {
+      let error = await response.json()
+      // alert(error.message);
+      document.getElementById("popup").style.display = "flex";
+      document.getElementById("popup_notif").innerText = error.message;
+    }
+    else
+      window.location.href = response.url
+  }
+
+  const form = document.querySelector('#edit');
+  form.addEventListener('submit', fetchLocation);
+</script>
+
+<script src="/script/app.js"></script>
+</html>

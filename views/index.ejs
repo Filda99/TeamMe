@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style/style-nav.css">
+    <link rel="stylesheet" href="/style/main_page.css">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a></li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
+            <li><a id="notif" href="#">Notifikace</a>
+              <ul class="dropdown-news" id="dropdown-news">
+                <form id="notifForm">
+                  <button type="submit" class="clear-btn_index">Vyčistit</button>
+                </form>
+                <%notification.forEach((notifi, index)=> {%>
+                  <p class="dropdown_item-news">
+                    <%= notifi.notification %>
+                  </p>
+                  <%})%>
+              </ul>
+            </li>
+            <script>
+              async function notification(event) {
+                const response = await fetch("/notification/deleteAll", {
+                  method: "POST",
+                  redirect: 'follow',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                });
+                if (response) {
+                  let error = await response.json()
+                  alert(error.message);
+                }
+                window.location.href = ''
+              }
+
+              const notifiForm = document.querySelector('#notifForm');
+              notifiForm.addEventListener('submit', notification);
+            </script>
+            <!-- NOTIFIKACNI LISTA END -->
+          </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+        <!-- NOTIFIKACNI LISTA START (mobilni) -->
+        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+        <nav class="nav_notify">
+          <ul class="dropdown-news" id="dropdown-news">
+            <a id="notif" href="#"></a>
+            <form id="notifFormMobil">
+              <button type="submit" class="clear-btn_index">Vyčistit</button>
+            </form>
+            <%notification.forEach((notifi, index)=> {%>
+              <p class="dropdown_item-news">
+                <%= notifi.notification %>
+              </p>
+              <%})%>
+          </ul>
+        </nav>
+        <script>
+          async function notification(event) {
+            const response = await fetch("/notification/deleteAll", {
+              method: "POST",
+              redirect: 'follow',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            });
+            if (response) {
+              let error = await response.json()
+              alert(error.message);
+            }
+            window.location.href = ''
+          }
+
+          const notifiFormMobile = document.querySelector('#notifFormMobil');
+          notifiFormMobile.addEventListener('submit', notification);
+        </script>
+        <!-- NOTIFIKACNI LISTA END (mobilni) -->
+      </header>
+      <% } %>
+
+    <!-- https://www.youtube.com/watch?v=4qnWreynXLU -->
+    <div class="info">
+      <div class="info_container">
+      <ul class="top_content">
+          <li class="text_content">
+              <h2 class="title">Nemáš tým?</h2>
+              <p class="text_text">Pomocí TeamMe můžete snadno vytvářet týmy do jakéhokoliv předmětu na kterékoliv fakultě VUT.</p>
+              <div class="start_button_container">
+                  <!-- <button type="submit" class="start_button">Začít</button> -->
+                  <% if(!userLogged) { %>
+                    <form class="beginBtnForm" method="get" action="/register">
+                      <button type="submit" class="start_button">Začít</button>
+                    </form>
+                  <% } if(userLogged) { %>
+                    <form class="beginBtnForm" method="get" action="/faculty">
+                      <button type="submit" class="start_button">Začít</button>
+                    </form>
+                  <% } %>
+              </div>
+          </li>
+          <li class="back_pic_container">
+              <span class="back_pic"></span>
+          </li>
+      </ul>
+
+      <div class="faq_title">FAQs</div>
+      <div class="faqs">
+        <div class="faq">
+          <div class="question">
+            <h3>Pouze VUT?</h3>
+            <svg width="15" height="10" viewBox="0 0 42 25">
+              <path d="M3 3L21 21L39 3" stroke="black" stroke-width="7"/>
+            </svg>
+          </div>
+          
+          <div class="answer">
+            <p>
+              V aktuální době aplikace podporuje pouze fakulty VUT. Rozšíření pro další vysoké školy se plánuje.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <h3>Proč se registrovat?</h3>
+            <svg width="15" height="10" viewBox="0 0 42 25">
+              <path d="M3 3L21 21L39 3" stroke="black" stroke-width="7"/>
+            </svg>
+          </div>
+          
+          <div class="answer">
+            <p>
+              TeamMe dává smysl především pro registrované uživatele. Oproti jiným platformám se týmy uživateli zobrazují na základě shod ve vlastnostech (přístup k práci, pracovní doba).
+            </p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <h3>Správa týmů a účtu?</h3>
+            <svg width="15" height="10" viewBox="0 0 42 25">
+              <path d="M3 3L21 21L39 3" stroke="black" stroke-width="7"/>
+            </svg>
+          </div>
+          
+          <div class="answer">
+            <p>
+              Jako tvůrce týmu máte oprávnění měnit informace o týmu. 
+              Kontrolu nad správou členů máte 24 hodin od jejich přidání, podobně i člen může odejít pouze v tomto intervalu.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <h3>Jak tým smazat?</h3>
+            <svg width="15" height="10" viewBox="0 0 42 25">
+              <path d="M3 3L21 21L39 3" stroke="black" stroke-width="7"/>
+            </svg>
+          </div>
+          
+          <div class="answer">
+            <p>
+              Tým lze smazat v případě, že jste jeho správcem a v týmu není žádný další člen kromě vás.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <h3>Nepřišel potvrzovací e-mail?</h3>
+            <svg width="15" height="10" viewBox="0 0 42 25">
+              <path d="M3 3L21 21L39 3" stroke="black" stroke-width="7"/>
+            </svg>
+          </div>
+          
+          <div class="answer">
+            <p>
+              Pokud do 20 minut nepřišel e-mail pro ověření při registraci, kontaktujte nás na <b>teamme@email.cz</b> nebo na Discordu a situaci vyřešíme.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <h3>Nevíte si rady?</h3>
+            <svg width="15" height="10" viewBox="0 0 42 25">
+              <path d="M3 3L21 21L39 3" stroke="black" stroke-width="7"/>
+            </svg>
+          </div>
+          
+          <div class="answer">
+            <p>
+              Máte dotaz, který zde není zodpovězen? Kontaktujte nás na <b>teamme@email.cz</b> nebo na Discordu.
+            </p>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>
+
+<script src="/script/main_page.js"></script>
+<script src="/script/app.js"></script>
+
+</body>
+</html>

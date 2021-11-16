@@ -1,0 +1,371 @@
+.title_container{
+    display: flex;
+    width: auto;
+    justify-content: space-around;
+    align-items: center;
+    list-style-type: none;
+    height: 60px;
+    margin-top: 30px;   
+}
+
+.bar{
+    display: flex;
+    position: absolute;
+    height: 30px;
+    width: 4px;
+    background: #131313;
+    pointer-events: none;
+}
+
+.title{
+    display: flex;
+    font-size: 3.2rem;
+    margin: 10px 0;
+    width: 340px;
+    height: 100%;
+    align-items: center;
+    padding: 10px 30px;
+    color: #131313;
+}
+
+.team_border{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.faculty_label{
+    position: absolute;
+    display: flex;
+    margin-top  : 18px;
+    font-size: 2rem;
+    left: 15vw;
+    background: rgba(8, 116, 240, 1);
+    color: #ffffff;
+    width: auto;
+    padding: 10px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.team_list{
+    display: block;
+    width: 90%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    background:rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 30px;
+    margin-bottom: 35px;
+}
+
+.team_middle{
+    display: flex;
+    width: 100%;
+    height: 80px;
+    text-decoration: none;
+    color: #131313;
+    border-radius: 15px;
+}
+
+.team_middle:hover{
+    background: rgba(8, 116, 240, 1);
+    cursor: pointer;
+}
+
+.team_divider{
+    margin: 0;
+    display: block;
+    list-style-type: none;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+.team_row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.team_name{
+    display: flex;
+    white-space: nowrap;
+    width: 50%;
+    font-size: 1.9rem;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 50px;
+    overflow: hidden;
+}
+
+.members{
+    display: flex;
+    list-style-type: none;
+    width: 21vw;
+    height: 45px;
+    justify-content: left;
+    align-items: center;
+    margin-left: -40px;
+}
+
+.member_container{
+    display: flex;
+    height: 40px;
+    width: 40px;
+    background: #CCCCCC;
+    border: 2px solid #131313;
+    margin-right: 2px;
+    margin-top: 30px;
+}
+
+.head{
+    pointer-events: none;
+    display: flex;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #131313;
+    border-radius: 10px;
+    transform: translateX(7px) translateY(8px);
+}
+
+.body{
+    pointer-events: none;
+    display: flex;
+    position: absolute;
+    width: 26px;
+    height: 10px;
+    border:2px solid #131313;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: none;
+    transform: translateX(4px) translateY(27px);
+}
+
+.amount{
+    display: flex;
+    position: relative;
+    margin-top: 31px;
+    margin-left: 10px;
+    font-size: 1.5rem;
+}
+
+
+.team_subject{
+    display: flex;
+    width: 120px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 1.8rem;
+    margin-right: 20px;
+    margin-top: 17px;
+}
+
+.team_keywords{
+    display: flex;
+    height: 25px;
+    align-items: flex-start;
+    width: 50%;
+    font-size: 1.1rem;
+    margin-left: 30px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.row{
+    display: flex;
+    width: 95%;
+    height: 2px;
+    background: #131313;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 1200px){
+    .team_name{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .team_name{
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 850px){
+    .title{
+        padding: 10px 0;
+    }
+
+    .faculty_label{
+        left: 20vw;
+    }
+}
+
+@media screen and (max-width: 750px){
+    .title{
+        justify-content: center;
+    }
+
+    .team_name{
+        width: 80%;
+        margin-left: -20px;
+        font-size: 1.7rem;
+    }
+
+    .team_keywords{
+        font-size: 0.9rem;
+        margin-top: -5px;
+        margin-left: 0;
+        height: 20px;
+    }
+
+    .member_container{
+        margin-top: 35px;
+    }
+
+    .amount{
+        margin-top: 36px;
+        font-size: 1.3rem;
+    }
+
+    .team_subject{
+        margin-top: 27px;
+        font-size: 1.6rem;
+    }
+
+    .row{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 600px){
+
+    .title{
+        justify-content: center;
+    }
+
+    .team_name{
+        margin-left: -20px;
+        width: 180%;
+    }
+
+    .team_keywords{
+        margin-top: -25px;
+        margin-left: 0;
+        height: 33px;
+    }
+
+    .members{
+        padding: 0;
+        margin-top: -15px;
+        position: absolute;
+        width: 80px;
+        left: 77vw;
+    }
+
+    .amount{
+        margin-left: 5px;
+    }
+
+    .team_subject{
+        margin-top: 55px;
+        position: relative;
+        width: 40px;
+        left: -20px;
+        font-size: 1.2rem;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .title_container{
+        margin: 10px 0;
+    }
+
+    .title{
+        font-size: 2.5rem;
+    }
+
+    .team_border{
+        margin-top: -20px;
+    }
+
+    .team_name{
+        font-size: 1.4rem;
+        margin-left: -30px;
+        width: 250%;
+    }
+
+    .team_keywords{
+        font-size: 0.9rem;
+        margin-left: -15px;
+        margin-top: -30px;
+    }
+
+    .team_subject{
+        width: 30px;
+        font-size: 1.2rem;
+        left: -10px;
+        white-space: nowrap;
+    }
+
+    .amount{
+        font-size: 1.1rem;
+    }
+
+    .member_container{
+        width: 30px;
+        height: 30px;
+    }
+
+    .head{
+        width: 14px;
+        height: 14px;
+        transform: translateX(6px) translateY(7px);
+    }
+
+    .body{
+        width: 18px;
+        height: 7px;
+        transform: translateX(4px) translateY(20px);
+    }
+}
+
+@media screen and (max-width: 400px){
+    .title{
+        font-size: 2rem;
+        width: 180px;
+    }
+
+    .row{
+        margin-bottom: 0;
+        margin-top: 3px;
+    }
+
+    .team_name{
+        font-size: 1.2rem;
+        margin-left: -40px;
+    }
+
+    .team_keywords{
+        font-size: 0.8rem;
+        margin-left: -25px;
+        margin-top: -40px;
+    }
+
+    .team_subject{
+        width: 20px;
+        font-size: 1.2rem;
+        left: 5px;
+        top: -8px;
+    }
+}
