@@ -7,15 +7,16 @@
 }
 
 .title{
-    font-size: 2.5em;
-    font-weight: 600;
-    width: 400px;
+    font-size: 3.2em;
+    font-weight: 500;
+    width: 450px;
     color: #131313;
     position: relative;
     padding: 10px 30px;
     display: block;
     left: 10px;
-    opacity: 0.85;
+    opacity: 0.9;
+    text-shadow: 3px 3px 6px slategrey;
 }
 
 .faculty_list{
@@ -120,3 +121,10 @@
     background-image: url(../images/FIT.png);
 }
 
+@media screen and (max-width: 400px){
+    .title{
+        font-size: 2.8em;
+        text-align: center;
+        margin-left: auto;
+    }
+}

@@ -7,16 +7,14 @@
     position: absolute;
 }
 
-/* .form-box{
-    width: 380px;
-    height: 600px;
-    position: relative;
-    margin: 10vh auto;
-    background:  #dbe0e2;
-    padding: 5px;
-    overflow: hidden;
-    border-radius: 30px;
-} */
+.errorLogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    width: 100%;
+    font-size: large;
+}
 
 .form-box{
     width: 70%;
@@ -90,7 +88,7 @@
 }
 
 .submit-btn{
-    width: 40%;
+    width: 50%;
     padding: 10px 30px;
     cursor: pointer;
     display: block;
@@ -129,7 +127,7 @@
     text-decoration: none;
 }
 
-#selOptions {
+.selOptions {
     width: 100%;
     color: #777;
     height: 35px;
@@ -141,6 +139,13 @@
     border-radius: 10px;
 }
 
+/*============ZMENSENE OKNO==============*/
+@media screen and (max-width:1050px){
+    .submit-btn{
+        width: 55%;
+    }
+
+}
 /*============ZMENSENE OKNO==============*/
 @media screen and (max-width:800px)
 {
@@ -180,6 +185,11 @@
         outline: none;
         position: relative;
         color: white;
+    }
+
+    .errorLogin{
+        font-size: normal;
+        margin-bottom: -15px;
     }
     
     #btn{
@@ -260,7 +270,7 @@
         text-decoration: none;
     }
     
-    #selOptions {
+    .selOptions {
         width: 100%;
         color: #777;
         height: 35px;

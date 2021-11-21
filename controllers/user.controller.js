@@ -23,7 +23,7 @@ module.exports.getUser = async (req, res) => {
    */
   if (!user) {
     return res.status(404).send({
-      message: `No user found with the email ${email}`,
+      message: `Uživatel s e-mailem ${email} nenalezen!`,
     });
   }
 
@@ -31,7 +31,7 @@ module.exports.getUser = async (req, res) => {
   const faculty = await getFacultybyId(user['FacultyId'])
   if (!faculty) {
     return res.status(400).send({
-      message: 'Faculty not found!',
+      message: 'Fakulta nenalezena!',
     });
   }
 
@@ -49,7 +49,6 @@ module.exports.getUser = async (req, res) => {
    * If so, send it
    */
 
-
   res.render('user_profile', { user, faculty, userLogged, notification, myProfile });
 };
 
@@ -61,7 +60,7 @@ module.exports.getUser = async (req, res) => {
 module.exports.verificateUser = async (req, res) => {
   const { token } = req.params
   if (!token) {
-    res.status(403).send({ message: 'Error: No token!' })
+    res.status(403).send({ message: 'Error: Žádný token!' })
   }
 
   /** Find token in db */
@@ -94,7 +93,7 @@ module.exports.createUser = async (req, res) => {
   if (!email || !password || !yearOfStudy || !communicationChannel ||
     !faculty || !workingDays || !workingHours || !approach) {
     return res.status(400).send({
-      message: 'Please provide all required properties to create a user account!',
+      message: 'Vyplňte prosím všechna povinná pole pro vytvoření účtu!',
     });
   }
 
@@ -104,19 +103,17 @@ module.exports.createUser = async (req, res) => {
     */
     const user = await getUserByEmail(email)
     if (user) {
-      res.status(400).send({
-        message: 'An account with this email already exists!',
+      return res.status(400).send({
+        message: 'Účet s tímto e-mailem již existuje!',
       });
-      return 1
     }
 
     const findFaculty = await getFaculty(faculty)
     if (!findFaculty) {
       return res.status(400).send({
-        message: 'Faculty not found!',
+        message: 'Fakulta nenalezena!',
       });
     }
-
 
     /**
      * Get login from email
@@ -127,7 +124,7 @@ module.exports.createUser = async (req, res) => {
       login = name[0]
     } else {
       return res.status(400).send({
-        message: 'You need to put real email address!',
+        message: 'Použijte platnou e-mailovou adresu!',
       });
     }
 
@@ -182,7 +179,7 @@ module.exports.deleteUser = async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res.status(400).send({
-      message: 'Please provide an email for the user you are trying to delete!',
+      message: 'Uveďte prosím e-mail uživatele, kterého chcete smazat!',
     });
   }
 
@@ -192,7 +189,7 @@ module.exports.deleteUser = async (req, res) => {
   const user = await getUserByEmail(email)
   if (!user) {
     return res.status(404).send({
-      message: `No user found with the email ${email}`,
+      message: `Uživatel s e-mailem ${email} nenalezen!`,
     });
   }
 
@@ -203,7 +200,7 @@ module.exports.deleteUser = async (req, res) => {
   console.log(teamMember);
   if (teamMember != null) {
     return res.status(400).send({
-      message: "You are part of some team! Disconnect first!"
+      message: "Jste členem jiného týmu! Nejprve se z něj odpojte!"
     })
   }
 
@@ -214,7 +211,7 @@ module.exports.deleteUser = async (req, res) => {
     await user.destroy();
     await req.logOut()
     return res.status(202).send({
-      message: `User ${email} has been deleted!`
+      message: `Uživatel ${email} byl smazán!`
     });
   } catch (err) {
     return res.status(500).send({
@@ -275,7 +272,7 @@ module.exports.updateUser = async (req, res) => {
   const user = await getUserById(id)
   if (!user) {
     return res.status(404).send({
-      message: `No user found with the id ${id}`,
+      message: `Uživatel s ID ${id} nenalezen!`,
     });
   }
 
@@ -292,12 +289,10 @@ module.exports.updateUser = async (req, res) => {
           return res.status(400).send({ message: err })
         }
       }))
-        // {
-        //   return res.status(400).send({ message: "Wrong old password!" })
-        // }
-        if (newPass1 !== newPass2) {
-          return res.status(400).send({ message: "New passwords dont match!" })
-        }
+
+      if (newPass1 !== newPass2) {
+        return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
+      }
       const hashNewPassword = await bcrypt.hash(newPass1, 10)
       user.password = hashNewPassword;
     }
@@ -319,7 +314,7 @@ module.exports.updateUser = async (req, res) => {
 
     user.save();
     res.status(200).send({
-      message: `User ${id} has been updated!`,
+      message: `Heslo bylo aktualizováno!`,
     });
   } catch (err) {
     return res.status(500).send({

@@ -14,7 +14,7 @@
 .form-box{
     top: 2%;
     width: 70%;
-    height: 700px;
+    height: 750px;
     position: relative;
     margin: 10vh auto;
     background:  #dbe0e2;
@@ -71,6 +71,30 @@
     transition: 0.2s;
 }
 
+.my_profile-btn-red{
+    position: relative;
+    height: 40px;
+    width: 55%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    background: rgba(212, 15, 15, 0.767);
+    color: white;
+    border: 0;
+    outline: none;
+    opacity: 0.8;
+    border-radius: 30px;
+    font-size: large;
+}
+
+.my_profile-btn-red:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
 /*============ZMENSENE OKNO 980px==============*/
 @media screen and (max-width: 980px){
     .wrapper {
@@ -87,7 +111,7 @@
     
     .form-box{
         width: 500px;
-        height: 580px;
+        height: 650px;
     }
     
     .content-table {
@@ -102,6 +126,10 @@
     }
     
     .my_profile-btn{
+        font-size: small;
+    }
+
+    .my_profile-btn-red{
         font-size: small;
     }
 }
@@ -119,7 +147,7 @@
     .form-box{
         top: 3%;
         width: 500px;
-        height: 580px;
+        height: 630px;
     }
     
     .content-table {

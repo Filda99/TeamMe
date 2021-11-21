@@ -92,8 +92,9 @@ app.get('/login', checkNotAuthenticated, async (req, res) => {
         userLogged = true
         notification = await getUserNotifi(req.user.id)
     }
+    const errors = req.flash().error || [];
 
-    res.render('registration', {userLogged, notification})
+    res.render('registration', {userLogged, notification, errors})
 })
 
 app.get('/register', checkNotAuthenticated, async (req, res) => {
@@ -104,7 +105,9 @@ app.get('/register', checkNotAuthenticated, async (req, res) => {
         notification = await getUserNotifi(req.user.id)
     }
 
-    res.render('registration', {userLogged, notification})
+    const errors = req.flash().error || [];
+
+    res.render('registration', {userLogged, notification, errors})
 })
 
 app.get('/my_profile', checkAuthenticated, async (req, res) => {
@@ -120,8 +123,8 @@ app.use('/notification', routes.notification)
 
 app.post('/login', passport.authenticate('local', {
     successRedirect: 'my_profile',
-    failureRedirect: '/login',
-    failureFlash: true
+    failureFlash: true,
+    failureRedirect: 'login',
 }))
 
 app.get('/logout', (req, res) => {

@@ -51,3 +51,5 @@ function switch_to_login(){
     button.style.left = "0px";
     reg = false;
 }
+
+document.getElementById("errorLogin").innerText = "Nesprávné přihlašovací údaje";

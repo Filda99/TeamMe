@@ -62,9 +62,7 @@ module.exports.clearUserNotifi = async (req, res) => {
         for (const notification of deleteNotifi) {
             await notification.destroy()
         } 
-        res.status(200).send({
-            message: 'Cleared'
-        })
+        res.status(200).send()
     }catch(e){
         return e
     }

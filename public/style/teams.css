@@ -69,14 +69,17 @@
 
 .title{
     display: flex;
-    font-size: 2.4rem;
-    font-weight: 600;
+    font-size: 3.2rem;
+    font-weight: 500;
     margin: 10px 0;
-    width: 300px;
+    width: 340px;
     height: 100%;
     align-items: center;
     padding: 10px 30px;
+    margin-left: -10px;
     color: #131313;
+    opacity: 0.9;
+    text-shadow: 3px 3px 6px slategrey;
 }
 
 .find_container{
@@ -89,17 +92,19 @@
     width: 210px;
     height: 40px;
     font-size: 1.5rem;
+    border-radius: 5px;
 }
 
 .find_bar:focus{
     outline: none;
-    border: 1px solid red;
+    border: 1px solid black;
 }
 
 .find_square{
     position: absolute;
     height: 40px;
     width: 40px;
+    border-radius: 5px;
 }
 
 .round_bar{
@@ -109,7 +114,7 @@
     height: 20px;
     border: 3px solid #131313;
     border-radius: 15px;
-    transform: translateX(213px) translateY(-35px);
+    transform: translateX(216px) translateY(-35px);
     pointer-events: none;
 }
 
@@ -119,7 +124,7 @@
     height: 15px;
     background: #131313;
     position: absolute;
-    transform: translateX(234px) translateY(-20px) rotate(-45deg);
+    transform: translateX(236px) translateY(-20px) rotate(-45deg);
     pointer-events: none;
 }
 
@@ -179,6 +184,7 @@
     margin-top: 10px;
     margin-right: 50px;
     overflow: hidden;
+    font-weight: 600;
 }
 
 .members{
@@ -251,7 +257,6 @@
     width: 50%;
     font-size: 1.1rem;
     margin-left: 30px;
-    margin-top: 5px;
 }
 
 .row{
@@ -268,13 +273,14 @@
     width: 40px;
 }
 
+/*=============*/
 .filter{
     display: flex;
     width: 40px;
     height: 40px;
     background-image: url(../images/filter.png);
-    margin-top: -15px;
     box-shadow: 1px 1px 2px #131313;
+    border-radius: 5px;
 }
 
 .filter:hover{
@@ -300,6 +306,7 @@
     box-shadow: 1px 1px 5px #131313;
     font-size: 3rem;
     z-index: 10;
+    border-radius: 5px;
 }
 
 .return_container{
@@ -309,6 +316,7 @@
     height: 40px;
     margin-left: 358px;
     margin-top: -2px;
+    border-radius: 5px;
 }
 
 .return_container:hover{
@@ -327,7 +335,6 @@
     width: 150px;
     height: 40px;
     font-size: 1.5rem;
-    padding: 10px 30px;
     cursor: pointer;
     display: block;
     background: rgb(8, 116, 240);
@@ -336,6 +343,7 @@
     opacity: 0.8;
     outline: none;
     border-radius: 30px;
+    text-align: center;
 }
 
 .filter_confirm:hover {
@@ -389,6 +397,12 @@
     border: 2px solid #131313;
 }
 
+.noTeams{
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
 @media screen and (max-width: 1200px){
     .team_name{
         width: 60%;
@@ -398,12 +412,6 @@
 @media screen and (max-width: 1000px){
     .team_name{
         width: 70%;
-    }
-}
-
-@media screen and (max-width: 850px){
-    .add_team_container{
-        margin: 0px 70px;
     }
 
     .find_container{
@@ -415,24 +423,37 @@
     }
 
     .round_bar{
-        transform: translateX(153px) translateY(-35px);
+        transform: translateX(156px) translateY(-35px);
     }
 
     .line_bar{
-        transform: translateX(174px) translateY(-20px) rotate(-45deg);
+        transform: translateX(176px) translateY(-20px) rotate(-45deg);
     }
 
+    .add_team_container{
+        margin: 0px 70px;
+    }
+    
     .title{
         padding: 10px 0;
     }
 }
 
-@media screen and (max-width: 750px){
+@media screen and (max-width: 875px){
     .team_name{
         width: 80%;
     }
 
+    .empty{
+        display: none;
+    }
+
+    .filter{
+        margin-left: 50px;
+    }
+
     .title{
+        margin-left: 80px;
         justify-content: center;
     }
 
@@ -455,11 +476,11 @@
     }
 
     .round_bar{
-        transform: translateX(238px) translateY(-35px);
+        transform: translateX(241px) translateY(-35px);
     }
 
     .line_bar{
-        transform: translateX(259px) translateY(-20px) rotate(-45deg);
+        transform: translateX(261px) translateY(-20px) rotate(-45deg);
     }
 
     .team_name{
@@ -493,7 +514,26 @@
     }
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 780px){
+
+    .add_team_container{
+        margin: 0px 10px;
+    }
+
+    .filter{
+        margin-left: 20px;
+    }
+
+    .title{
+        font-size: 2.8rem;
+        width: 320px;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .add_team_container{
+        margin: 0px;
+    }
 
     .title{
         justify-content: center;
@@ -501,10 +541,6 @@
 
     #find_container{
         width: 60px;
-    }
-
-    .add_team_container{
-        margin: 0px 10px;
     }
 
     #find_con_phone{
@@ -518,11 +554,41 @@
     }
 
     .round_bar{
-        transform: translateX(238px) translateY(-35px);
+        transform: translateX(241px) translateY(-35px);
     }
 
     .line_bar{
-        transform: translateX(259px) translateY(-20px) rotate(-45deg);
+        transform: translateX(261px) translateY(-20px) rotate(-45deg);
+    }
+}
+
+@media screen and (max-width: 625px){
+
+    .title{
+        justify-content: center;
+        margin: 0;
+    }
+
+    #find_container{
+        width: 60px;
+    }
+
+    #find_con_phone{
+        display: flex;
+        justify-content: center;
+    }
+
+    .find_bar{
+        width: 205px;
+        margin-left: -55px;
+    }
+
+    .round_bar{
+        transform: translateX(156px) translateY(-35px);
+    }
+
+    .line_bar{
+        transform: translateX(177px) translateY(-20px) rotate(-45deg);
     }
 
     .team_name{
@@ -552,9 +618,29 @@
         position: relative;
         left: 0px;
     }
+
+    .noTeams{
+        font-size: medium;
+    }
+}
+
+@media screen and (max-width: 540px){
+    .title{
+        font-size: 2.5rem;
+        width: 220px;
+    }
 }
 
 @media screen and (max-width: 500px){
+
+    .filter_window{
+        width: 300px
+    }
+
+    .return_container{
+        margin-left: 258px;
+    }
+
     .title_container{
         margin: 10px 0;
     }
@@ -569,15 +655,16 @@
     }
 
     .find_bar{
+        width: 220px;
         margin-left: 0;
     }
 
     .round_bar{
-        transform: translateX(223px) translateY(-35px);
+        transform: translateX(226px) translateY(-35px);
     }
 
     .line_bar{
-        transform: translateX(244px) translateY(-20px) rotate(-45deg);
+        transform: translateX(246px) translateY(-20px) rotate(-45deg);
     }
     
     .ver_bar{
@@ -652,21 +739,25 @@
 }
 
 @media screen and (max-width: 400px){
+    .filter{
+        margin-left: 0px;
+    }
     .title{
-        font-size: 2rem;
-        width: 180px;
+        font-size: 1.7rem;
+        width: 155px;
     }
 
     .find_bar{
         margin-left: -20px;
+        width: 160px;
     }
 
     .round_bar{
-        transform: translateX(203px) translateY(-35px);
+        transform: translateX(148px) translateY(-35px);
     }
 
     .line_bar{
-        transform: translateX(224px) translateY(-20px) rotate(-45deg);
+        transform: translateX(168px) translateY(-20px) rotate(-45deg);
     }
 
     .row{

@@ -17,3 +17,11 @@ function ResElPage(){
         }
     }
 }
+
+function closeNotif(){
+    document.getElementById("popup").style.display = "none";
+}
+
+function HomePage(){
+    document.location.href = "/";
+}

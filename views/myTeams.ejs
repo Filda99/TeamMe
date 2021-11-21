@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/style/style-nav.css">
-    <link rel="stylesheet" href="/style/subjects.css">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/style/style-nav.css">
+  <link rel="stylesheet" href="/style/my_teams.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
   <% if(!userLogged) { %>
     <header>
@@ -115,104 +116,82 @@
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
       <% } %>
+        <!-- ==================================================================== -->
+        <div class="content">
+          <div class="content_container">
+            <ul class="title_container">
+              <li class="title">Moje týmy</li>
+            </ul>
+            <div id="find_con_phone"></div>
 
 
-      <div class="filter_window_container" id="filter">
-        <div class="filter_window">
-            <div class="return_container" id="return" onclick="OpenFilter()">
-                <span class="bar bar_1"></span>
-                <span class="bar bar_2"></span>
-            </div>
-            <div class="select_title">Filtr</div>
-            <form id="filterButtonClick" action="javascript:;" onsubmit="Return(this)">
-            <div class="select_container">
-                <select id="year" class="my_selects">
-                    <option value="">Ročník</option>
-                    <option value="1">1.</option>
-                    <option value="2">2.</option>
-                    <option value="3">3.</option>
-                </select>
-                <select id="subjectType" class="my_selects">
-                    <option value="" >Typ předmětu</option>
-                    <option value="1">povinný</option>
-                    <option value="2">povinně volitelný</option>
-                    <option value="3">volitelný</option>
-                </select>
-                <div class="filter_confirm_container">
-                    <input type="submit" class="filter_confirm" value="Potvrdit">
-                </div> 
-            </div>
-        </form>
-        </div>
-    </div>
+            <% shareTeamInfo.forEach((teamInfo)=> { %>
+                <div class="team_border" id="team_border">
+                  <label class="faculty_label" for="team_border">
+                    <%=teamInfo[1]%>
+                  </label>
+                  <div class="team_list" id="team_list">
+                    <% for (let i=2; i < teamInfo.length; i++) { %>
+                        <!-- <div class="team_list" id="team_list"> -->
+                          <a class="team_middle" href="
+                          <%=teamInfo[0]%>/<%=teamInfo[i]['team'].SubjectId%>/info/<%=teamInfo[i]['team'].name%>
+                          ">
+                            <ul class="team_divider">
+                              <div class="team_row">
+                                <li class="team_name"><%=teamInfo[i]['team'].name%></li>
+                                <li class="members">
+                                  <span class="member_container">
+                                    <span class="head"></span>
+                                    <span class="body"></span>
+                                  </span>
+                                  <div class="amount">
+                                    <%=teamInfo[i]['joinedMem']%>/<%=teamInfo[i]['team'].maxNumberOfMembers%>
+                                  </div>
+                                </li>
+                                <li class="team_subject"><%=teamInfo[i]['subject']%></li>
+                              </div>
+                              <div class="team_row">
+                                <div class="team_keywords">#: <%=teamInfo[i]['team'].hashtags%></div>
+                              </div>
+                            </ul>
+                          </a>
+                        <!-- </div> -->
+                        <hr class="row">
+                        <% } %>
+                  </div>
+                </div>
+                <% }) %>
 
-    <div class="content" id="content">
-      <div class="content_container">
-          <ul class="title_container">
-              <li class="faculty_ref_container">
-                  <a href="/faculty" class="faculty_ref" id="faculty_ref">Výběr fakulty</a>
-                  <span class="twisted_bar"></span>
-                  <span class="left_bar"></span>
-                  <span class="right_bar"></span>
-              </li>
-              <li class="empty"></li>
-              <li class="title">Vyberte předmět</li>
-              <li class="filter" onclick="OpenFilter()"></li>
-              <li class="find_container" id="find_container">
-                  <form action="javascript:;" onsubmit="Search(this)">
-                      <input type="text" class="find_bar" id="search_phrase" oninput="Search(this)">
-                      <input type="submit" class="find_square" value="">
-                      <span class="round_bar"></span>
-                      <span class="line_bar"></span>
-                  </form>
-              </li>
-          </ul>
-          <div id="find_con_phone"></div>
-          <div id="search">
-              <ul class="subject_list">
-                  <% var index = 0; %>
-                  <% subjectArray.forEach((subject) => { %>
-                      <% index++ %>
-                      <li class="subject_item">
-                          <a class="subject_link" href="/team/<%=faculty%>/<%=subject.id%>"> <%= subject.short %> </a>
-                      </li>
 
-                      <% if(!(index %= 6)) { %>
-                          </ul>
-                          <ul class="subject_list">
-                      <% } %>
-
-                  <% }) %>
-              </ul>
-              
           </div>
-      </div>
-  </div>
-  <script src="/script/subjects.js"></script> 
+        </div>
+
+        <script src="/script/teams.js"></script>
+
+        <!-- aplikace filtru -->
+        <script>
+          async function filterFunc(event) {
+            OpenFilter();
+            event.preventDefault();
+            const data = new FormData(event.target);
+            const value = JSON.stringify(Object.fromEntries(data));
+
+            selectValue = "?partOfSemester=" + document.getElementById("year").value;
+            const response = await fetch(selectValue, {
+              method: "GET",
+              redirect: 'follow',
+            });
+
+            if (response) {
+              window.location.href = response.url
+            }
+          }
+          var formFilter = document.querySelector('#filterButtonClick');
+          if (formFilter)
+            formFilter.addEventListener('submit', filterFunc);
+        </script>
+
 </body>
-
-<script>
-  async function filterFunc(event){
-      OpenFilter();
-      event.preventDefault();
-      const data = new FormData(event.target);
-      const value = JSON.stringify(Object.fromEntries(data));
-
-      selectValue = "?year=" + document.getElementById("year").value + "&subjectType=" + document.getElementById("subjectType").value;
-      console.log(selectValue);
-      const response = await fetch(selectValue, {
-        method: "GET",
-        redirect: 'follow',
-      });
-
-      if (response) {
-          window.location.href = response.url
-      }
-  }
-
-  var formFilter = document.querySelector('#filterButtonClick');
-  if (formFilter)
-    formFilter.addEventListener('submit', filterFunc);
-</script>
+<script src="/script/app.js"></script>
 
 </html>

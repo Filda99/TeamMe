@@ -47,6 +47,7 @@ body{
 
 .logo{
     height: 60px;
+    cursor: pointer;
 }
 
 /*STYLY NAVIGACE*/
@@ -161,6 +162,16 @@ nav {
 }
 /*==================*/
 
+/*NEWS DROPDOWN barva*/
+.dropdown_item-news{
+    position: relative;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: white;
+}
+/*END*/
+
 nav ul{
     margin: 0;
     padding: 0;
@@ -184,6 +195,76 @@ nav a{
 .notifications{
     color: white;
     text-decoration: none;
+}
+
+/*  POP-UP notifikace*/
+
+.popup_window_container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup_window{
+    width: 350px;
+    /* height: auto; */
+    border: 2px solid #131313;
+    background: #ffffff;
+    box-shadow: 1px 1px 5px #131313;
+    font-size: 3rem;
+    z-index: 10;
+}
+
+.popup_return_container{
+    position: absolute;
+    border: 2px solid #131313;
+    width: 40px;
+    height: 40px;
+    margin-left: 308px;
+    margin-top: -2px;
+}
+
+.popup_return_container:hover{
+    background: #FF3333;
+    cursor: pointer;
+}
+
+.popup_bar{
+    position: absolute;
+    pointer-events: none;
+    width: 36px;
+    height: 2px;
+    background: #131313;
+    font-size: 0;
+}
+
+.popup_bar_1{
+    transform: translateY(18px) rotate(45deg);
+}
+
+.popup_bar_2{
+    transform: translateY(18px) rotate(-45deg);
+}
+
+.popup_title{
+    width: 100%;
+    height: 50px;
+    font-size: 2rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.popup_container{
+    display: grid;
+    font-size: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    width: 100%;
 }
 
 /*kontroluje, jestli je prepinac zaskrnuty - pokud je zaskrnuto, navigace se schova*/
@@ -242,6 +323,7 @@ nav ul li ul li a{
 
     .logo{
         grid-column: 2/3;
+        cursor: pointer;
     }
 
     nav{
@@ -318,7 +400,7 @@ nav ul li ul li a{
         display: none; /*none*/
         position: absolute;
         list-style-type: none;
-        background-color:var(--background);
+        background-color: var(--background);
         padding: 10px;
         top: 20px;
         margin-left: -8em; /*posun okenka doleva*/

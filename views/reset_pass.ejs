@@ -11,18 +11,13 @@
 <body>
   <% if(!userLogged) { %>
     <header>
-      <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
       <input type="checkbox" id="nav-toggle" class="nav-toggle">
       <nav>
         <ul>
           <li><a href="/">Domů</a></li>
           <li><a href="/faculty">Najít tým</a></li>
-          <li><a href="/register">Účet</a>
-            <ul class="dropdown" id="dropdown">
-              <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
-              <li><a class="dropdown_item" href="/register">Registrace</a></li>
-            </ul>
-          </li>
+          <li><a href="/register">Účet</a></li>
 
         </ul>
       </nav>
@@ -31,7 +26,7 @@
     </header>
     <% } if(userLogged) { %>
       <header>
-        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
         <nav>
           <ul>
@@ -121,8 +116,8 @@
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
       </header>
       <% } %>
-
-    <div class="hero">
+      
+      <div class="hero">
         <div class="form-box">
           <!-- minlength="8" -->
             <form id="edit" class="input-group">

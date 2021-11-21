@@ -8,42 +8,37 @@
     content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <% if(!userLogged) { %>
-        <header>
-          <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-          <input type="checkbox" id="nav-toggle" class="nav-toggle">
-          <nav>
-            <ul>
-              <li><a href="/">Domů</a></li>
-              <li><a href="/faculty">Najít tým</a></li>
-              <li><a href="/register">Účet</a>
-                <ul class="dropdown" id="dropdown">
-                  <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
-                  <li><a class="dropdown_item" href="/register">Registrace</a></li>
-                </ul>
-              </li>
-    
-            </ul>
-          </nav>
-          <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-    
-        </header>
-        <% } if(userLogged) { %>
-          <header>
-            <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
-            <input type="checkbox" id="nav-toggle" class="nav-toggle">
-            <nav>
-              <ul>
-                <li><a href="/">Domů</a></li>
-                <li><a href="/faculty">Najít tým</a></li>
-                <li><a href="/my_profile">Účet</a>
-                  <ul class="dropdown" id="dropdown">
-                    <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-                    <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-                    <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-                  </ul>
-                </li>
-                <!-- NOTIFIKACNI LISTA START -->
+  <% if(!userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/register">Účet</a></li>
+
+        </ul>
+      </nav>
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+
+    </header>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/faculty">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
+            <!-- NOTIFIKACNI LISTA START -->
             <li><a id="notif" href="#">Notifikace</a>
               <ul class="dropdown-news" id="dropdown-news">
                 <form id="notifForm">
@@ -118,21 +113,21 @@
           notifiFormMobile.addEventListener('submit', notification);
         </script>
         <!-- NOTIFIKACNI LISTA END (mobilni) -->
-          </header>
-          <% } %>
-    
+      </header>
+      <% } %>
+
     <div class="content" id="content"> 
-        <!-- <img src="images/error.jpg" class="image_back" id="content_container"> -->
-        <div class="image_back" id="content_container"></div>
-        <div class="error_border">
-            <div class="error_message">
-                <div class="ops">
-                    Jejda, tady se něco pokazilo!<br>
-                    <%=message%>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="image_back" id="content_container"></div>
+      <div class="error_border">
+          <div class="error_message">
+              <div class="ops">
+                  Jejda, tady se něco pokazilo!<br>
+                  <%=message%>
+              </div>
+          </div>
+      </div>
+  </div>
             
 </body>
+<script src="/script/app.js"></script>
 </html>

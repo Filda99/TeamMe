@@ -1,16 +1,36 @@
 window.onresize = FacultiesRes;
 window.onload = FacultiesRes;
-var current = document.getElementById("dropdown-news").style.display;
+if(document.getElementById("dropdown-news")){
+    var current = document.getElementById("dropdown-news").style.display;
+}
 
 function FacultiesRes(){
-    if(window.innerWidth < 800){
-        document.getElementById("dropdown-news").style.display = "none";
-        document.getElementById("notif").style.display = "none";
-    }
-    else{
-        document.getElementById("dropdown-news").style.display = current;
-        document.getElementById("notif").style.display = "flex";
-    }
+        if(window.innerWidth < 800){
+            if(document.getElementById("dropdown-news")){
+                document.getElementById("dropdown-news").style.display = "none";
+            }
+            if(document.getElementById("notif")){
+                document.getElementById("notif").style.display = "none";
+            }
+        }
+        else{
+            if(document.getElementById("dropdown-news")){
+                document.getElementById("dropdown-news").style.display = current;
+            }
+            if(document.getElementById("notif")){
+                document.getElementById("notif").style.display = "flex";
+            }
+        }
+
+    // if(window.innerWidth < 800){
+    //     document.getElementById("dropdown-news").style.display = "none";
+    //     document.getElementById("notif").style.display = "none";
+    // }
+    // else{
+    //     document.getElementById("dropdown-news").style.display = current;
+    //     document.getElementById("notif").style.display = "flex";
+    // }
+    
     const faculties = document.querySelector("#faculty_list");
     var all_faculties = [];
     var number_of_faculties = faculties.getElementsByTagName("li").length;
@@ -108,4 +128,8 @@ ajaxaranba.onreadystatechange = function(){
             return;
         }
     }
+}
+
+function HomePage(){
+    document.location.href = "/";
 }

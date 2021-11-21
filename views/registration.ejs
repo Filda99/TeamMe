@@ -2,28 +2,22 @@
 <html lang="cs">
 
 <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="style/style-nav.css">
-  <link rel="stylesheet" href="style/main_page.css">
-  <link rel="stylesheet" href="style/registration.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style/style-nav.css">
+    <link rel="stylesheet" href="style/main_page.css">
+    <link rel="stylesheet" href="style/registration.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
   <% if(!userLogged) { %>
     <header>
-      <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
       <input type="checkbox" id="nav-toggle" class="nav-toggle">
       <nav>
         <ul>
           <li><a href="/">Domů</a></li>
           <li><a href="/faculty">Najít tým</a></li>
-          <li><a href="/register">Účet</a>
-            <ul class="dropdown" id="dropdown">
-              <li><a class="dropdown_item" href="/register">Přihlášení</a></li>
-              <li><a class="dropdown_item" href="/register">Registrace</a></li>
-            </ul>
-          </li>
+          <li><a href="/register">Účet</a></li>
 
         </ul>
       </nav>
@@ -32,7 +26,7 @@
     </header>
     <% } if(userLogged) { %>
       <header>
-        <img src="/images/logo.png" alt="logo" class="logo" width="200" height="50">
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
         <nav>
           <ul>
@@ -123,84 +117,90 @@
       </header>
       <% } %>
 
-        <div class="hero">
-          <div class="form-box" id="form-box">
-            <div class="button-box">
-              <div id="btn"></div>
-              <button type="button" class="toggle-btn" onclick="switch_to_login()">Přihlášení</button>
-              <button type="button" class="toggle-btn" onclick="switch_to_registration()">Registrace</button>
-            </div>
-
-            <form id="login" method="post" action="/login" class="input-group">
-              <input type="email" class="input-field" name="email" placeholder="E-mail" required>
-              <input type="password" class="input-field" name="password" placeholder="Heslo" required>
-              <button type="submit" class="submit-btn">Přihlásit se</button>
-            </form>
-
-            <form id="register" class="input-group">
-              <input type="email" class="input-field" name="email" placeholder="E-mail" required>
-              <input type="password" class="input-field" name="password" placeholder="Heslo" required>
-              <input type="number" class="input-field" name="yearOfStudy" placeholder="Ročník" required>
-              <input type="text" class="input-field" name="communicationChannel" placeholder="Kontakt" required>
-              <div class="select">
-                <select name="faculty" id="selOptions">
-                  <option value="" disabled selected hidden>Fakulta</option>
-                  <option value="FIT">FIT</option>
-                  <option value="FEKT">FEKT</option>
-                  <option value="FCH">FCH</option>
-                  <option value="FAST">FAST</option>
-                  <option value="FA">FA</option>
-                  <option value="FP">FP</option>
-                  <option value="FaVU">FaVU</option>
-                </select>
-                <select name="approach" id="selOptions" required>
-                  <option value="" disabled selected hidden>Přístup k práci</option>
-                  <option value="1">týmový</option>
-                  <option value="2">individuální</option>
-                </select>
-                <select name="workingHours" id="selOptions" required>
-                  <option value="" disabled selected hidden>Preferovaná doba práce</option>
-                  <option value="1">brzy ráno</option>
-                  <option value="2">dlouho do noci</option>
-                  <option value="3">během dne</option>
-                </select>
-                <select name="workingDays" id="selOptions" required>
-                  <option value="" disabled selected hidden>Preferované dny práce</option>
-                  <option value="1">začátek týdne</option>
-                  <option value="2">konec týdne</option>
-                  <option value="3">víkend</option>
-                </select>
-              </div>
-              <button type="submit" class="submit-btn">Registrovat se</button>
-            </form>
+      <div class="hero">
+        <div class="form-box" id="form-box">
+          <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" class="toggle-btn" onclick="switch_to_login()">Přihlášení</button>
+            <button type="button" class="toggle-btn" onclick="switch_to_registration()">Registrace</button>
           </div>
+
+          <form id="login" method="post" action="/login" class="input-group">
+            <input type="email" class="input-field" name="email" placeholder="E-mail" required>
+            <input type="password" class="input-field" name="password" placeholder="Heslo" required>
+            <% for(let i = 0; i < errors.length; i++) { %>
+              <div class="errorLogin" id="errorLogin"><%= errors[i] %></div>
+            <% } %>
+            <button type="submit" class="submit-btn">Přihlásit se</button>
+          </form>
+
+          <form id="register" class="input-group">
+            <input type="email" class="input-field" name="email" placeholder="E-mail" required>
+            <input type="password" class="input-field" name="password" placeholder="Heslo" required>
+            <input type="number" class="input-field" name="yearOfStudy" placeholder="Ročník" required>
+            <input type="text" class="input-field" name="communicationChannel" placeholder="Kontakt" required>
+            <div class="select">
+              <select name="faculty" class="selOptions">
+                <option value="" disabled selected hidden>Fakulta</option>
+                <option value="FIT">FIT</option>
+                <option value="FEKT">FEKT</option>
+                <option value="FCH">FCH</option>
+                <option value="FAST">FAST</option>
+                <option value="FA">FA</option>
+                <option value="FP">FP</option>
+                <option value="FaVU">FaVU</option>
+              </select>
+              <select name="approach" class="selOptions" required>
+                <option value="" disabled selected hidden>Přístup k práci</option>
+                <option value="1">týmový</option>
+                <option value="2">individuální</option>
+              </select>
+              <select name="workingHours" class="selOptions" required>
+                <option value="" disabled selected hidden>Preferovaná doba práce</option>
+                <option value="1">brzy ráno</option>
+                <option value="2">dlouho do noci</option>
+                <option value="3">během dne</option>
+              </select>
+              <select name="workingDays" class="selOptions" required>
+                <option value="" disabled selected hidden>Preferované dny práce</option>
+                <option value="1">začátek týdne</option>
+                <option value="2">konec týdne</option>
+                <option value="3">víkend</option>
+              </select>
+            </div>
+            <button type="submit" class="submit-btn">Registrovat se</button>
+          </form>
         </div>
-        </div>
+      </div>
+      </div>
+
+      
+      
 
 </body>
 <script>
-  async function fetchLocation(event) {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const value = JSON.stringify(Object.fromEntries(data))
-    const response = await fetch("/user/CreateUser", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: value
-    });
-    if (response) {
-      let error = await response.json()
-      alert(error.message);
-    }
-    else
-      window.location.href = 'register'
+async function fetchLocation(event) {
+  event.preventDefault();
+  const data = new FormData(event.target);
+  const value = JSON.stringify(Object.fromEntries(data))
+  const response = await fetch("/user/CreateUser", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: value
+  });
+  if (response.status >= 400) {
+    let error = await response.json()
+    alert(error.message);
   }
+  else
+    window.location.href = 'register'
+}
 
-  const form = document.querySelector('#register');
-  form.addEventListener('submit', fetchLocation);
+const form = document.querySelector('#register');
+form.addEventListener('submit', fetchLocation);
 </script>
 
 <script src="/script/app.js"></script>

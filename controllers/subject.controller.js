@@ -10,7 +10,7 @@ module.exports.getAll = async (req, res) => {
     const { faculty } = req.params
     const { year, subjectType } = req.query
     if (!faculty) {
-        res.status(401).send('Insert faculty first')
+        res.status(401).send('Nejdříve zadejte fakultu.')
     }
     /** Check that faculty and subject exists */
     await starterCheck(req, res, faculty)
@@ -65,7 +65,7 @@ module.exports.createNew = async (req, res) => {
     const { short, year, specialization, compulsory } = req.body
     const { faculty } = req.params
     if (!faculty) {
-        res.status(401).send('Insert faculty first')
+        res.status(401).send('Nejdřív zadejte fakultu.')
     }
     /** Check that faculty and subject exists */
     await starterCheck(req, res, faculty)

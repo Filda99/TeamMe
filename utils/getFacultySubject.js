@@ -46,7 +46,37 @@ async function getFacultybyId(id) {
     return facultyExists
 }
 
+async function returnFacultyBySubject(subjectId){
+    const subject = await Subject.findOne({
+        where: {
+            id: subjectId
+        }
+    })
+    return subject.FacultyId
+}
+
+async function getFacultyNameById(facultyId){
+    const facultyName = await Faculty.findOne({
+        where:{
+            id: facultyId
+        }
+    })
+    return facultyName.short
+}
+
+async function getSubjectNameById(subjectId){
+    const subjectName = await Subject.findOne({
+        where:{
+            id: subjectId
+        }
+    })
+    return subjectName.short
+}
+
 module.exports = {
     getFaculty,
-    getFacultybyId
+    getFacultybyId,
+    returnFacultyBySubject,
+    getFacultyNameById,
+    getSubjectNameById
 }

@@ -74,7 +74,7 @@
     transition: 0.2s;
 }
 
-#selOptions {
+.selOptions {
     width: 100%;
     color: #777;
     height: 35px;
@@ -180,49 +180,10 @@
         left: 110px;
     }
 
-    #selOptions {
+    .selOptions {
         font-size: small;
     }
 }
-
-/*============ZMENSENE OKNO 800px==============*/
-/* @media screen and (max-width: 800px){
-    .form-box{
-        top: 3%;
-        width: 500px;
-        height: 550px;
-        position: relative;
-        margin: 10vh auto;
-        background:  #dbe0e2;
-        padding: 5px;
-        overflow: hidden;
-        border-radius: 30px;
-    }
-    
-    .input-group{
-        top: 20px;
-        position: absolute;
-        width: 230px;
-        transition: .5s;
-        font-size: large;
-    }
-    
-    .submit-btn{
-        font-size: small;
-    }
-    
-    .submit-btn-red{
-        font-size: small;
-    }
-    
-    #edit{
-        left: 140px;
-    }
-
-    #selOptions {
-        font-size: small;
-    }
-} */
 
 /*============ZMENSENE OKNO 715px==============*/
 @media screen and (max-width: 715px){

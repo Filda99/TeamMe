@@ -32,7 +32,6 @@ async function getUserById(id) {
             }
         })
         const userFaculty = await getFacultybyId(user.FacultyId)
-        console.log(user + userFaculty);
         return user
     }catch(e){
         return e

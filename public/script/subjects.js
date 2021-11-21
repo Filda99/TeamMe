@@ -133,22 +133,30 @@ function Search(){
     let stringos = "";
     let shortcut;
     let counter = 0;
+    let lastsubjectindex = 0;
 
     for(var i = 0; i < number_of_original_subjects; i++){ // my_teams - inner HTML (string)
-        shortcut = my_subjects.substring(my_subjects.indexOf('href="teams.html"', i+1) + 18, my_subjects.indexOf("</a>", i+1)).toLocaleLowerCase();
+        shortcut = my_subjects.substring(my_subjects.indexOf('class="subject_link"', lastsubjectindex) + 21, my_subjects.indexOf("</a>", lastsubjectindex)).toLocaleLowerCase();
+        console.log(shortcut);
         if(shortcut.includes(search_phrase)){
-            if(counter%5 == 0){
+            if(counter%6 == 0){
                 stringos = stringos.concat('<ul class="subject_list">');
             }
-            stringos = stringos.concat(my_subjects.substring(my_subjects.indexOf('<li class="subject_item">', i+1), my_subjects.indexOf("</li>", i+1) + 5));
+            stringos = stringos.concat(my_subjects.substring(my_subjects.indexOf('<li class="subject_item">', lastsubjectindex), my_subjects.indexOf("</li>", lastsubjectindex) + 5));
             counter++;
-            if(counter == 5){
+            if(counter%6 == 0){
                 stringos = stringos.concat('</ul>');
             }
         }
+        lastsubjectindex = my_subjects.indexOf("</li>", lastsubjectindex) + 4;
     }
     if(counter != 5){
         stringos = stringos.concat('</ul>');
     }
     document.getElementById("search").innerHTML = stringos;
 }
+
+function HomePage(){
+    document.location.href = "/";
+}
+
