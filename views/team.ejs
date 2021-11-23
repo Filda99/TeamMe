@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/style/team.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<!-------------------------- NAVIGACE -------------------------------->
 <body>
   <% if(!userLogged) { %>
     <header>
@@ -18,104 +19,113 @@
           <li><a href="/">Domů</a></li>
           <li><a href="/faculty">Najít tým</a></li>
           <li><a href="/register">Účet</a></li>
-
         </ul>
       </nav>
       <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-
     </header>
-    <% } if(userLogged) { %>
-      <header>
-        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-          <ul>
-            <li><a href="/">Domů</a></li>
-            <li><a href="/faculty">Najít tým</a></li>
-            <li><a href="/my_profile">Účet</a>
-              <ul class="dropdown" id="dropdown">
-                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-              </ul>
-            </li>
-            <!-- NOTIFIKACNI LISTA START -->
-            <li><a id="notif" href="#">Notifikace</a>
-              <ul class="dropdown-news" id="dropdown-news">
-                <form id="notifForm">
-                  <button type="submit" class="clear-btn_index">Vyčistit</button>
-                </form>
-                <%notification.forEach((notifi, index)=> {%>
-                  <p class="dropdown_item-news">
-                    <%= notifi.notification %>
-                  </p>
-                  <%})%>
-              </ul>
-            </li>
-            <script>
-              async function notification(event) {
-                const response = await fetch("/notification/deleteAll", {
-                  method: "POST",
-                  redirect: 'follow',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  },
-                });
-                if (response) {
-                  let error = await response.json()
-                  alert(error.message);
-                }
-                window.location.href = ''
+
+  <% } if(userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/my_profile">Účet</a>
+            <ul class="dropdown" id="dropdown">
+              <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+              <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+              <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+            </ul>
+          </li>
+          
+      <!-- NOTIFIKACNI LISTA START -->
+          <li><a id="notif" href="#">Notifikace</a>
+            <ul class="dropdown-news" id="dropdown-news">
+              <form id="notifForm">
+                <button type="submit" class="clear-btn_index">Vyčistit</button>
+              </form>
+              <%notification.forEach((notifi, index)=> {%>
+                <p class="dropdown_item-news dropdown_item-time">
+                  <%= notifi.createdAt %>
+                </p>
+                <p class="dropdown_item-news">
+                  <%= notifi.notification %>
+                </p>
+                <%})%>
+            </ul>
+          </li>
+
+          <script>
+            async function notification(event) {
+              const response = await fetch("/notification/deleteAll", {
+                method: "POST",
+                redirect: 'follow',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+              });
+              if (response) {
+                let error = await response.json()
+                alert(error.message);
               }
-
-              const notifiForm = document.querySelector('#notifForm');
-              notifiForm.addEventListener('submit', notification);
-            </script>
-            <!-- NOTIFIKACNI LISTA END -->
-          </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-
-        <!-- NOTIFIKACNI LISTA START (mobilni) -->
-        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
-        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
-        <nav class="nav_notify">
-          <ul class="dropdown-news" id="dropdown-news">
-            <a id="notif" href="#"></a>
-            <form id="notifFormMobil">
-              <button type="submit" class="clear-btn_index">Vyčistit</button>
-            </form>
-            <%notification.forEach((notifi, index)=> {%>
-              <p class="dropdown_item-news">
-                <%= notifi.notification %>
-              </p>
-              <%})%>
-          </ul>
-        </nav>
-        <script>
-          async function notification(event) {
-            const response = await fetch("/notification/deleteAll", {
-              method: "POST",
-              redirect: 'follow',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            });
-            if (response) {
-              let error = await response.json()
-              alert(error.message);
+              window.location.href = ''
             }
-            window.location.href = ''
-          }
 
-          const notifiFormMobile = document.querySelector('#notifFormMobil');
-          notifiFormMobile.addEventListener('submit', notification);
-        </script>
-        <!-- NOTIFIKACNI LISTA END (mobilni) -->
-      </header>
-      <% } %>
+            const notifiForm = document.querySelector('#notifForm');
+            notifiForm.addEventListener('submit', notification);
+          </script>
+      <!-- NOTIFIKACNI LISTA END -->
+        </ul>
+      </nav>
+      
+      
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+      <!-- NOTIFIKACNI LISTA START (mobilni) -->
+      <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+      <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+      <nav class="nav_notify">
+        <ul class="dropdown-news" id="dropdown-news">
+          <a id="notif" href="#"></a>
+          <form id="notifFormMobil">
+            <button type="submit" class="clear-btn_index">Vyčistit</button>
+          </form>
+          <%notification.forEach((notifi, index)=> {%>
+            <p class="dropdown_item-news dropdown_item-time">
+              <%= notifi.createdAt %>
+            </p>
+            <p class="dropdown_item-news">
+              <%= notifi.notification %>
+            </p>
+            <%})%>
+        </ul>
+      </nav>
+
+      <script>
+        async function notification(event) {
+          const response = await fetch("/notification/deleteAll", {
+            method: "POST",
+            redirect: 'follow',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+          });
+          if (response) {
+            let error = await response.json()
+            alert(error.message);
+          }
+          window.location.href = ''
+        }
+        const notifiFormMobile = document.querySelector('#notifFormMobil');
+        notifiFormMobile.addEventListener('submit', notification);
+      </script>
+      <!-- NOTIFIKACNI LISTA END (mobilni) -->
+    </header>
+    <% } %>
+<!-------------------------- KONEC NAVIGACE -------------------------------->
 
       <div class="content">
         <div class="content_container">

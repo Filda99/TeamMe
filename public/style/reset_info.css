@@ -74,9 +74,16 @@
     font-size: 2.0rem;
 }
 
-#selOptions {
+.labelInfo{
+    margin-bottom: -3px;
+    margin-top: 10px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.selOptions {
     width: 100%;
-    color: #777;
+    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;
@@ -85,6 +92,10 @@
     text-decoration: none;
     border-radius: 10px;
     font-size: large;
+}
+
+.hidden{
+    display: none;
 }
 
 /*============ZMENSENE OKNO 950px==============*/
@@ -174,7 +185,7 @@
         left: 90px;
     }
 
-    #selOptions {
+    .selOptions {
         font-size: small;
     }
 }
@@ -211,7 +222,7 @@
         left: 50px;
     }
 
-    #selOptions {
+    .selOptions {
         font-size: small;
     }
 }

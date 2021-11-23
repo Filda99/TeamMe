@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/style/style-nav.css">
-    <link rel="stylesheet" href="/style/error.css">
+    <link rel="stylesheet" href="/style/main_page.css">
+    <link rel="stylesheet" href="/style/reset_pass.css">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
@@ -125,19 +126,42 @@
     </header>
     <% } %>
 <!-------------------------- KONEC NAVIGACE -------------------------------->
-
-    <div class="content" id="content"> 
-      <div class="image_back" id="content_container"></div>
-      <div class="error_border">
-          <div class="error_message">
-              <div class="ops">
-                  Jejda, tady se něco pokazilo!<br>
-                  <%=message%>
-              </div>
-          </div>
-      </div>
-  </div>
-            
+      
+      <div class="hero">
+        <div class="form-box">
+            <form id="edit" class="input-group">
+                <h2 class="nadpis">Obnova hesla</h2>
+                <input type="email" name="email" class="input-field" placeholder="E-mail pro obnovu hesla" required>
+                <button type="submit" class="submit-btn">Obnovit heslo</button>
+            </form>
+        </div>
+    </div>
+    
+    
 </body>
+<script>
+  async function fetchLocation(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const value = JSON.stringify(Object.fromEntries(data))
+    const response = await fetch("/user/reset-email", {
+      method: "POST",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: value
+    });
+    if (response) {
+      window.location.href = '/login'
+      let error = await response.json()
+      alert(error.message);
+    }
+  }
+  const form = document.querySelector('#edit');
+  form.addEventListener('submit', fetchLocation);
+</script>
+
 <script src="/script/app.js"></script>
 </html>

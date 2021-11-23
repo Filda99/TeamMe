@@ -52,4 +52,7 @@ function switch_to_login(){
     reg = false;
 }
 
-document.getElementById("errorLogin").innerText = "Nesprávné přihlašovací údaje";
+if(document.getElementById("errorLogin")){
+    document.getElementById("errorLogin").innerText = "Nesprávné přihlašovací údaje";
+}
+

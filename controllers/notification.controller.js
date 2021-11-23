@@ -40,6 +40,11 @@ module.exports.getUserNotifi = async (userId) => {
                 UserId: userId
             }
         })
+        // let zeit = "";
+        // notifications.forEach((notification) => {
+        //     zeit = notification.dataValues.createdAt;
+        //     console.log(zeit);
+        // })
         return notifications
     }catch(e){
         return e

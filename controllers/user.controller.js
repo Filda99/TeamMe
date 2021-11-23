@@ -1,10 +1,12 @@
 const { User } = require("../database/sequelize")
 const bcrypt = require('bcrypt')
 const { getUserById, getUserByEmail, getUserPassById } = require('../utils/getUser');
-const { sendVerifiMail } = require("../nodemail");
+const { sendVerifiMail, sendResetPassMail } = require("../nodemail");
 const { getFaculty, getFacultybyId } = require("../utils/getFacultySubject");
 const { getUserNotifi, userSendNotifi } = require("./notification.controller");
 const { userPartOfAnyTeam } = require("../utils/teamAvailability");
+const { v4: uuidv4 } = require('uuid');
+
 
 /*********************************************************************
  *  Get user's information and send it
@@ -76,6 +78,35 @@ module.exports.verificateUser = async (req, res) => {
     return res.status(200).redirect('/login')
   } else {
     return res.status(403).redirect('/register')
+  }
+}
+
+
+/*********************************************************************
+ *  Validate user through email link
+ * 
+ *  @returns  Set validate in db to null for that user
+ */
+module.exports.resetPassEmail = async (req, res) => {
+  const { email } = req.body
+  if (!email) {
+    res.status(403).send({ message: 'Error: Nezadaný email!' })
+  }
+  const code = uuidv4();
+
+  /** Find user in db */
+  const user = await getUserByEmail(email)
+  if (!user) {
+    return res.status(403).send({ message: 'Error: Uživatel nenalezen!' })
+  }
+
+  try {
+    user.reset_pass = code
+    await user.save()
+    await sendResetPassMail(email, user.login, req.headers.host, code)
+    return res.status(200).send({ message: 'Odkaz pro resetování hesla byl poslán na Váš e-mail.' })
+  } catch (e) {
+    return res.status(403).send({ message: 'Error: Email pro obnovu hesla se nepodařilo odeslat.' })
   }
 }
 
@@ -157,7 +188,8 @@ module.exports.createUser = async (req, res) => {
       workingHours: workingHours,
       approach: approach,
       FacultyId: findFaculty['id'],
-      verification: null    // TODO: remove
+      verification: null,    // TODO: remove
+      reset_pass: null
     });
     res.status(201).redirect('/login')
 
@@ -244,6 +276,18 @@ module.exports.showResetPass = async (req, res) => {
   res.render('reset_pass', { user, userLogged, notification })
 }
 
+module.exports.showNewPass = async (req, res) => {
+  let userLogged = false
+  let notification = null
+  let user = null
+  if (req.user) {
+    userLogged = true
+    notification = await getUserNotifi(req.user.id)
+    user = await User.findByPk(req.user.id)
+  }
+  res.render('reset_pass_email', { user, userLogged, notification })
+}
+
 /*********************************************************************
  *  Update user
  *  Not user's email and id...
@@ -290,9 +334,9 @@ module.exports.updateUser = async (req, res) => {
         }
       }))
 
-      if (newPass1 !== newPass2) {
-        return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
-      }
+        if (newPass1 !== newPass2) {
+          return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
+        }
       const hashNewPassword = await bcrypt.hash(newPass1, 10)
       user.password = hashNewPassword;
     }
@@ -314,7 +358,90 @@ module.exports.updateUser = async (req, res) => {
 
     user.save();
     res.status(200).send({
-      message: `Heslo bylo aktualizováno!`,
+      message: `Aktualizace proběhla úspěšně!`,
+    });
+  } catch (err) {
+    return res.status(500).send({
+      message: `Error: ${err.message}`,
+    });
+  }
+};
+
+/*********************************************************************
+ *  Reset password - FORGOTTEN PASS
+ * 
+ *  @returns  Message, that user if properly deleted
+ */
+module.exports.resetPass = async (req, res) => {
+  /**
+   * Get all params
+   */
+  const { code } = req.params;
+
+  /**
+   * Check that user exists
+   */
+  const user = await User.findOne({
+    where: {
+      reset_pass: code
+    }
+  })
+  if (!user) {
+    return res.status(404).render('error', {
+      message: `Heslo se nepodařilo obnovit! Zkuste to prosím znovu.`,
+    });
+  }
+  let userLogged = false
+  let notification = null
+  if (req.user) {
+    userLogged = true
+    notification = await getUserNotifi(req.user.id)
+  }
+  res.status(200).render('reset_pass_new', { user, userLogged, notification  });
+};
+
+
+/*********************************************************************
+ *  Update user
+ *  Not user's email and id...
+ * 
+ *  @returns  Message, that user if properly deleted
+ */
+module.exports.resetPassFinal = async (req, res) => {
+  /**
+   * Get all params
+   */
+  const {
+    email,
+    newPass1,
+    newPass2
+  } = req.body;
+
+  /**
+   * Check that user exists
+   */
+  const user = await getUserByEmail(email)
+  if (!user) {
+    return res.status(404).render('error', {
+      message: `Uživatel s ID ${id} nenalezen!`,
+    });
+  }
+
+
+  /**
+   * Try to update those params, which are requested
+   */
+  try {
+    console.log(newPass1, newPass2);
+    if (newPass1 !== newPass2) {
+      return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
+    }
+    const hashNewPassword = await bcrypt.hash(newPass1, 10)
+    user.password = hashNewPassword;
+    user.reset_pass = null;
+    user.save();
+    res.status(200).redirect('login').send({
+      message: `Aktualizace proběhla úspěšně!`,
     });
   } catch (err) {
     return res.status(500).send({

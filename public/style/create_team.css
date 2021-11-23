@@ -76,7 +76,7 @@
 
 .selOptions {
     width: 100%;
-    color: #777;
+    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;

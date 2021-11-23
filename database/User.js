@@ -40,6 +40,11 @@ module.exports = {
     defaultValue: Sequelize.UUIDV4,
     allowNull: true,
   },
+  reset_pass: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: true,
+  },
 }, {
   // Other model options go here
 };

@@ -8,6 +8,7 @@
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
+<!-------------------------- NAVIGACE -------------------------------->
 <body>
   <% if(!userLogged) { %>
     <header>
@@ -18,134 +19,154 @@
           <li><a href="/">Domů</a></li>
           <li><a href="/faculty">Najít tým</a></li>
           <li><a href="/register">Účet</a></li>
-
         </ul>
       </nav>
       <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-
     </header>
-    <% } if(userLogged) { %>
-      <header>
-        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-          <ul>
-            <li><a href="/">Domů</a></li>
-            <li><a href="/faculty">Najít tým</a></li>
-            <li><a href="/my_profile">Účet</a>
-              <ul class="dropdown" id="dropdown">
-                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-              </ul>
-            </li>
-            <!-- NOTIFIKACNI LISTA START -->
-            <li><a id="notif" href="#">Notifikace</a>
-              <ul class="dropdown-news" id="dropdown-news">
-                <form id="notifForm">
-                  <button type="submit" class="clear-btn_index">Vyčistit</button>
-                </form>
-                <%notification.forEach((notifi, index)=> {%>
-                  <p class="dropdown_item-news">
-                    <%= notifi.notification %>
-                  </p>
-                  <%})%>
-              </ul>
-            </li>
-            <script>
-              async function notification(event) {
-                const response = await fetch("/notification/deleteAll", {
-                  method: "POST",
-                  redirect: 'follow',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  },
-                });
-                if (response) {
-                  let error = await response.json()
-                  alert(error.message);
-                }
-                window.location.href = ''
+
+  <% } if(userLogged) { %>
+    <header>
+      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <nav>
+        <ul>
+          <li><a href="/">Domů</a></li>
+          <li><a href="/faculty">Najít tým</a></li>
+          <li><a href="/my_profile">Účet</a>
+            <ul class="dropdown" id="dropdown">
+              <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+              <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+              <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+            </ul>
+          </li>
+          
+      <!-- NOTIFIKACNI LISTA START -->
+          <li><a id="notif" href="#">Notifikace</a>
+            <ul class="dropdown-news" id="dropdown-news">
+              <form id="notifForm">
+                <button type="submit" class="clear-btn_index">Vyčistit</button>
+              </form>
+              <%notification.forEach((notifi, index)=> {%>
+                <p class="dropdown_item-news dropdown_item-time">
+                  <%= notifi.createdAt %>
+                </p>
+                <p class="dropdown_item-news">
+                  <%= notifi.notification %>
+                </p>
+                <%})%>
+            </ul>
+          </li>
+
+          <script>
+            async function notification(event) {
+              const response = await fetch("/notification/deleteAll", {
+                method: "POST",
+                redirect: 'follow',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+              });
+              if (response) {
+                let error = await response.json()
+                alert(error.message);
               }
-
-              const notifiForm = document.querySelector('#notifForm');
-              notifiForm.addEventListener('submit', notification);
-            </script>
-            <!-- NOTIFIKACNI LISTA END -->
-          </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-
-        <!-- NOTIFIKACNI LISTA START (mobilni) -->
-        <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
-        <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
-        <nav class="nav_notify">
-          <ul class="dropdown-news" id="dropdown-news">
-            <a id="notif" href="#"></a>
-            <form id="notifFormMobil">
-              <button type="submit" class="clear-btn_index">Vyčistit</button>
-            </form>
-            <%notification.forEach((notifi, index)=> {%>
-              <p class="dropdown_item-news">
-                <%= notifi.notification %>
-              </p>
-              <%})%>
-          </ul>
-        </nav>
-        <script>
-          async function notification(event) {
-            const response = await fetch("/notification/deleteAll", {
-              method: "POST",
-              redirect: 'follow',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            });
-            if (response) {
-              let error = await response.json()
-              alert(error.message);
+              window.location.href = ''
             }
-            window.location.href = ''
-          }
 
-          const notifiFormMobile = document.querySelector('#notifFormMobil');
-          notifiFormMobile.addEventListener('submit', notification);
-        </script>
-        <!-- NOTIFIKACNI LISTA END (mobilni) -->
-      </header>
-      <% } %>
+            const notifiForm = document.querySelector('#notifForm');
+            notifiForm.addEventListener('submit', notification);
+          </script>
+      <!-- NOTIFIKACNI LISTA END -->
+        </ul>
+      </nav>
+      
+      
+      <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
+      <!-- NOTIFIKACNI LISTA START (mobilni) -->
+      <input type="checkbox" id="nav-toggle_notify" class="nav-toggle_notify">
+      <label for="nav-toggle_notify" class="nav-toggle-label_notify"><span>🔔</span></label>
+      <nav class="nav_notify">
+        <ul class="dropdown-news" id="dropdown-news">
+          <a id="notif" href="#"></a>
+          <form id="notifFormMobil">
+            <button type="submit" class="clear-btn_index">Vyčistit</button>
+          </form>
+          <%notification.forEach((notifi, index)=> {%>
+            <p class="dropdown_item-news dropdown_item-time">
+              <%= notifi.createdAt %>
+            </p>
+            <p class="dropdown_item-news">
+              <%= notifi.notification %>
+            </p>
+            <%})%>
+        </ul>
+      </nav>
+
+      <script>
+        async function notification(event) {
+          const response = await fetch("/notification/deleteAll", {
+            method: "POST",
+            redirect: 'follow',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+          });
+          if (response) {
+            let error = await response.json()
+            alert(error.message);
+          }
+          window.location.href = ''
+        }
+        const notifiFormMobile = document.querySelector('#notifFormMobil');
+        notifiFormMobile.addEventListener('submit', notification);
+      </script>
+      <!-- NOTIFIKACNI LISTA END (mobilni) -->
+    </header>
+    <% } %>
+<!-------------------------- KONEC NAVIGACE -------------------------------->
 
       <div class="content">
         <div class="content_container">
           <div class="form-box">
             <h2 class="nadpis">Aktualizace týmu</h2>
+
+            <div class="hidden" id="T_hid_maxNumOfMem"><%=team.maxNumberOfMembers%></div>
+            <div class="hidden" id="T_hid_briefDescription"><%=team.briefDescription%></div>
+            <div class="hidden" id="T_hid_hashtags"><%=team.hashtags%></div>
+            <div class="hidden" id="T_hid_approach"><%=team.approach%></div>
+            <div class="hidden" id="T_hid_workingHours"><%=team.workingHours%></div>
+            <div class="hidden" id="T_hid_workingDays"><%=team.workingDays%></div>
+            <div class="hidden" id="T_hid_partOfSemester"><%=team.partOfSemester%></div>
+
             <form id="edit" class="input-group">
-              <input type="number" class="input-field" name="maxNumOfMem" autocomplete="off"
-                placeholder="Cílový počet členů">
-              <input type="text" class="input-field" name="briefDescription " placeholder="Stručný popis">
-              <input type="textarea" class="input-field" name="hashtags" placeholder="Klíčová slova">
+              <div class="labelInfo">Cílový počet členů</div>
+              <input type="number" class="input-field" name="maxNumOfMem" id="maxNumOfMem" autocomplete="off" min="2" max="10" placeholder="Cílový počet členů" required>
+              <div class="labelInfo">Stručný popis</div>
+              <input type="text" class="input-field" name="briefDescription" id="briefDescription" autocomplete="off" maxlength="100" placeholder="Stručný popis" required>
+              <div class="labelInfo">Klíčová slova</div>
+              <input type="textarea" class="input-field" name="hashtags" id="hashtags" autocomplete="off" maxlength="30" placeholder="Klíčová slova">
               <div class="select">
-                <select name="workingHours" class="selOptions">
-                  <option value="" disabled selected hidden>Preferovaná doba práce</option>
+                <div class="labelInfo">Preferovaná doba práce</div>
+                <select name="workingHours" class="selOptions" id="teamWorkHours">
                   <option value="1">brzy ráno</option>
                   <option value="2">dlouho do noci</option>
                   <option value="3">během dne</option>
                 </select>
-                <select name="workingDays" class="selOptions">
-                  <option value="" disabled selected hidden>Preferované dny práce</option>
+                <div class="labelInfo">Preferované dny práce</div>
+                <select name="workingDays" class="selOptions" id="teamWorkDays">
                   <option value="1">začátek týdne</option>
                   <option value="2">konec týdne</option>
                   <option value="3">víkend</option>
                 </select>
-                <select name="approach" class="selOptions">
-                  <option value="" disabled selected hidden>Přístup k práci</option>
+                <div class="labelInfo">Přístup k práci</div>
+                <select name="approach" class="selOptions" id="teamWorkApproach">
                   <option value="1">týmový</option>
                   <option value="2">individuální</option>
                 </select>
-                <select name="partOfSemester" class="selOptions">
-                  <option value="" disabled selected hidden>Preferovaná část semestru</option>
+                <div class="labelInfo">Preferovaná část semestru</div>
+                <select name="partOfSemester" class="selOptions"  id="teamWorkSemester">
                   <option value="1">1. - 3. týden</option>
                   <option value="2">4. - 6. týden</option>
                   <option value="3">7. - 9. týden</option>
@@ -157,7 +178,7 @@
               </div>
             </form>
             <% teamMembersLogin.forEach((member, index)=> { %>
-              <form id="<%=member.login%>">
+              <form id="<%=member.login%>" class="input-group">
                 <input type="text" name="memberEmail" value="<%=member.email%>" hidden />
                 <button type="submit" class="my_profile-btn-red">Odebrat <%=member.login%> </button>
               </form>
@@ -187,9 +208,8 @@
           </div>
         </div>
       </div>
-
-
 </body>
+
 <script>
 async function fetchLocation(event) {
   event.preventDefault();
@@ -206,14 +226,14 @@ async function fetchLocation(event) {
     body: value
   });
   //let error = await response.json()
-  //alert(error.message);
+  //alert(error.message); //zbytecne
   window.location.href = '../../info/<%=team.name%>'
 }
 const form1 = document.querySelector('#edit');
 form1.addEventListener('submit', fetchLocation);
 </script>
 
-
 <script src="/script/app.js"></script>
+<script src="/script/team_info_edit.js"></script>
 
 </html>

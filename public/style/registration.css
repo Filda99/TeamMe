@@ -101,6 +101,27 @@
     border-radius: 30px;
 }
 
+.submit-btn-yellow{
+    width: 50%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    background: rgba(221, 169, 0, 0.932);
+    color: white;
+    border: 0;
+    opacity: 0.7;
+    outline: none;
+    border-radius: 30px;
+}
+
+.submit-btn-yellow:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    opacity: 1;
+    transition: 0.2s;
+}
+
 .submit-btn:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
     color: white;
@@ -129,7 +150,7 @@
 
 .selOptions {
     width: 100%;
-    color: #777;
+    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;
@@ -144,7 +165,9 @@
     .submit-btn{
         width: 55%;
     }
-
+    .submit-btn-yellow{
+        width: 55%;
+    }
 }
 /*============ZMENSENE OKNO==============*/
 @media screen and (max-width:800px)
@@ -242,6 +265,10 @@
         border-radius: 30px;
         font-size: 0.8rem;
     }
+
+    .submit-btn-yellow{
+        width: 85%;
+    }
     
     .submit-btn:hover {
         box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -272,7 +299,7 @@
     
     .selOptions {
         width: 100%;
-        color: #777;
+        /* color: #777; */
         height: 35px;
         display: inline-block;
         padding: 2px 4px;

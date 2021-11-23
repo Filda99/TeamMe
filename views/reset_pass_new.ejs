@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/style/style-nav.css">
-    <link rel="stylesheet" href="/style/error.css">
+    <link rel="stylesheet" href="/style/main_page.css">
+    <link rel="stylesheet" href="/style/reset_pass.css">
     <meta name="viewport"
     content="width=device-width, initial-scale=1.0">
 </head>
@@ -125,19 +126,52 @@
     </header>
     <% } %>
 <!-------------------------- KONEC NAVIGACE -------------------------------->
-
-    <div class="content" id="content"> 
-      <div class="image_back" id="content_container"></div>
-      <div class="error_border">
-          <div class="error_message">
-              <div class="ops">
-                  Jejda, tady se něco pokazilo!<br>
-                  <%=message%>
-              </div>
-          </div>
-      </div>
-  </div>
-            
+      
+      <div class="hero">
+        <div class="form-box">
+            <form id="edit" class="input-group">
+                <h2 class="nadpis">Obnova hesla</h2>
+                <input type="password" name="newPass1" class="input-field" minlength="8" placeholder="Nové heslo" required>
+                <input type="password" name="newPass2" class="input-field" minlength="8" placeholder="Zopakujte nové heslo" required>
+                <input type="email" name="email" value="<%=user.email%>" hidden/>
+                <button type="submit" class="submit-btn">Obnovit heslo</button>
+            </form>
+        </div>
+    </div>
+    
+    
 </body>
+<script>
+  async function fetchLocation(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const value = JSON.stringify(Object.fromEntries(data))
+    
+    const response = await fetch("/user/reset-pass", {
+      method: "POST",
+      redirect: 'follow',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: value
+    });
+    // get path elements
+    let myPath = window.location.href.split('/')
+    // remove last 2 elements from path
+    myPath.splice(-2)
+    // add user email to the end of path
+    await myPath.push('<%=user.email%>')
+    myPath = myPath.join('/')
+    window.location.href = myPath
+    if (response) {
+      let error = await response.json()
+      alert(error.message);
+    }
+  }
+  const form = document.querySelector('#edit');
+  form.addEventListener('submit', fetchLocation);
+</script>
+
 <script src="/script/app.js"></script>
 </html>

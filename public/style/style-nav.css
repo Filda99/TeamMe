@@ -159,6 +159,23 @@ nav {
     transform: scale(1,0);
     transform-origin: top;
     transition: transform 400ms ease-in-out;
+    min-height: 250%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/*scrollbar*/
+.nav_notify::-webkit-scrollbar {
+    width: 1em;
+}
+.nav_notify::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.nav_notify::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+    border-radius: 5px;
 }
 /*==================*/
 
@@ -169,6 +186,22 @@ nav {
     text-align: center;
     justify-content: center;
     color: white;
+    padding-bottom: 10px;
+    border-bottom: 2px solid white;
+    /* border-bottom: 2px groove rgba(212, 15, 15, 0.767); */
+    
+}
+
+.dropdown_item-time{
+    border-bottom: none;
+    margin-bottom: -15px;
+    font-style: italic;
+}
+
+.dropdown-news{
+    width: 80%;
+    justify-content: center;
+    margin-left: 10%;
 }
 /*END*/
 
@@ -197,9 +230,9 @@ nav a{
     text-decoration: none;
 }
 
-/*  POP-UP notifikace*/
+/*  POP-UP notifikace - SMAZAT, jestli se pocas testovani neco nepokazi*/
 
-.popup_window_container{
+/* .popup_window_container{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -209,8 +242,6 @@ nav a{
 }
 
 .popup_window{
-    width: 350px;
-    /* height: auto; */
     border: 2px solid #131313;
     background: #ffffff;
     box-shadow: 1px 1px 5px #131313;
@@ -265,7 +296,7 @@ nav a{
     align-items: center;
     text-align: center;
     width: 100%;
-}
+} */
 
 /*kontroluje, jestli je prepinac zaskrnuty - pokud je zaskrnuto, navigace se schova*/
 .nav-toggle:checked ~ nav{
@@ -377,13 +408,13 @@ nav ul li ul li a{
 
     .dropdown{
         width: 200px;
-        display: none; /*none*/
+        display: none;
         position: absolute;
         background-color:var(--background);
         padding: 10px;
         top: 20px;
         margin-left: -6em; /*posun okenka doleva*/
-        border-radius: 0px 0px 4px 4px;
+        border-radius: 0px 0px 4px 4px;      
     }
 
     .dropdown_item{
@@ -397,15 +428,32 @@ nav ul li ul li a{
     /*NEWS DROPDOWN*/
     .dropdown-news{
         width: 250px;
+        max-height: 550px;
         display: none; /*none*/
         position: absolute;
-        list-style-type: none;
+        /* list-style-type: none; */
         background-color: var(--background);
         padding: 10px;
         top: 20px;
         margin-left: -8em; /*posun okenka doleva*/
         border-radius: 0px 0px 4px 4px;
+        overflow-y: auto;
     }
+
+    /*scrollbar*/
+    .dropdown-news::-webkit-scrollbar {
+        width: 1em;
+    }
+    .dropdown-news::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown-news::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+        border-radius: 5px;
+    }
+    /*end scrollbar*/
 
     .dropdown_item-news{
         position: relative;

@@ -3,6 +3,17 @@ window.onload = ResElPage;
 if(document.getElementById("dropdown-news")){
     var current = document.getElementById("dropdown-news").style.display;
 
+    var timeStamp = "";
+    var counter = 0;
+    for(var i = 0; i < document.getElementsByClassName("dropdown_item-time").length; i++){
+        counter = 0;
+        timeStamp = document.getElementsByClassName("dropdown_item-time")[i].innerHTML;
+        while(timeStamp[counter] == " " || timeStamp[counter] == "\n"){
+            counter++;
+        }
+        timeStamp = timeStamp.substring(counter+4,counter+21);
+        document.getElementsByClassName("dropdown_item-time")[i].innerHTML = timeStamp;
+    }
 }
 
 function ResElPage(){
@@ -25,3 +36,4 @@ function closeNotif(){
 function HomePage(){
     document.location.href = "/";
 }
+

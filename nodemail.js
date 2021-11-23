@@ -15,7 +15,7 @@
  */
 
 const nodemailer = require('nodemailer')
-const verificationMail = require('./utils/sendEmail')
+const { verificationMail, resetPassEmail } = require('./utils/sendEmail')
 
 
 /** Mail sender details */
@@ -37,9 +37,25 @@ async function sendVerifiMail(email, name, host, code) {
             }
             console.log('Sending email.', info);
             return 1
-        })
+        }
+    )
+}
+
+async function sendResetPassMail(email, name, host, code) {
+    transporter.sendMail(
+        resetPassEmail(email, name, host, code),
+        function (err, info) {
+            if (err) {
+                console.log(err);
+                return 0
+            }
+            console.log('Sending email.', info);
+            return 1
+        }
+    )
 }
 
 module.exports = {
     sendVerifiMail,
+    sendResetPassMail
 }
