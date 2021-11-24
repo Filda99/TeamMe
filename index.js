@@ -77,12 +77,14 @@ app.use(passport.session())
 app.get("/", async (req, res) => {
     let userLogged = false
     let notification = null;
+    let userFaculty = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
-
-    res.render('index', {userLogged, notification})
+    res.render('index', {userLogged, notification, userFaculty})
 })
 
 app.get('/login', checkNotAuthenticated, async (req, res) => {
