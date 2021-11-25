@@ -190,6 +190,12 @@
     margin-bottom: 15px;
 }
 
+.noTeams{
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
 @media screen and (max-width: 1200px){
     .team_name{
         width: 60%;

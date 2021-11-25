@@ -2,7 +2,7 @@ const { Team, Team_Member, User } = require("../database/sequelize")
 const { getTeamByName, getAllTeamsToShow, getTeamById } = require('../utils/getTeam')
 const { checkTeam, checkMembers, checkAdmin, userPartOfTeam } = require('../utils/teamAvailability');
 const { starterCheck } = require('../utils/checkExistingElems')
-const { getUserByEmail } = require("../utils/getUser");
+const { getUserByEmail, getUserById } = require("../utils/getUser");
 const { userSendNotifi, getUserNotifi } = require("./notification.controller");
 const { Op } = require("sequelize");
 const { returnFacultyBySubject, getFacultyNameById, getSubjectNameById } = require("../utils/getFacultySubject");
@@ -89,6 +89,7 @@ module.exports.showTeams = async (req, res) => {
         const logged = true
 
         let userLogged = false
+        let userFaculty = findUser.FacultyId;
         let notification = null;
         if (req.user) {
             userLogged = true
@@ -98,7 +99,7 @@ module.exports.showTeams = async (req, res) => {
         /** Sort array before send based on pPerc */
         shareTeamInfo = shareTeamInfo.sort(Comparator);
 
-        res.render('teams', { teams, shareTeamInfo, logged, subject, userLogged, notification })
+        res.render('teams', { teams, shareTeamInfo, logged, subject, userLogged, notification, userFaculty })
     }
     /** USER NOT LOGGED IN */
     else {
@@ -186,12 +187,13 @@ module.exports.getMyTeams = async (req, res) => {
         /********************************************* */
         /**********    MAIN JOB OF FUNC     ********** */
         let userLogged = false
+        let userFaculty = user.FacultyId;
         let notification = null;
         if (req.user) {
             userLogged = true
             notification = await getUserNotifi(req.user.id)
         }
-        res.render('myTeams', { userLogged, notification, shareTeamInfo })
+        res.render('myTeams', { userLogged, notification, shareTeamInfo, userFaculty })
     }
     else {
         res.status(404).send({ message: 'Uživatel nenalezen!' })
@@ -262,15 +264,18 @@ module.exports.getTeam = async (req, res) => {
     /********************************************* */
     /**********    MAIN JOB OF FUNC     ********** */
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
 
     res.render('team', {
         team, teamMembers, teamAdmin, logged,
-        isAdmin, faculty, subject, userIsPartOfTeam, userLogged, notification
+        isAdmin, faculty, subject, userIsPartOfTeam, userLogged, notification, userFaculty
     })
 };
 
@@ -282,13 +287,16 @@ module.exports.createTeamForm = async (req, res) => {
     const { subject, faculty } = req.params
 
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
 
-    res.render('create_team', { subject, faculty, userLogged, notification })
+    res.render('create_team', { subject, faculty, userLogged, notification, userFaculty })
 }
 
 /*********************************************************************
@@ -299,9 +307,12 @@ module.exports.updateTeamForm = async (req, res) => {
     const { subject, faculty, name } = req.params
 
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
 
@@ -319,7 +330,7 @@ module.exports.updateTeamForm = async (req, res) => {
         const user = await User.findByPk(member.userId);
         teamMembersLogin.push(user);
     }
-    res.render('team_info_edit', { subject, faculty, team, userLogged, notification, teamMembersLogin })
+    res.render('team_info_edit', { subject, faculty, team, userLogged, notification, teamMembersLogin, userFaculty })
 }
 
 /*********************************************************************

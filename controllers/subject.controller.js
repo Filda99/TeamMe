@@ -1,6 +1,7 @@
 const { Subject } = require("../database/sequelize")
 const { starterCheck } = require('../utils/checkExistingElems')
 const { getUserNotifi } = require('../controllers/notification.controller')
+const { getUserById } = require("../utils/getUser")
 
 /*********************************************************************
  *  Show all subjects
@@ -47,13 +48,16 @@ module.exports.getAll = async (req, res) => {
     }
 
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
 
-    res.render('subjects', { subjectArray, faculty, userLogged, notification })
+    res.render('subjects', { subjectArray, faculty, userLogged, notification, userFaculty })
 }
 
 

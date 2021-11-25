@@ -76,40 +76,47 @@ app.use(passport.session())
  ***************************************/
 app.get("/", async (req, res) => {
     let userLogged = false
-    let notification = null;
     let userFaculty = null;
+    let notification = null;
     if (req.user) {
         userLogged = true
         userFaculty = await getUserById(req.user.id)
         userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
+
     res.render('index', {userLogged, notification, userFaculty})
 })
 
 app.get('/login', checkNotAuthenticated, async (req, res) => {
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
     const errors = req.flash().error || [];
 
-    res.render('registration', {userLogged, notification, errors})
+    res.render('registration', {userLogged, notification, errors, userFaculty})
 })
 
 app.get('/register', checkNotAuthenticated, async (req, res) => {
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
 
     const errors = req.flash().error || [];
 
-    res.render('registration', {userLogged, notification, errors})
+    res.render('registration', {userLogged, notification, errors, userFaculty})
 })
 
 app.get('/my_profile', checkAuthenticated, async (req, res) => {

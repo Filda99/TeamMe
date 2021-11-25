@@ -1,4 +1,5 @@
 const { Faculty } = require("../database/sequelize");
+const { getUserById } = require("../utils/getUser");
 const { getUserNotifi } = require("./notification.controller");
 
 
@@ -10,13 +11,16 @@ module.exports.getAll = async (req, res) => {
     const faculties = await Faculty.findAll()
 
     let userLogged = false
+    let userFaculty = null;
     let notification = null;
     if (req.user) {
         userLogged = true
+        userFaculty = await getUserById(req.user.id)
+        userFaculty = userFaculty.FacultyId
         notification = await getUserNotifi(req.user.id)
     }
 
-    res.render('faculties', { userLogged, notification })
+    res.render('faculties', { userLogged, notification, userFaculty })
 }
 
 

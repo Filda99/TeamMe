@@ -24,21 +24,21 @@
       <label for="nav-toggle" class="nav-toggle-label"><span></span></label>
     </header>
 
-  <% } if(userLogged) { %>
-    <header>
-      <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
-      <input type="checkbox" id="nav-toggle" class="nav-toggle">
-      <nav>
-        <ul>
-          <li><a href="/">Domů</a></li>
-          <li><a href="/faculty">Najít tým</a></li>
-          <li><a href="/my_profile">Účet</a>
-            <ul class="dropdown" id="dropdown">
-              <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
-              <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
-              <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
-            </ul>
-          </li>
+    <% } if(userLogged) { %>
+      <header>
+        <img src="/images/logo.png" onclick=HomePage() alt="logo" class="logo" width="200" height="50">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+          <ul>
+            <li><a href="/">Domů</a></li>
+            <li><a href="/subject/<%=userFaculty%>">Najít tým</a></li>
+            <li><a href="/my_profile">Účet</a>
+              <ul class="dropdown" id="dropdown">
+                <li><a class="dropdown_item" href="/my_profile">Můj účet</a></li>
+                <li><a class="dropdown_item" href="/team/myTeams">Moje týmy</a></li>
+                <li><a class="dropdown_item" data-method="delete" href="/logout">Odhlásit se</a></li>
+              </ul>
+            </li>
           
       <!-- NOTIFIKACNI LISTA START -->
           <li><a id="notif" href="#">Notifikace</a>

@@ -39,9 +39,12 @@ module.exports.getUser = async (req, res) => {
 
   let userLogged = false
   let notification = null;
+  let userFaculty = null;
   let myProfile = false
   if (req.user) {
     userLogged = true
+    userFaculty = await getUserById(req.user.id)
+    userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
     if (req.user.id == user.id) {
       myProfile = true
@@ -51,7 +54,7 @@ module.exports.getUser = async (req, res) => {
    * If so, send it
    */
 
-  res.render('user_profile', { user, faculty, userLogged, notification, myProfile });
+  res.render('user_profile', { user, faculty, userLogged, notification, myProfile, userFaculty });
 };
 
 /*********************************************************************
@@ -254,38 +257,47 @@ module.exports.deleteUser = async (req, res) => {
 
 module.exports.showUpdate = async (req, res) => {
   let userLogged = false
+  let userFaculty = null;
   let notification = null;
   if (req.user) {
     userLogged = true
+    userFaculty = await getUserById(req.user.id)
+    userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
   }
   const user = await User.findByPk(req.user.id)
 
-  res.render('reset_info', { user, userLogged, notification })
+  res.render('reset_info', { user, userLogged, notification, userFaculty })
 }
 
 module.exports.showResetPass = async (req, res) => {
   let userLogged = false
+  let userFaculty = null;
   let notification = null;
   if (req.user) {
     userLogged = true
+    userFaculty = await getUserById(req.user.id)
+    userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
   }
   const user = await User.findByPk(req.user.id)
 
-  res.render('reset_pass', { user, userLogged, notification })
+  res.render('reset_pass', { user, userLogged, notification, userFaculty })
 }
 
 module.exports.showNewPass = async (req, res) => {
   let userLogged = false
+  let userFaculty = null;
   let notification = null
   let user = null
   if (req.user) {
     userLogged = true
+    userFaculty = await getUserById(req.user.id)
+    userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
     user = await User.findByPk(req.user.id)
   }
-  res.render('reset_pass_email', { user, userLogged, notification })
+  res.render('reset_pass_email', { user, userLogged, notification, userFaculty })
 }
 
 /*********************************************************************
@@ -392,12 +404,15 @@ module.exports.resetPass = async (req, res) => {
     });
   }
   let userLogged = false
+  let userFaculty = null;
   let notification = null
   if (req.user) {
     userLogged = true
+    userFaculty = await getUserById(req.user.id)
+    userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
   }
-  res.status(200).render('reset_pass_new', { user, userLogged, notification  });
+  res.status(200).render('reset_pass_new', { user, userLogged, notification, userFaculty  });
 };
 
 
