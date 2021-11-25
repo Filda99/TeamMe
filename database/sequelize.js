@@ -8,9 +8,11 @@ const notification = require('./Notifications')
 
 // Option 1: Passing a connection URI
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-    ssl: {
-        require: (process.env.DATABASE_SSL === 'true'),
-        rejectUnauthorized: false
+    dialectOptions: (process.env.DATABASE_SSL === 'true') && {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
     }
 }) // Example for postgres
 
