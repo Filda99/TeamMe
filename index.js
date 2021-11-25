@@ -25,6 +25,7 @@ const express = require("express")
 const session = require('express-session')
 const flash = require('express-flash')
 const app = express()
+const path = require('path')
 
 /* Database */
 const { sequelize } = require("./database/sequelize")
@@ -47,7 +48,7 @@ initializePassport(passport)
  ***************************************/
 
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(methodOverride('_method'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
