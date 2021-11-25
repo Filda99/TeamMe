@@ -162,20 +162,15 @@ module.exports.createUser = async (req, res) => {
       });
     }
 
-    /**
-     * TODO: UNCOMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * !!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
+    
     /**
      * Check email contains 'vutbr' in itself and '.cz'
      */
-    // if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
-    //   return res.status(400).send({
-    //     message: 'You need to put school email address!',
-    //   });
-    // }
+    if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
+      return res.status(400).send({
+        message: 'You need to put school email address!',
+      });
+    }
 
     /**
     * Try to create new user
@@ -191,7 +186,6 @@ module.exports.createUser = async (req, res) => {
       workingHours: workingHours,
       approach: approach,
       FacultyId: findFaculty['id'],
-      verification: null,    // TODO: remove
       reset_pass: null
     });
     res.status(201).redirect('/login')
