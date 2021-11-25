@@ -168,7 +168,7 @@ module.exports.createUser = async (req, res) => {
      */
     if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
       return res.status(400).send({
-        message: 'You need to put school email address!',
+        message: 'Registrujte se školním mailem!',
       });
     }
 
