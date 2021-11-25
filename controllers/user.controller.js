@@ -191,7 +191,7 @@ module.exports.createUser = async (req, res) => {
     res.status(201).redirect('/login')
 
     /** Send user verification email */
-    // sendVerifiMail(email, login, req.headers.host, newUser.verification)
+    sendVerifiMail(email, login, req.headers.host, newUser.verification)
   } catch (err) {
     return res.status(500).send({
       message: `Error: ${err.message}`,
