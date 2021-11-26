@@ -24,7 +24,7 @@ async function checkAuthenticated(req, res, next) {
       return res.redirect('/register')
     }
   }else{
-    res.redirect('/login')
+    return res.redirect('/login')
   }
 
   /** Check authentication */
@@ -35,7 +35,7 @@ async function checkAuthenticated(req, res, next) {
     return next()
   }
 
-  res.redirect('/login')
+  return res.redirect('/login')
 }
 
 function checkNotAuthenticated(req, res, next) {
