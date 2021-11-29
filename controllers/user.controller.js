@@ -106,7 +106,7 @@ module.exports.resetPassEmail = async (req, res) => {
   try {
     user.reset_pass = code
     await user.save()
-    print('Sending email to: ', email)
+    console.log('Sending email to: ', email);
     await sendResetPassMail(email, user.login, req.headers.host, code)
     return res.status(200).send({ message: 'Odkaz pro resetování hesla byl poslán na Váš e-mail.' })
   } catch (e) {
