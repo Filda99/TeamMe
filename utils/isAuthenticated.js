@@ -21,7 +21,9 @@ async function checkAuthenticated(req, res, next) {
   if (req.user) {
     const user = await User.findByPk(req.user.id)
     if (user.vericifation != null) {
-      return res.redirect('/register')
+      return res.status(400).send({
+        message: 'Nejprve potvrďte email, který jsme vám zaslali!',
+      });
     }
   }else{
     return res.redirect('/login')
