@@ -32,7 +32,7 @@
 }
 
 .button-box{
-    width: 208px;
+    width: 207px;
     margin: 35px auto;
     position: relative;
     box-shadow: 0 0 20px 9px rgba(8, 12, 240, 0.09);
@@ -54,7 +54,7 @@
     top: 0;
     left: 0;
     position: absolute;
-    width: 97px;
+    width: 105px;
     height: 100%;
     background: rgb(8, 116, 240);
     border-radius: 30px;
@@ -197,8 +197,9 @@ a{
         border-radius: 30px;
     }
     
+    /*box s pojezdem Prihlaseni/Registrace*/
     .button-box{
-        width: 208px;
+        width: 207px;
         margin: 35px auto;
         position: relative;
         box-shadow: 0 0 20px 9px rgba(8, 12, 240, 0.09);
@@ -206,6 +207,7 @@ a{
         background-color: rgb(176, 176, 177);
     }
     
+    /*jednotlive polozky pojezdu*/
     .toggle-btn{
         padding: 10px 20px; 
         cursor: pointer;
@@ -225,7 +227,7 @@ a{
         top: 0;
         left: 0;
         position: absolute;
-        width: 97px;
+        width: 104.5px; /*97*/
         height: 100%;
         background: rgb(8, 116, 240);
         border-radius: 30px;

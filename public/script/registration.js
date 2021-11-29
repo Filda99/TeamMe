@@ -33,8 +33,15 @@ function switch_to_registration(){
         login.style.left = stringos;
         register.style.left = "50px";
     }
-    button.style.left = "110px";
-    reg = true;
+
+    if(window.innerWidth <= 800){
+        button.style.left = "103px"; //110
+        reg = true;
+    }
+    else{
+        button.style.left = "101px"; //110
+        reg = true;
+    }
 }
 
 function switch_to_login(){

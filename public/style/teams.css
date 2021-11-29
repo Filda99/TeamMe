@@ -281,10 +281,12 @@
     background-image: url(../images/filter.png);
     box-shadow: 1px 1px 2px #131313;
     border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #131313;
 }
 
 .filter:hover{
-    box-shadow: 1px 1px 2px #ffffff;
+    background-color: rgba(255, 255, 255, 1);
     cursor: pointer;
     transition: 0.3s;
 }

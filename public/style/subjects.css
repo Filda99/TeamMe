@@ -133,11 +133,6 @@
 }
 
 .subject_item{
-    /* display: flex;
-    height: 100px;
-    width: 150px;
-    background: #dbe0e2;
-    border-radius: 15px;*/
     display: flex;
     height: 100px;
     width: 150px;
@@ -149,10 +144,6 @@
 
 
 .subject_item:hover{
-    /* cursor: pointer;
-    border: 2px solid #000000;
-    box-shadow: 1px 1px 5px #000000;
-    transition: 0.1s; */
     cursor: pointer;
     box-shadow: 0 12px 16px 0 rgba(8, 116, 240, 0.397), 0 17px 50px 0 rgba(255, 255, 255, 0.19);
     color: white;
@@ -186,13 +177,15 @@
     width: 40px;
     height: 40px;
     background-image: url(../images/filter.png);
+    background-color: rgba(255, 255, 255, 0.5);
     margin-top: -15px;
     box-shadow: 1px 1px 2px #131313;
     border-radius: 5px;
+    border: 1px solid #131313;
 }
 
 .filter:hover{
-    box-shadow: 1px 1px 2px #ffffff;
+    background-color: rgba(255, 255, 255, 1);
     cursor: pointer;
     transition: 0.3s;
 }
