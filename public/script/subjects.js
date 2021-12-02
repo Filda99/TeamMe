@@ -1,3 +1,7 @@
+/*  Autor: Zdenek Dobes (xdobes21)
+    Popis: soubor pro dynamickou zmenu velikosti objektu na strance a spravne zobrazovani/zalamovani ikon pro predmety, fungovani filtru
+*/
+
 if(document.getElementById("dropdown-news")){
     var current = document.getElementById("dropdown-news").style.display;
 
@@ -15,6 +19,23 @@ if(document.getElementById("dropdown-news")){
 }
 
 function SubjectsRes(){
+    if(window.innerWidth < 800){
+        if(document.getElementById("dropdown-news")){
+            document.getElementById("dropdown-news").style.display = "none";
+        }
+        if(document.getElementById("notif")){
+            document.getElementById("notif").style.display = "none";
+        }
+    }
+    else{
+        if(document.getElementById("dropdown-news")){
+            document.getElementById("dropdown-news").style.display = current;
+        }
+        if(document.getElementById("notif")){
+            document.getElementById("notif").style.display = "flex";
+        }
+    }
+    
     const subjects = document.querySelector("#search");
     var all_subjects = [];
     var number_of_subjects = subjects.getElementsByTagName("li").length;
@@ -175,4 +196,3 @@ function Search(){
 function HomePage(){
     document.location.href = "/";
 }
-
