@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro stranku obnovu udaju o uzivateli
+*/
+
 /*============FULLSCREEN==============*/
 .hero{
     height: 90%;
@@ -83,7 +87,6 @@
 
 .selOptions {
     width: 100%;
-    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;
@@ -108,7 +111,7 @@
     .form-box{
         top: 5%;
         width: 480px;
-        height: 490px;
+        height: 550px;
         position: relative;
         margin: 10vh auto;
         background:  #dbe0e2;
@@ -195,7 +198,7 @@
     .form-box{
         top: 3%;
         width: 320px;
-        height: 450px;
+        height: 520px;
         position: relative;
         margin: 10vh auto;
         background:  #dbe0e2;
@@ -227,7 +230,6 @@
     }
 }
 
-/*====================================================================*/
 /*============ZMENSENE OKNO 450px==============*/
 @media screen and (max-width: 450px){
     .form-box{

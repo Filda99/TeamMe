@@ -1,3 +1,7 @@
+/*  Autor: Zdenek Dobes (xdobes21)
+    Popis: styly pro predmety
+*/
+
 .title_container{
     display: flex;
     width: auto;
@@ -176,7 +180,7 @@
     display: flex;
     width: 40px;
     height: 40px;
-    background-image: url(../images/filter.png);
+    background-image: url("../images/filter.png");
     background-color: rgba(255, 255, 255, 0.5);
     margin-top: -15px;
     box-shadow: 1px 1px 2px #131313;
@@ -298,6 +302,8 @@
     opacity: 1;
     transition: 0.2s;
 }
+
+/*============ZMENSENE OKNO 1150px==============*/
 @media screen and (max-width: 1150px){
     .title{
         font-size: 2.7rem;
@@ -305,6 +311,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 980px==============*/
 @media screen and (max-width: 980px){
     .title{
         font-size: 2.2rem;
@@ -350,12 +357,14 @@
 
 }
 
+/*============ZMENSENE OKNO 815px==============*/
 @media screen and (max-width: 815px){
     .title{
         font-size: 1.9rem;
     }
 }
 
+/*============ZMENSENE OKNO 750px==============*/
 @media screen and (max-width: 750px){
     .title_container{
         margin-top: 35px;
@@ -421,6 +430,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 600px==============*/
 @media screen and (max-width: 600px){
     .title{
         font-size: 1.8rem;
@@ -468,6 +478,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 450px==============*/
 @media screen and (max-width: 450px){
     .title{
         width: 150px;

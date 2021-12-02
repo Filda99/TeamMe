@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro stranku obnovy informaci o tymu
+*/
+
 /*============FULLSCREEN==============*/
 .content_container{
     margin: 0 auto;
@@ -103,7 +107,6 @@
 
 .selOptions {
     width: 100%;
-    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;
@@ -124,7 +127,6 @@
         width: 900px;
     } 
 }
-
 
 /*============ZMENSENE OKNO 1100px==============*/
 @media screen and (max-width: 1100px){
@@ -159,8 +161,6 @@
     }
 }
 
-
-
 /*============ZMENSENE OKNO 715px==============*/
 @media screen and (max-width: 715px){
     .nadpis{
@@ -176,7 +176,6 @@
     }
 }
 
-/*====================================================================*/
 /*============ZMENSENE OKNO 450px==============*/
 @media screen and (max-width: 450px){
     .form-box{

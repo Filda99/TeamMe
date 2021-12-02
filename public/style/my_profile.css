@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro prehledovou tabulku o uctu uzivatele
+*/
+
 .wrapper {
     max-width: 550px;
     margin: 0 auto;
@@ -23,7 +27,6 @@
     border-radius: 30px;
     margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
     margin-right: auto;
-    /* border: 2px solid red; */
 }
 
 .content-table {
@@ -162,7 +165,6 @@
     }
 }
 
-/*====================================================*/
 /*============ZMENSENE OKNO 450px==============*/
 @media screen and (max-width: 450px){
     .wrapper {
@@ -172,7 +174,6 @@
     .form-box{
         top: 2%;
         width: 390px;
-
     }
     
     .content-table {

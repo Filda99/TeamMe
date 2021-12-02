@@ -1,3 +1,7 @@
+/*  Autor: Zdenek Dobes (xdobes21)
+    Popis: styly pro stranku s prehledem tymu uzivatele
+*/
+
 .title_container{
     display: flex;
     width: auto;
@@ -196,18 +200,21 @@
     text-align: center;
 }
 
+/*============ZMENSENE OKNO 1200px==============*/
 @media screen and (max-width: 1200px){
     .team_name{
         width: 60%;
     }
 }
 
+/*============ZMENSENE OKNO 1000px==============*/
 @media screen and (max-width: 1000px){
     .team_name{
         width: 70%;
     }
 }
 
+/*============ZMENSENE OKNO 850px==============*/
 @media screen and (max-width: 850px){
     .title{
         padding: 10px 0;
@@ -218,6 +225,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 750px==============*/
 @media screen and (max-width: 750px){
     .title{
         justify-content: center;
@@ -256,6 +264,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 600px==============*/
 @media screen and (max-width: 600px){
 
     .title{
@@ -295,6 +304,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 500px==============*/
 @media screen and (max-width: 500px){
     .title_container{
         margin: 10px 0;
@@ -349,6 +359,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 400px==============*/
 @media screen and (max-width: 400px){
     .title{
         font-size: 2rem;

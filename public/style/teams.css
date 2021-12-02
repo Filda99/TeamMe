@@ -1,3 +1,7 @@
+/*  Autor: Zdenek Dobes (xdobes21)
+    Popis: styly pro stranku s tymy
+*/
+
 .title_container{
     display: flex;
     width: auto;
@@ -273,12 +277,12 @@
     width: 40px;
 }
 
-/*=============*/
+/*====== filter start =======*/
 .filter{
     display: flex;
     width: 40px;
     height: 40px;
-    background-image: url(../images/filter.png);
+    background-image: url("../images/filter.png");
     box-shadow: 1px 1px 2px #131313;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.5);
@@ -372,6 +376,8 @@
     transform: translateY(18px) rotate(-45deg);
 }
 
+/*====== filter end =======*/
+
 .select_title{
     width: 100%;
     height: 50px;
@@ -405,12 +411,14 @@
     text-align: center;
 }
 
+/*============ZMENSENE OKNO 1200px==============*/
 @media screen and (max-width: 1200px){
     .team_name{
         width: 60%;
     }
 }
 
+/*============ZMENSENE OKNO 1000px==============*/
 @media screen and (max-width: 1000px){
     .team_name{
         width: 70%;
@@ -441,6 +449,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 875px==============*/
 @media screen and (max-width: 875px){
     .team_name{
         width: 80%;
@@ -516,8 +525,8 @@
     }
 }
 
+/*============ZMENSENE OKNO 780px==============*/
 @media screen and (max-width: 780px){
-
     .add_team_container{
         margin: 0px 10px;
     }
@@ -532,6 +541,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 700px==============*/
 @media screen and (max-width: 700px){
     .add_team_container{
         margin: 0px;
@@ -564,8 +574,8 @@
     }
 }
 
+/*============ZMENSENE OKNO 625px==============*/
 @media screen and (max-width: 625px){
-
     .title{
         justify-content: center;
         margin: 0;
@@ -626,6 +636,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 540px==============*/
 @media screen and (max-width: 540px){
     .title{
         font-size: 2.5rem;
@@ -633,8 +644,8 @@
     }
 }
 
+/*============ZMENSENE OKNO 500px==============*/
 @media screen and (max-width: 500px){
-
     .filter_window{
         width: 300px
     }
@@ -740,6 +751,7 @@
     }
 }
 
+/*============ZMENSENE OKNO 400px==============*/
 @media screen and (max-width: 400px){
     .filter{
         margin-left: 0px;

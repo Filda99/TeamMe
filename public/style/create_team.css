@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro stranku na vytvoreni tymu
+*/
+
 /*============FULLSCREEN==============*/
 .hero{
     height: 90%;
@@ -76,7 +80,6 @@
 
 .selOptions {
     width: 100%;
-    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;
@@ -86,6 +89,7 @@
     border-radius: 10px;
     font-size: large;
 }
+
 /*============ZMENSENE OKNO 950px==============*/
 @media screen and (max-width:950px){
     .hero{
@@ -205,7 +209,6 @@
     }
 }
 
-/*====================================================================*/
 /*============ZMENSENE OKNO 450px==============*/
 @media screen and (max-width: 450px){
     .form-box{

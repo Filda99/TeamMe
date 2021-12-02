@@ -1,3 +1,7 @@
+/*  Autor: Zdenek Dobes (xdobes21)
+    Popis: styly pro stranku fakult
+*/
+
 .title_container{
     display: flex;
     width: auto;
@@ -121,6 +125,7 @@
     background-image: url(../images/FIT.png);
 }
 
+/*============ZMENSENE OKNO 400px==============*/
 @media screen and (max-width: 400px){
     .title{
         font-size: 2.8em;

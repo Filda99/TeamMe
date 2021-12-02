@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro stranku s registraci
+*/
+
 /*============FULLSCREEN==============*/
 .hero{
     height: 100%;
@@ -25,8 +29,6 @@
     padding: 5px;
     overflow: hidden;
     border-radius: 30px;
-    /* border-top-left-radius: 30px;
-    border-top-right-radius: 30px; */
     margin-left: auto; /*tyto 2 radky daji formular doprostred nehlede na velikost okna*/
     margin-right: auto;
 }
@@ -156,7 +158,6 @@ a{
 
 .selOptions {
     width: 100%;
-    /* color: #777; */
     height: 35px;
     display: inline-block;
     padding: 2px 4px;
@@ -166,7 +167,7 @@ a{
     border-radius: 10px;
 }
 
-/*============ZMENSENE OKNO==============*/
+/*============ZMENSENE OKNO 1050px==============*/
 @media screen and (max-width:1050px){
     .submit-btn{
         width: 55%;
@@ -175,7 +176,8 @@ a{
         width: 55%;
     }
 }
-/*============ZMENSENE OKNO==============*/
+
+/*============ZMENSENE OKNO 885px==============*/
 @media screen and (max-width:885px)
 {
     .hero{
@@ -307,7 +309,6 @@ a{
     
     .selOptions {
         width: 100%;
-        /* color: #777; */
         height: 35px;
         display: inline-block;
         padding: 2px 4px;

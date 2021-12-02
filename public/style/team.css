@@ -1,8 +1,11 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro stranku prehledu informaci o tymu
+*/
+
 /*============FULLSCREEN==============*/
 .content_container{
     margin: 0 auto;
     top: -40px;
-    /* border: 2px solid blue; */
 }
 
 .form-box{
@@ -94,12 +97,11 @@
     transition: 0.2s;
 }
 
-/*============ZMENSENE OKNO 980px==============*/
+/*============ZMENSENE OKNO 1090px==============*/
 @media screen and (max-width: 1090px){
     .content_container{
         margin: 0 auto;
         top: -40px;
-        /* border: 2px solid blue; */
     }
     
     .form-box{
@@ -202,7 +204,6 @@
     .form-box{
         top: 2%;
         width: 390px;
-
     }
     
     .team-title{
@@ -238,7 +239,6 @@
         top: 2%;
         width: 390px;
         left: -30px;
-
     }
     
     .team-title{

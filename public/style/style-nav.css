@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01)
+    Popis: styly pro navigacni listu
+*/
+
 /*TELO STRANKY*/
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');   
 
@@ -50,7 +54,6 @@ body{
     cursor: pointer;
 }
 
-/*STYLY NAVIGACE*/
 header{
     background: var(--background);
     text-align: center;
@@ -66,13 +69,13 @@ header{
     left: -9999px;
 }
 
-/*==================*/
+/*======== notifikace start ==========*/
 .nav-toggle_notify{
     position: absolute;
     top: -9999px;
     right: -9999px;
 }
-/*==================*/
+/*======== notifikace end ==========*/
     
 .nav-toggle:focus ~ .nav-toggle-label {
     outline: 3px solid rgba(lightblue, .75);
@@ -93,7 +96,7 @@ header{
     border-radius: 5px;
 }
 
-/*==================*/
+/*======== notifikace start ==========*/
 .nav-toggle-label_notify{
     position: absolute;
     top: 12px;
@@ -108,7 +111,8 @@ header{
     border: 2px solid #ffffff;
     border-radius: 5px;
 }
-/*==================*/
+/*======== notifikace end ==========*/
+
 /*3 carky v tlacitku*/
 .nav-toggle-label span,
 .nav-toggle-label span::before,
@@ -148,7 +152,7 @@ nav {
     transition: transform 400ms ease-in-out;
 }
 
-/*==================*/
+/*======== notifikace start ==========*/
 .nav_notify {
     position: absolute;
     text-align: center;
@@ -177,7 +181,7 @@ nav {
     outline: 1px solid slategrey;
     border-radius: 5px;
 }
-/*==================*/
+
 
 /*NEWS DROPDOWN barva*/
 .dropdown_item-news{
@@ -203,7 +207,7 @@ nav {
     justify-content: center;
     margin-left: 10%;
 }
-/*END*/
+/*======== notifikace end ==========*/
 
 nav ul{
     margin: 0;
@@ -230,74 +234,6 @@ nav a{
     text-decoration: none;
 }
 
-/*  POP-UP notifikace - SMAZAT, jestli se pocas testovani neco nepokazi*/
-
-/* .popup_window_container{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.popup_window{
-    border: 2px solid #131313;
-    background: #ffffff;
-    box-shadow: 1px 1px 5px #131313;
-    font-size: 3rem;
-    z-index: 10;
-}
-
-.popup_return_container{
-    position: absolute;
-    border: 2px solid #131313;
-    width: 40px;
-    height: 40px;
-    margin-left: 308px;
-    margin-top: -2px;
-}
-
-.popup_return_container:hover{
-    background: #FF3333;
-    cursor: pointer;
-}
-
-.popup_bar{
-    position: absolute;
-    pointer-events: none;
-    width: 36px;
-    height: 2px;
-    background: #131313;
-    font-size: 0;
-}
-
-.popup_bar_1{
-    transform: translateY(18px) rotate(45deg);
-}
-
-.popup_bar_2{
-    transform: translateY(18px) rotate(-45deg);
-}
-
-.popup_title{
-    width: 100%;
-    height: 50px;
-    font-size: 2rem;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-}
-
-.popup_container{
-    display: grid;
-    font-size: 2rem;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-} */
-
 /*kontroluje, jestli je prepinac zaskrnuty - pokud je zaskrnuto, navigace se schova*/
 .nav-toggle:checked ~ nav{
     transform: scale(1,1);
@@ -308,7 +244,7 @@ nav a{
     transition: opacity 250 ms ease-in-out 250ms; /*otevreni je pomalejsi*/
 }
 
-/*==================*/
+/*======== notifikace start ==========*/
 .nav-toggle_notify:checked ~ .nav_notify{
     transform: scale(1,1);
 }
@@ -321,8 +257,7 @@ nav a{
 .nav-toggle:checked ~ .nav_notify{
     display: none;
 }
-
-/*==================*/
+/*======== notifikace end ==========*/
 
 .dropdown{
     display: block;
@@ -341,11 +276,11 @@ nav ul li ul li a{
         display: none;
     }
 
-    /*==================*/
+    /*======== notifikace start ==========*/
     .nav-toggle-label_notify{
         display: none;
     }
-    /*==================*/
+    /*======== notifikace end ==========*/
 
     header{
         display: grid;
@@ -373,11 +308,11 @@ nav ul li ul li a{
         align-items: center;
     }
 
-    /*==================*/
+    /*======== notifikace start ==========*/
     .nav_notify{
         display: none;
     }
-    /*==================*/
+   /*======== notifikace end ==========*/
 
 
     nav ul{
@@ -425,7 +360,7 @@ nav ul li ul li a{
         justify-content: center;
     }
 
-    /*NEWS DROPDOWN*/
+    /*======== notifikace start ==========*/
     .dropdown-news{
         width: 250px;
         max-height: 550px;
@@ -462,7 +397,7 @@ nav ul li ul li a{
         justify-content: center;
         color: white;
     }
-    /*END*/
+    /*======== notifikace end ==========*/
 
      nav ul li:hover ul {
         display: inline;

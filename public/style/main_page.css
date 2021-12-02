@@ -1,3 +1,7 @@
+/*  Autor: Michal Luner (xluner01), Zdenek Dobes (xdobes21)(rozlozeni obsahu na strance, dynamicka zmena velikosti)
+    Popis: styly pro hlavni stranku
+*/
+
 /*obecne styly, na ktere se nesmi sahat */
 .content{
     height: 100%;
@@ -5,7 +9,6 @@
     background-blend-mode: multiply;
     background-size: cover;
     position: absolute;
-    /* width: 100vw; */
 }
 
 .content_container{
@@ -101,7 +104,7 @@
 
 .back_pic{
     display: flex;
-    background-image: url(../images/ipad.png);
+    background-image: url("../images/ipad.PNG");
     background-repeat: no-repeat;
     background-size: contain;
     height: 400px;
@@ -109,11 +112,9 @@
     margin-top: 50px;
     align-items: center;
     justify-content: center;
-    /* border: 2px solid red; */
-
 }
 
-/* FAQ*/
+/* FAQ */
 .faq_title{
     display: flex;
     width: 100%;
@@ -212,18 +213,21 @@ svg{
     font-size: 0.8rem;
 }
 
+/*============ZMENSENE OKNO 1100px==============*/
 @media screen and (max-width: 1100px){
     .text_content{
         margin-left: 30px;
     }
 }
 
+/*============ZMENSENE OKNO 1070px==============*/
 @media screen and (max-width: 1070px){
     .text_content{
         margin-left: 0px;
     }
 }
 
+/*============ZMENSENE OKNO 1000px==============*/
 @media screen and (max-width: 1000px){
     .text_content{
         margin-left: 0px;
@@ -252,12 +256,14 @@ svg{
     }
 }
 
+/*============ZMENSENE OKNO 850px==============*/
 @media screen and (max-height: 850px){
     .faqs{
         min-height: 790px;
     }
 }
 
+/*============ZMENSENE OKNO 830px==============*/
 @media screen and (max-width: 830px){
     .text_content{
         margin-left: -20px;
@@ -282,6 +288,7 @@ svg{
     }
 }
 
+/*============ZMENSENE OKNO 800px==============*/
 @media screen and (max-width: 800px){
     .top_content{
         display: grid;
@@ -321,6 +328,7 @@ svg{
     }
 }
 
+/*============ZMENSENE OKNO 600px==============*/
 @media screen and (max-width: 600px){
     .title{
         font-size: 2.4rem;
@@ -349,6 +357,7 @@ svg{
 
 }
 
+/*============ZMENSENE OKNO 500px==============*/
 @media screen and (max-width: 500px){
     .text_content{
         margin-left: 10px;
@@ -373,6 +382,7 @@ svg{
     }
 }
 
+/*============ZMENSENE OKNO 440px==============*/
 @media screen and (max-width: 440px){
     .text_content{
         margin-top: -20px;
@@ -408,6 +418,7 @@ svg{
     }
 }
 
+/*============ZMENSENE OKNO 350px==============*/
 @media screen and (max-width: 350px){
     .back_pic_container{
         margin-top: -130px;
