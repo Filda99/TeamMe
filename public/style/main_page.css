@@ -104,7 +104,7 @@
 
 .back_pic{
     display: flex;
-    background-image: url("../images/ipad.PNG");
+    background-image: url("../images/ipad.png");
     background-repeat: no-repeat;
     background-size: contain;
     height: 400px;
