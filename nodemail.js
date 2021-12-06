@@ -19,27 +19,27 @@ const { verificationMail, resetPassEmail } = require('./utils/sendEmail')
 
 
 /** Mail sender details */
-// var transporter = nodemailer.createTransport("SMTP", {
-//     service: 'hotmail',
-//     auth: {
-//         user: 'teamme@outlook.cz',
-//         pass: process.env.EMAIL_PASS
-//     },
-// })
-
-
 var transporter = nodemailer.createTransport("SMTP", {
-    host: "smtp-mail.outlook.com", // hostname
-    secureConnection: false, // TLS requires secureConnection to be false
-    port: 587, // port for secure SMTP
+    service: 'hotmail',
     auth: {
         user: 'teamme@outlook.cz',
         pass: process.env.EMAIL_PASS
     },
-    tls: {
-        ciphers:'SSLv3'
-    }
-});
+})
+
+
+// var transporter = nodemailer.createTransport("SMTP", {
+//     host: "smtp-mail.outlook.com", // hostname
+//     secureConnection: false, // TLS requires secureConnection to be false
+//     port: 587, // port for secure SMTP
+//     auth: {
+//         user: 'teamme@outlook.cz',
+//         pass: process.env.EMAIL_PASS
+//     },
+//     tls: {
+//         ciphers:'SSLv3'
+//     }
+// });
 
 async function sendVerifiMail(email, name, host, code) {
     transporter.sendMail(
