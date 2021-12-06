@@ -19,7 +19,7 @@ const { verificationMail, resetPassEmail } = require('./utils/sendEmail')
 
 
 /** Mail sender details */
-const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport("SMTP", {
     service: 'hotmail',
     auth: {
         user: 'teamme@outlook.cz',
@@ -42,7 +42,6 @@ async function sendVerifiMail(email, name, host, code) {
 }
 
 async function sendResetPassMail(email, name, host, code) {
-    console.log('>>>>', email, name, code)
     transporter.sendMail(
         resetPassEmail(email, name, host, code),
         function (err, info) {
