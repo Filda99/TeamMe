@@ -8,6 +8,24 @@ const { userPartOfAnyTeam } = require("../utils/teamAvailability");
 const { v4: uuidv4 } = require('uuid');
 
 
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                Main router user.contoroller.js                                         
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Controller for users. 
+ *      
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.11.2021
+ * 
+ */
+
+
 /*********************************************************************
  *  Get user's information and send it
  * 
@@ -163,7 +181,7 @@ module.exports.createUser = async (req, res) => {
       });
     }
 
-    
+
     /**
      * Check email contains 'vutbr' in itself and '.cz'
      */
@@ -295,6 +313,18 @@ module.exports.showNewPass = async (req, res) => {
   res.render('reset_pass_email', { user, userLogged, notification, userFaculty })
 }
 
+async function compareAsync(param1, param2) {
+  return new Promise(function (resolve, reject) {
+    bcrypt.compare(param1, param2, function (err, res) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(res);
+      }
+    });
+  });
+}
+
 /*********************************************************************
  *  Update user
  *  Not user's email and id...
@@ -334,16 +364,14 @@ module.exports.updateUser = async (req, res) => {
   try {
     if (oldPass) {
       const userPassword = await getUserPassById(id)
+      const resPass = await compareAsync(oldPass, userPassword.password);
 
-      if (bcrypt.compare(oldPass, userPassword.password, (err, result) => {
-        if (err) {
-          return res.status(400).send({ message: err })
-        }
-      }))
-
-        if (newPass1 !== newPass2) {
-          return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
-        }
+      if (!resPass) {
+        return res.status(400).send({ message: "Nesprávné aktuální heslo!" })
+      }
+      if (await newPass1.localeCompare(newPass2)) {
+        return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
+      }
       const hashNewPassword = await bcrypt.hash(newPass1, 10)
       user.password = hashNewPassword;
     }
@@ -407,7 +435,7 @@ module.exports.resetPass = async (req, res) => {
     userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
   }
-  res.status(200).render('reset_pass_new', { user, userLogged, notification, userFaculty  });
+  res.status(200).render('reset_pass_new', { user, userLogged, notification, userFaculty });
 };
 
 
@@ -442,15 +470,14 @@ module.exports.resetPassFinal = async (req, res) => {
    * Try to update those params, which are requested
    */
   try {
-    console.log(newPass1, newPass2);
-    if (newPass1 !== newPass2) {
+    if (await newPass1.localeCompare(newPass2)) {
       return res.status(400).send({ message: "Zadaná hesla se neshodují!" })
     }
     const hashNewPassword = await bcrypt.hash(newPass1, 10)
     user.password = hashNewPassword;
     user.reset_pass = null;
     user.save();
-    res.status(200).redirect('login').send({
+    res.status(200).send({
       message: `Aktualizace proběhla úspěšně!`,
     });
   } catch (err) {

@@ -7,6 +7,23 @@ const { userSendNotifi, getUserNotifi } = require("./notification.controller");
 const { Op } = require("sequelize");
 const { returnFacultyBySubject, getFacultyNameById, getSubjectNameById } = require("../utils/getFacultySubject");
 
+/****************************************************************************************************
+ ****************************************************************************************************
+ *                                                                                                  
+ *                                Main router team.contoroller.js                                         
+ *                                                                                                  
+ ****************************************************************************************************
+ *  Brief description:
+ *      Controller for teams. 
+ *      
+ * 
+ ****************************************************************************************************
+ *  Project: TeamMe
+ *  Created by: Filip Jahn
+ *  Last update: 29.11.2021
+ * 
+ */
+
 /*********************************************************************
  *  Show teams based on user properties, if user logged in.
  *  Otherwise just show teams.
@@ -491,11 +508,11 @@ module.exports.connect = async (req, res) => {
  * Helping function
  * Add specified hourst to the time 
  */
-function addHours(date, hours) {
-    const newDate = new Date(date);
-    newDate.setHours(newDate.getHours() + hours);
-    return newDate;
-}
+// function addHours(date, hours) {
+//     const newDate = new Date(date);
+//     newDate.setHours(newDate.getHours() + hours);
+//     return newDate;
+// }
 
 /*********************************************************************
  *  Disconnect from a team.
@@ -537,20 +554,6 @@ module.exports.disconnect = async (req, res) => {
     /** Check I am not a admin */
     if (team.TeamAdmin == userId) {
         return res.status(403).send({ message: 'Admin týmu se nemůže odpojit z týmu.' })
-    }
-    /** Check time for disconnecting */
-    const time = await Team_Member.findOne({
-        attributes: ['createdAt'],
-        where: {
-            teamId: team.id,
-            userId: userId
-        }
-    })
-    let timeToLeave = time.createdAt
-    let timeNow = new Date()
-    const newDate = addHours(timeNow, 24);
-    if (timeToLeave > newDate) {
-        return res.status(406).send({ message: 'Uběhlo více jak 24 hodin od přidání a z týmu již nelze odejít!' })
     }
 
     /********************************************* */
@@ -663,7 +666,7 @@ module.exports.kickMember = async (req, res) => {
     const team = await getTeamByName(teamName, subject)
     if (!team) {
         return res.status(400).send({
-            message: `Tým ${name} nenalezen.`,
+            message: `Tým ${teamName} nenalezen.`,
         });
     }
     /** Is user admin of the team */
@@ -677,21 +680,6 @@ module.exports.kickMember = async (req, res) => {
         const member = await getUserByEmail(memberEmail)
         if (!member) {
             return res.status(401).send({ message: 'Něco se pokazilo!' })
-        }
-
-        /** Member has to be less than 24 hours connected to the team */
-        const time = await Team_Member.findOne({
-            attributes: ['createdAt'],
-            where: {
-                teamId: team.id,
-                userId: member.id
-            }
-        })
-        let timeToLeave = time.createdAt
-        let timeNow = new Date()
-        const newDate = addHours(timeNow, 24);
-        if (timeToLeave > newDate) {
-            return res.status(403).send({ message: 'Uběhlo více jak 24 hodin od přidání a z týmu již nelze odejít!' })
         }
 
         /** Disconnect from the team */
