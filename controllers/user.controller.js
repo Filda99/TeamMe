@@ -206,7 +206,7 @@ module.exports.createUser = async (req, res) => {
       approach: approach,
       FacultyId: findFaculty['id'],
       reset_pass: null,
-      vericifation = null // No auth required
+      verification = null // No auth required
     });
     res.status(201).redirect('/login')
 
