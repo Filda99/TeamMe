@@ -19,7 +19,7 @@ const { verificationMail, resetPassEmail } = require('./utils/sendEmail')
 
 
 /** Mail sender details */
-var transporter = nodemailer.createTransport("SMTP", {
+var transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
         user: 'teamme@outlook.cz',
