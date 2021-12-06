@@ -42,6 +42,7 @@ async function sendVerifiMail(email, name, host, code) {
 }
 
 async function sendResetPassMail(email, name, host, code) {
+    console.log('>>>>', email, name, code)
     transporter.sendMail(
         resetPassEmail(email, name, host, code),
         function (err, info) {
