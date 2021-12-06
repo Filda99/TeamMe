@@ -185,7 +185,7 @@ module.exports.createUser = async (req, res) => {
     /**
      * Check email contains 'vutbr' in itself and '.cz'
      */
-    if ((!name[1].includes("vutbr") || !name[1].includes(".cz"))) {
+    if ((!name[1].includes("stud") || !name[1].includes("fit") || !name[1].includes("vutbr") || !name[1].includes(".cz"))) {
       return res.status(400).send({
         message: 'Registrujte se školním mailem!',
       });
@@ -205,12 +205,13 @@ module.exports.createUser = async (req, res) => {
       workingHours: workingHours,
       approach: approach,
       FacultyId: findFaculty['id'],
-      reset_pass: null
+      reset_pass: null,
+      vericifation = null // No auth required
     });
     res.status(201).redirect('/login')
 
     /** Send user verification email */
-    sendVerifiMail(email, login, req.headers.host, newUser.verification)
+    //sendVerifiMail(email, login, req.headers.host, newUser.verification)
   } catch (err) {
     return res.status(500).send({
       message: `Error: ${err.message}`,
