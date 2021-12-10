@@ -20,7 +20,7 @@ async function checkAuthenticated(req, res, next) {
   /** Check email verification */
   if (req.user) {
     const user = await User.findByPk(req.user.id)
-    if (user.vericifation != null) {
+    if (user.verification != null) {
       return res.status(400).send({
         message: 'Nejprve potvrďte email, který jsme vám zaslali!',
       });

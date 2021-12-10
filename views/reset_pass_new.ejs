@@ -156,17 +156,11 @@
       },
       body: value
     });
-    // get path elements
-    let myPath = window.location.href.split('/')
-    // remove last 2 elements from path
-    myPath.splice(-2)
-    // add user email to the end of path
-    await myPath.push('<%=user.email%>')
-    myPath = myPath.join('/')
-    window.location.href = myPath
-    if (response) {
+    if (response.status >= 400) {
       let error = await response.json()
       alert(error.message);
+    }else{
+      window.location.href = '/login'
     }
   }
   const form = document.querySelector('#edit');
