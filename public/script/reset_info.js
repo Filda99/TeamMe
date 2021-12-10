@@ -1,4 +1,4 @@
-console.log(document.getElementById("hid_year").innerHTML);
+console.log(document.getElementById("hid_year").value);
 document.getElementById("yearOfStudy").value = document.getElementById("hid_year").innerText;
 document.getElementById("communicationChannel").value = document.getElementById("hid_contact").innerText;
 document.getElementById("def_approach").value = document.getElementById("hid_approach").innerText;
