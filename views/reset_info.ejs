@@ -133,26 +133,17 @@
             <form id="edit" class="input-group">
               <h2 class="nadpis">Aktualizace údajů</h2>
 
-              <!-- <p class="hidden" id="hid_year">
-                <%=user.yearOfStudy%>
-              </p> -->
-              <!-- <p class="hidden" id="hid_contact">
-                <%=user.communicationChannel%>
-              </p> -->
+              <div class="hidden" id="hid_year"><%=user.yearOfStudy%></div>
+              <div class="hidden" id="hid_contact"> <%=user.communicationChannel%></div>
+              <div class="hidden" id="hid_approach"><%=user.approach%></div>
+              <div class="hidden" id="hid_workingHours"><%=user.workingHours%></div>
+              <div class="hidden" id="hid_workingDays"><%=user.workingDays%></div>
               <div>
                 <%=user.approach%>
-                <%=user.workingHours%><%=user.workingDays%>
-              </div>
-              <div class="hidden" id="hid_approach">
-                <%=user.approach%>
-              </div>
-              <div class="hidden" id="hid_workingHours">
                 <%=user.workingHours%>
-              </div>
-              <div class="hidden" id="hid_workingDays">
                 <%=user.workingDays%>
               </div>
-
+              
               <div class="labelInfo">Ročník</div>
               <input type="number" class="input-field" name="yearOfStudy" id="yearOfStudy" min="1" max="6"
                 placeholder="Ročník">
