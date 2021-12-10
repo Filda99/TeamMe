@@ -5,7 +5,7 @@ console.log(document.getElementById("hid_workingHours").innerText);
 console.log(document.getElementById("hid_workingDays").innerText);
 document.getElementById("def_approach").value = document.getElementById("hid_approach").innerText;
 document.getElementById("def_workingHours").value = 1;
-document.getElementById("def_workingDays").value = document.getElementById("hid_workingDays").innerText;
+document.getElementById("def_workingDays").value = '1';
 
 
 
