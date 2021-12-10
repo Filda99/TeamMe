@@ -260,7 +260,7 @@ module.exports.showUpdate = async (req, res) => {
     userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
   }
-  const user = await User.findByPk(req.user.id)
+  const user = await getUserById(req.user.id)
 
   res.render('reset_info', { user, userLogged, notification, userFaculty })
 }
@@ -275,7 +275,7 @@ module.exports.showResetPass = async (req, res) => {
     userFaculty = userFaculty.FacultyId
     notification = await getUserNotifi(req.user.id)
   }
-  const user = await User.findByPk(req.user.id)
+  const user = await getUserById(req.user.id)
 
   res.render('reset_pass', { user, userLogged, notification, userFaculty })
 }
