@@ -25,7 +25,11 @@ async function getUserById(id) {
                 'email',
                 'login',
                 'yearOfStudy',
-                'FacultyId'
+                'FacultyId',
+                'communicationChannel',
+                'approach',
+                'workingHours',
+                'workingDays'
             ],
             where: {
                 id: id,
