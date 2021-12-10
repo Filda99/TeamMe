@@ -280,7 +280,6 @@ module.exports.showUpdate = async (req, res) => {
     notification = await getUserNotifi(req.user.id)
   }
   const user = await getUserById(req.user.id)
-  console.log(user);
 
   res.render('reset_info', { user, userLogged, notification, userFaculty })
 }
